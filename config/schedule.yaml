@@ -1,0 +1,11 @@
+# Każda apka dostaje nowy post co `interval_days` dni. Apki są przesunięte o `offset_days`,
+# więc konto publikuje mniej więcej co 1,5 dnia.
+interval_days: 3
+lead_days: 1             # post generowany dzień wcześniej, żebyś miał czas na akceptację
+publish_hour_utc: 16     # o tej godzinie (UTC) działa publikacja; 16 UTC = 18:00 w Polsce latem, 17:00 zimą
+start_date: "2026-10-12" # pierwszy dzień publikacji
+apps:
+  ready72h: {offset_days: 0}
+  bikepackpilot: {offset_days: 1}
+# Format na przemian dla każdej apki: carousel, reel, carousel, reel...
+format_rotation: [carousel, reel]

@@ -1,0 +1,37 @@
+# Fakty o produktach. Agenci mogą twierdzić TYLKO to, co tu jest — kontrola jakości odrzuca resztę.
+ready72h:
+  name: Ready72h
+  one_liner: Be ready for the first 72 hours of any crisis — before help arrives.
+  audience: Households and families in apartments or houses who want a calm, practical plan.
+  facts:
+    - Practical household preparedness planner for the first 72 hours of a crisis (power outage, flood, network blackout).
+    - Based on official guidance from Sweden's MSB, Germany's BBK and Poland's RCB.
+    - Includes a complete 72-hour supply checklist (water, food, medicine, cash, communications).
+    - Includes a family communication plan for when phones and internet go down.
+    - Includes a "15 minutes to leave the house" evacuation bag checklist.
+    - Two editions - apartment, and house with garden.
+    - Printable PDF planner plus a free companion web app that installs to the home screen and works fully offline.
+    - The web app has an interactive checklist that tracks progress.
+    - Available in Polish, English, German and Spanish.
+    - Pay what you want, starting at 2 PLN; suggested price 59 PLN; even the minimum unlocks the full planner and app.
+    - The creator's stance - this is a safety topic, not a place to profit off people's anxiety.
+  sources:
+    - "MSB (Sweden) — 'In case of crisis or war' guidance"
+    - "BBK (Germany) — emergency preparedness guide"
+    - "RCB (Poland) — Rządowe Centrum Bezpieczeństwa guidance"
+  cta: "Get the planner — link in bio (pay what you want)."
+  dm_keyword: PLAN
+  link: ""   # TODO: link do Lemon Squeezy (używany w odpowiedzi DM / opisie)
+
+bikepackpilot:
+  name: BikepackPilot
+  one_liner: A comprehensive framework to optimize your bikepacking adventures.
+  audience: Bikepackers and touring cyclists planning self-supported trips.
+  facts:
+    - A comprehensive framework to optimize bikepacking adventures.
+    - Built for planning self-supported bikepacking trips.
+    # TODO: dopisz konkretne funkcje, formę (PDF / Excel / apka) i cenę — bez tego agent pisze ogólnie
+  sources: []
+  cta: "Plan your next trip with BikepackPilot — link in bio."
+  dm_keyword: ROUTE
+  link: ""   # TODO

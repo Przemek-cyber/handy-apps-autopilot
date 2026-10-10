@@ -1,0 +1,35 @@
+# Bank tematów. Agent bierze najdawniej nieużyty temat; gdy wszystkie są zużyte, wymyśla nowy w tych samych filarach.
+# Filary: value (wartość dla niszy), product (use case apki), community (pytanie/ankieta)
+ready72h:
+  - {topic: "How much water a household really needs for 72 hours", pillar: value}
+  - {topic: "The 15-minute evacuation bag: what goes in first", pillar: value}
+  - {topic: "Family communication plan when phones and internet are down", pillar: value}
+  - {topic: "Why keep some cash at home for a blackout", pillar: value}
+  - {topic: "72-hour food that needs no cooking", pillar: value}
+  - {topic: "Apartment vs house with garden: different preparedness needs", pillar: product}
+  - {topic: "Medicine and first-aid basics for a 72-hour plan", pillar: value}
+  - {topic: "What MSB, BBK and RCB agree on: the core of every 72-hour plan", pillar: value}
+  - {topic: "An offline checklist that still works when the network doesn't", pillar: product}
+  - {topic: "Light and power during a blackout without panic-buying", pillar: value}
+  - {topic: "Preparing with kids: making the plan feel normal, not scary", pillar: value}
+  - {topic: "Pay what you want: why the planner starts at 2 PLN", pillar: product}
+  - {topic: "Where to store your 72-hour supplies in a small apartment", pillar: value}
+  - {topic: "Quick self-check: how ready is your home today?", pillar: community}
+  - {topic: "Radio, power bank, paper map: communications kit basics", pillar: value}
+
+bikepackpilot:
+  - {topic: "Planning water stops on a self-supported route", pillar: value}
+  - {topic: "5 things to leave at home on your first bikepacking trip", pillar: value}
+  - {topic: "Packing weight: where it should sit on the bike", pillar: value}
+  - {topic: "Daily distance: planning realistic stages", pillar: value}
+  - {topic: "Resupply planning: food between towns", pillar: value}
+  - {topic: "Pre-trip checklist the night before you roll out", pillar: product}
+  - {topic: "Sleep system basics for bikepacking", pillar: value}
+  - {topic: "Weather backup plans on a multi-day route", pillar: value}
+  - {topic: "Power on the road: charging lights, phone and GPS", pillar: value}
+  - {topic: "From idea to route: a planning framework in 4 steps", pillar: product}
+  - {topic: "Repair kit essentials for remote routes", pillar: value}
+  - {topic: "Budgeting a bikepacking trip", pillar: value}
+  - {topic: "Your dream route: where would you ride for a week?", pillar: community}
+  - {topic: "Overnighter vs multi-week trip: what changes in planning", pillar: value}
+  - {topic: "Navigation without signal: offline maps and backups", pillar: value}

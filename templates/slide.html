@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: Brand; font-weight: 400; src: url("{{font_regular}}"); }
+  @font-face { font-family: Brand; font-weight: 500; src: url("{{font_medium}}"); }
+  @font-face { font-family: Brand; font-weight: 600; src: url("{{font_semibold}}"); }
+  @font-face { font-family: Brand; font-weight: 700; src: url("{{font_bold}}"); }
+  @font-face { font-family: Brand; font-weight: 800; src: url("{{font_extrabold}}"); }
+  :root {
+    --bg: {{bg}}; --surface: {{surface}}; --text: {{text}}; --muted: {{muted}};
+    --accent: {{accent}}; --accent-soft: {{accent_soft}};
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: {{w}}px; height: {{h}}px; }
+  body {
+    font-family: Brand, sans-serif; color: var(--text);
+    background: {{page_bg}};
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: {{pad}}px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .top { display: flex; align-items: center; justify-content: space-between; }
+  .tag {
+    font-size: 30px; font-weight: 600; letter-spacing: .02em;
+    color: var(--accent); background: var(--accent-soft);
+    padding: 12px 24px; border-radius: 999px;
+  }
+  .counter { font-size: 28px; font-weight: 500; color: var(--muted); }
+  .main { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 36px; }
+  .bar { width: 96px; height: 10px; border-radius: 5px; background: var(--accent); }
+  h1 { font-size: {{title_size}}px; line-height: 1.05; font-weight: 800; letter-spacing: -0.025em; }
+  h1 em { font-style: normal; color: var(--accent); }
+  p { font-size: {{body_size}}px; line-height: 1.32; font-weight: 500; color: var(--muted); max-width: 92%; }
+  .kind-point h1 { font-size: {{point_title_size}}px; }
+  .kind-cta { background: var(--accent); }
+  .kind-cta h1, .kind-cta p, .kind-cta .counter, .kind-cta .brand { color: #fff; }
+  .kind-cta .tag { background: rgba(255,255,255,.18); color: #fff; }
+  .kind-cta .bar { background: #fff; }
+  .card {
+    background: var(--surface); border-radius: 40px; padding: 64px;
+    box-shadow: 0 2px 0 rgba(0,0,0,.04);
+    display: flex; flex-direction: column; gap: 28px;
+  }
+  .kind-cta .card, .kind-cover .card { background: transparent; padding: 0; box-shadow: none; }
+  .bottom { display: flex; align-items: center; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 18px; font-size: 30px; font-weight: 700; }
+  .brand img { height: 64px; }
+  .swipe { font-size: 28px; font-weight: 600; color: var(--accent); }
+  .kind-cta .swipe { color: #fff; }
+  /* rolka: bezpieczne strefy pod interfejs Instagrama (góra, przyciski po prawej, podpis na dole) */
+  body.reel { padding: 200px 140px 420px 96px; }
+  body.reel .tag, body.reel .brand { font-size: 34px; }
+  /* przezroczysta nakładka tekstu na klip w rolce */
+  body.overlay { background: transparent; justify-content: flex-end; padding: 200px 140px 0 96px; }
+  body.overlay .caption {
+    background: rgba(22,24,29,.78); color: #fff; border-radius: 32px; padding: 44px 52px;
+    font-size: 64px; line-height: 1.12; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 440px;
+  }
+</style>
+</head>
+<body class="{{body_class}}">
+{{content}}
+</body>
+</html>

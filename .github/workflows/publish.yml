@@ -1,0 +1,51 @@
+name: Publikuj na Instagram
+
+on:
+  schedule:
+    - cron: "5 16 * * *"   # codziennie po godzinie publikacji (publish_hour_utc w config/schedule.yaml)
+  push:
+    branches: [main]
+    paths: ["posts/**/post.json"]   # akceptacja po terminie publikuje od razu
+  workflow_dispatch:
+    inputs:
+      now:
+        description: "Publikuj dzisiejsze posty od razu"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency: publish
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install pyyaml requests
+
+      - name: Publikuj
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          GRAPH_API_VERSION: ${{ vars.GRAPH_API_VERSION }}
+          CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
+          CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
+          CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
+        run: python src/publish.py ${{ inputs.now && '--now' || '' }}
+
+      - name: Zapisz status publikacji
+        if: always()
+        run: |
+          git config user.name "handy-apps-bot"
+          git config user.email "handy-apps-bot@users.noreply.github.com"
+          git add posts/*/published.json 2>/dev/null || true
+          git diff --cached --quiet || (git commit -m "Opublikowano posty" && git push)

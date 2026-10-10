@@ -1,0 +1,30 @@
+name: Statystyki tygodniowe
+
+on:
+  schedule:
+    - cron: "41 6 * * 0"   # niedziela rano
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  stats:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml requests
+      - name: Raport
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          GRAPH_API_VERSION: ${{ vars.GRAPH_API_VERSION }}
+        run: python src/stats.py
+      - name: Zapisz raport
+        run: |
+          git config user.name "handy-apps-bot"
+          git config user.email "handy-apps-bot@users.noreply.github.com"
+          git add reports/stats.md
+          git diff --cached --quiet || (git commit -m "Raport statystyk" && git push)

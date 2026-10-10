@@ -1,0 +1,33 @@
+# Styl marki Handy Apps. Podmień wartości na swoje — reszta kodu czyta tylko ten plik.
+name: Handy Apps
+handle: "@handyapps"          # TODO: Twój login na IG
+logo: assets/brand/logo.png    # PNG z przezroczystym tłem; jeśli pliku nie ma, slajdy pokażą nazwę tekstem
+font:
+  family: Inter
+  files:                       # pliki czcionek w assets/fonts
+    regular: Inter-Regular.otf
+    medium: Inter-Medium.otf
+    semibold: Inter-SemiBold.otf
+    bold: Inter-Bold.otf
+    extrabold: Inter-ExtraBold.otf
+
+# Każda apka ma własny kolor akcentu, wspólne tło i tekst
+colors:
+  background: "#F6F4EF"
+  surface: "#FFFFFF"
+  text: "#16181D"
+  muted: "#5B6170"
+
+apps_style:
+  ready72h:
+    accent: "#E4572E"
+    accent_soft: "#FBE3DA"
+  bikepackpilot:
+    accent: "#2E7D5B"
+    accent_soft: "#DDF0E6"
+
+voice:
+  language: English
+  tone: >
+    Calm, practical, no-nonsense. Friendly expert, light humour where it fits.
+    Never fear-mongering, never clickbait about disasters. Short sentences.

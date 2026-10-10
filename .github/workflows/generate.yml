@@ -1,0 +1,72 @@
+name: Generuj posty
+
+on:
+  schedule:
+    - cron: "17 5 * * *"   # codziennie ok. 7:17 w Polsce; generuje tylko, gdy apka ma termin
+  workflow_dispatch:
+    inputs:
+      app:
+        description: "Apka (ready72h / bikepackpilot); puste = wg harmonogramu"
+        required: false
+      format:
+        description: "carousel / reel; puste = rotacja"
+        required: false
+      date:
+        description: "Data publikacji RRRR-MM-DD; puste = jutro"
+        required: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency: generate
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Zależności
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+
+      - name: Generuj
+        id: gen
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CLAUDE_MODEL: ${{ vars.CLAUDE_MODEL }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ARGS=""
+          [ -n "${{ inputs.app }}" ] && ARGS="$ARGS --app ${{ inputs.app }}"
+          [ -n "${{ inputs.format }}" ] && ARGS="$ARGS --format ${{ inputs.format }}"
+          [ -n "${{ inputs.date }}" ] && ARGS="$ARGS --date ${{ inputs.date }}"
+          python src/generate.py $ARGS
+
+      - name: Otwórz PR do akceptacji
+        if: steps.gen.outputs.created != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "handy-apps-bot"
+          git config user.email "handy-apps-bot@users.noreply.github.com"
+          gh label create autopost --color E4572E --description "Post do akceptacji" --force
+          for NAME in ${{ steps.gen.outputs.created }}; do
+            BRANCH="autopost/$NAME"
+            git checkout -B "$BRANCH" origin/main
+            git add "posts/$NAME"
+            git reset -q -- "posts/$NAME/pr_body.md"
+            git commit -q -m "Post: $NAME"
+            git push -f origin "$BRANCH"
+            gh pr create --base main --head "$BRANCH" --label autopost \
+              --title "📣 $NAME" --body-file "posts/$NAME/pr_body.md"
+          done
