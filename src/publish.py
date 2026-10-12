@@ -1,11 +1,11 @@
 """Publikuje zaakceptowane posty (scalone do main), których termin publikacji minął.
 
-Media trafiają najpierw do Cloudinary (Instagram pobiera je z publicznego adresu),
-potem przez Meta Graph API na Instagram. Po publikacji powstaje published.json.
+Bez zewnętrznego hostingu: zdjęcia Instagram pobiera z publicznego repo (raw.githubusercontent.com),
+a filmy wysyłamy prosto do Instagrama (resumable upload). Po publikacji powstaje published.json.
 
 Zmienne środowiskowe:
-  IG_USER_ID, IG_ACCESS_TOKEN                         — konto Instagram (Graph API)
-  CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET
+  IG_USER_ID, IG_ACCESS_TOKEN          — konto Instagram (Graph API)
+  GITHUB_REPOSITORY, GITHUB_SHA        — ustawia GitHub Actions (skąd brać linki do zdjęć)
   GRAPH_API_VERSION (domyślnie v23.0), GRAPH_HOST (domyślnie graph.facebook.com)
 
 Użycie: python src/publish.py [--dry-run] [--now]
@@ -14,7 +14,6 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
-import hashlib
 import os
 import sys
 import time
@@ -22,41 +21,49 @@ import time
 import requests
 
 sys.path.insert(0, os.path.dirname(__file__))
-from common import existing_posts, schedule, write_json  # noqa: E402
+from common import ROOT, existing_posts, schedule, write_json  # noqa: E402
 
 API_VER = os.environ.get("GRAPH_API_VERSION") or "v23.0"
 HOST = os.environ.get("GRAPH_HOST") or "graph.facebook.com"
 
 
-# ---------- Cloudinary ----------
+# ---------- linki do mediów ----------
 
-def cloudinary_upload(path, folder: str, resource: str) -> str:
-    cloud = os.environ["CLOUDINARY_CLOUD_NAME"]
-    key, secret = os.environ["CLOUDINARY_API_KEY"], os.environ["CLOUDINARY_API_SECRET"]
-    params = {"folder": folder, "public_id": path.stem, "timestamp": str(int(time.time()))}
-    to_sign = "&".join(f"{k}={params[k]}" for k in sorted(params)) + secret
-    params["signature"] = hashlib.sha1(to_sign.encode()).hexdigest()
-    params["api_key"] = key
-    with open(path, "rb") as f:
-        r = requests.post(f"https://api.cloudinary.com/v1_1/{cloud}/{resource}/upload",
-                          data=params, files={"file": f}, timeout=300)
-    r.raise_for_status()
-    return r.json()["secure_url"]
-
-
-def as_jpeg(url: str) -> str:
-    """Instagram przyjmuje tylko JPEG — Cloudinary konwertuje po zmianie rozszerzenia."""
-    return url.rsplit(".", 1)[0] + ".jpg"
+def public_url(path) -> str:
+    """Publiczny link do pliku w repo, przypięty do konkretnego commita (nie zmieni się po publikacji)."""
+    repo = os.environ.get("GITHUB_REPOSITORY", "Przemek-cyber/handy-apps-autopilot")
+    ref = os.environ.get("GITHUB_SHA") or "main"
+    url = f"https://raw.githubusercontent.com/{repo}/{ref}/{path.relative_to(ROOT).as_posix()}"
+    r = requests.head(url, timeout=30, allow_redirects=True)
+    if r.status_code != 200:
+        raise RuntimeError(f"Plik niedostępny publicznie ({r.status_code}): {url} — czy repo jest publiczne?")
+    return url
 
 
 # ---------- Graph API ----------
 
 def graph(method: str, path: str, **params) -> dict:
-    params["access_token"] = os.environ["IG_ACCESS_TOKEN"]
-    r = requests.request(method, f"https://{HOST}/{API_VER}/{path}", params=params, timeout=120)
+    token = os.environ["IG_ACCESS_TOKEN"]
+    url = f"https://{HOST}/{API_VER}/{path}"
+    if method == "POST":  # długie podpisy w treści żądania, nie w adresie
+        r = requests.post(url, data={**params, "access_token": token}, timeout=120)
+    else:
+        r = requests.request(method, url, params={**params, "access_token": token}, timeout=120)
     if r.status_code >= 400:
         raise RuntimeError(f"Graph API {path}: {r.status_code} {r.text}")
     return r.json()
+
+
+def upload_video(ig: str, video, **params) -> str:
+    """Kontener rolki + wysłanie pliku prosto do Instagrama (bez hostingu)."""
+    created = graph("POST", f"{ig}/media", media_type="REELS", upload_type="resumable", **params)
+    size = video.stat().st_size
+    with open(video, "rb") as f:
+        r = requests.post(created["uri"], data=f, timeout=600, headers={
+            "Authorization": f"OAuth {os.environ['IG_ACCESS_TOKEN']}", "offset": "0", "file_size": str(size)})
+    if r.status_code >= 400:
+        raise RuntimeError(f"Wysyłanie filmu: {r.status_code} {r.text}")
+    return created["id"]
 
 
 def wait_ready(container_id: str, timeout_s: int = 900) -> None:
@@ -79,7 +86,6 @@ def full_caption(content: dict) -> str:
 def publish_post(post: dict, dry: bool) -> dict:
     ig = os.environ.get("IG_USER_ID", "<IG_USER_ID>")
     folder = post["_dir"]
-    cfolder = f"handy-apps/{folder.name}"
     caption = full_caption(post["content"])
     if dry:
         print(f"[dry-run] {folder.name}: {post['format']}, {len(caption)} znaków podpisu")
@@ -88,17 +94,16 @@ def publish_post(post: dict, dry: bool) -> dict:
     if post["format"] == "carousel":
         children = []
         for name in post["media"]["images"]:
-            url = as_jpeg(cloudinary_upload(folder / name, cfolder, "image"))
+            url = public_url(folder / name)
             children.append(graph("POST", f"{ig}/media", image_url=url, is_carousel_item="true")["id"])
         for c in children:
             wait_ready(c)
         container = graph("POST", f"{ig}/media", media_type="CAROUSEL", children=",".join(children),
                           caption=caption)["id"]
     else:
-        video = cloudinary_upload(folder / post["media"]["video"], cfolder, "video")
-        cover = as_jpeg(cloudinary_upload(folder / post["media"]["cover"], cfolder, "image"))
-        container = graph("POST", f"{ig}/media", media_type="REELS", video_url=video, cover_url=cover,
-                          caption=caption, share_to_feed="true")["id"]
+        cover = public_url(folder / post["media"]["cover"])
+        container = upload_video(ig, folder / post["media"]["video"], cover_url=cover,
+                                 caption=caption, share_to_feed="true")
     wait_ready(container)
     media_id = graph("POST", f"{ig}/media_publish", creation_id=container)["id"]
     permalink = graph("GET", media_id, fields="permalink").get("permalink")

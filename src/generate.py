@@ -136,7 +136,7 @@ def pr_body(app_key: str, fmt: str, topic: dict, content: dict, publish_on: dt.d
              "**Merge** = akceptuję i publikuję w dniu publikacji. **Close** = odrzucam (temat wraca do puli).",
              "Poprawki: edytuj `post.json` w tym PR przed scaleniem (podpis, hashtagi).", ""]
     if fmt == "carousel":
-        imgs = sorted(p.name for p in folder.glob("slide-*.png"))
+        imgs = sorted(p.name for p in folder.glob("slide-*.jpg"))
         lines += ["### Slajdy", " ".join(f'<img src="{raw(i)}" width="240">' for i in imgs)]
     else:
         lines += ["### Rolka", f'<img src="{raw("cover.jpg")}" width="240">',

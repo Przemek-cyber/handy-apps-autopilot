@@ -5,7 +5,7 @@ Automat do Instagrama dla Ready72h i BikepackPilot. Agenci co 3 dni (na apkę, z
 ```
 codziennie 7:17   Generuj posty  → Claude pisze → Claude sprawdza → render PNG/MP4 → Pull Request
 Ty (telefon)      Merge = akceptuję · Close = odrzucam · edycja post.json = poprawka podpisu
-codziennie 18:05  Publikuj      → Cloudinary → Instagram Graph API → published.json
+codziennie 18:05  Publikuj      → Instagram Graph API (zdjęcia z publicznego repo, filmy wysyłane wprost) → published.json
 niedziela         Statystyki    → reports/stats.md
 ```
 
@@ -28,8 +28,8 @@ Repo → **Settings → Actions → General → Workflow permissions**:
 
 Dla własnego konta aplikacja zwykle działa w trybie deweloperskim, bez przeglądu Meta (App Review).
 
-### 3. Cloudinary (hosting mediów — Instagram pobiera je z publicznego linku)
-Darmowe konto na [cloudinary.com](https://cloudinary.com) → Dashboard: **Cloud name, API Key, API Secret**.
+### 3. Repo publiczne
+Instagram pobiera zdjęcia z publicznego linku, więc repo musi być **publiczne** (Settings → Danger Zone → Change visibility). Sekrety pozostają ukryte. Filmy są wysyłane do Instagrama bezpośrednio.
 
 ### 4. Claude API
 [console.anthropic.com](https://console.anthropic.com) → API Keys → nowy klucz. Ustaw limit wydatków (np. 10 USD/mies.).
@@ -42,7 +42,6 @@ Repo → **Settings → Secrets and variables → Actions → New repository sec
 | `ANTHROPIC_API_KEY` | krok 4 |
 | `IG_ACCESS_TOKEN` | krok 2.3 |
 | `IG_USER_ID` | krok 2.4 |
-| `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` | krok 3 |
 
 Opcjonalnie w zakładce **Variables**: `CLAUDE_MODEL` (domyślnie `claude-sonnet-5-5`), `GRAPH_API_VERSION` (domyślnie `v23.0`).
 
@@ -65,7 +64,7 @@ Opcjonalnie w zakładce **Variables**: `CLAUDE_MODEL` (domyślnie `claude-sonnet
 - Grafiki lub rolkę chcesz inne? Zamknij PR i uruchom **Generuj posty** ręcznie dla tej apki i daty.
 
 ## Koszty (orientacyjnie)
-Claude API: kilka groszy za post (2–4 wywołania). GitHub Actions, Cloudinary, Graph API: w darmowych limitach przy tym rytmie.
+Claude API: kilka groszy za post (2–4 wywołania). GitHub Actions (publiczne repo), Graph API: w darmowych limitach przy tym rytmie.
 
 ## Lokalnie
 ```

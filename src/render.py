@@ -206,7 +206,14 @@ def render_carousel(app_key: str, content: dict, out_dir: Path) -> list[Path]:
                 body = f"{_bg(app_key, W, H)}{_header(app_key)}{panel}{foot_swipe}"
             pages.append((_page(app_key, W, H, body), out_dir / f"slide-{i:02d}.png"))
         _screenshot(pages, W, H)
-    return [p for _, p in pages]
+    # Instagram przyjmuje w karuzeli tylko JPEG
+    out = []
+    for _, png in pages:
+        jpg = png.with_suffix(".jpg")
+        _ffmpeg("-i", str(png), "-q:v", "2", str(jpg))
+        png.unlink()
+        out.append(jpg)
+    return out
 
 
 # ---------- rolka ----------
