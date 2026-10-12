@@ -31,7 +31,7 @@ API = os.environ.get("ZERNIO_API_BASE") or "https://zernio.com/api/v1"
 
 def api(method: str, path: str, **kwargs) -> requests.Response:
     r = requests.request(method, f"{API}/{path.lstrip('/')}", timeout=120,
-                         headers={"Authorization": f"Bearer {os.environ['ZERNIO_API_KEY']}"}, **kwargs)
+                         headers={"Authorization": f"Bearer {os.environ['ZERNIO_API_KEY'].strip()}"}, **kwargs)
     if r.status_code >= 400:
         raise RuntimeError(f"Zernio {method} /{path}: {r.status_code} {r.text[:600]}")
     return r
