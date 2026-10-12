@@ -8,20 +8,20 @@ import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
 from common import ROOT, apps, existing_posts  # noqa: E402
-from publish import graph  # noqa: E402
+from publish import api  # noqa: E402
 
-METRICS = ["reach", "views", "likes", "comments", "saved", "shares"]
+METRICS = ["reach", "views", "likes", "comments", "saves", "shares"]
 
 
-def insights(media_id: str) -> dict:
-    out = {}
-    for m in METRICS:  # pojedynczo: niektóre metryki nie istnieją dla danego typu posta
-        try:
-            data = graph("GET", f"{media_id}/insights", metric=m).get("data", [])
-            out[m] = data[0]["values"][0]["value"] if data else None
-        except Exception:
-            out[m] = None
-    return out
+def insights(zernio_post_id: str) -> dict:
+    """Metryki posta z Zernio (GET /v1/analytics?postId=...)."""
+    try:
+        data = api("GET", "analytics", params={"postId": zernio_post_id}).json()
+        m = data.get("analytics") or {}
+    except Exception as e:
+        print(f"::warning title=Statystyki {zernio_post_id}::{str(e)[:300]}")
+        m = {}
+    return {k: m.get(k) for k in METRICS}
 
 
 def main() -> None:
@@ -30,7 +30,7 @@ def main() -> None:
         if not p["_published"]:
             continue
         pub = json.loads((p["_dir"] / "published.json").read_text())
-        rows.append((p, pub, insights(pub["media_id"])))
+        rows.append((p, pub, insights(pub["zernio_post_id"])))
     rows.sort(key=lambda r: r[0]["publish_on"], reverse=True)
 
     def fmt(v):

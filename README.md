@@ -5,31 +5,24 @@ Automat do Instagrama dla Ready72h i BikepackPilot. Agenci co 3 dni (na apkę, z
 ```
 codziennie 7:17   Generuj posty  → Claude pisze → Claude sprawdza → render PNG/MP4 → Pull Request
 Ty (telefon)      Merge = akceptuję · Close = odrzucam · edycja post.json = poprawka podpisu
-codziennie 18:05  Publikuj      → Instagram Graph API (zdjęcia z publicznego repo, filmy wysyłane wprost) → published.json
+codziennie 18:05  Publikuj      → Zernio → Instagram → published.json
 niedziela         Statystyki    → reports/stats.md
 ```
 
 ## Konfiguracja (jednorazowo, ok. 1 h)
 
-Nazwy menu w Meta i GitHub zmieniają się co jakiś czas; jeśli coś wygląda inaczej, szukaj tych samych pojęć.
+Nazwy menu w Zernio i GitHub zmieniają się co jakiś czas; jeśli coś wygląda inaczej, szukaj tych samych pojęć.
 
 ### 1. GitHub: uprawnienia Actions
 Repo → **Settings → Actions → General → Workflow permissions**:
 - zaznacz **Read and write permissions**
 - zaznacz **Allow GitHub Actions to create and approve pull requests**
 
-### 2. Instagram + Meta (token do publikacji)
-1. Konto IG musi być **firmowe** i połączone ze **stroną na Facebooku** (Meta Business Suite → Ustawienia → Konta Instagram).
-2. [developers.facebook.com](https://developers.facebook.com) → **Create App** → typ **Business**. Dodaj produkt **Instagram** (wariant *API setup with Facebook login*).
-3. Token bez wygasania (zalecane): **business.facebook.com → Ustawienia → Użytkownicy systemowi** → dodaj użytkownika (Admin) → przypisz mu stronę FB, konto IG i aplikację → **Generuj token** z uprawnieniami:
-   `instagram_basic`, `instagram_content_publish`, `instagram_manage_insights`, `pages_show_list`, `pages_read_engagement`, `business_management`.
-4. ID konta IG: w [Graph API Explorer](https://developers.facebook.com/tools/explorer) z tym tokenem wywołaj
-   `me/accounts?fields=instagram_business_account{id,username}` → skopiuj `instagram_business_account.id`.
-
-Dla własnego konta aplikacja zwykle działa w trybie deweloperskim, bez przeglądu Meta (App Review).
-
-### 3. Repo publiczne
-Instagram pobiera zdjęcia z publicznego linku, więc repo musi być **publiczne** (Settings → Danger Zone → Change visibility). Sekrety pozostają ukryte. Filmy są wysyłane do Instagrama bezpośrednio.
+### 2. Instagram przez Zernio
+Publikacja idzie przez [Zernio](https://zernio.com) (darmowe dla 1–2 kont): Zernio ma zatwierdzoną aplikację Meta, a Instagram łączysz logowaniem IG — bez Facebooka.
+1. Załóż konto na zernio.com, wybierz *I'll use it myself* i połącz Instagram (uprawnienia: profil, publikowanie, statystyki).
+2. Wybierz *With the API* i skopiuj klucz API (`sk_...`).
+3. Pliki są wysyłane do Zernio bezpośrednio, więc repo może być prywatne.
 
 ### 4. Claude API
 [console.anthropic.com](https://console.anthropic.com) → API Keys → nowy klucz. Ustaw limit wydatków (np. 10 USD/mies.).
@@ -40,10 +33,10 @@ Repo → **Settings → Secrets and variables → Actions → New repository sec
 | Sekret | Skąd |
 |---|---|
 | `ANTHROPIC_API_KEY` | krok 4 |
-| `IG_ACCESS_TOKEN` | krok 2.3 |
-| `IG_USER_ID` | opcjonalnie — wykrywany automatycznie z tokenu |
+| `ZERNIO_API_KEY` | krok 2 |
+| `ZERNIO_ACCOUNT_ID` | opcjonalnie — wykrywane automatycznie (jedyne konto IG w Zernio) |
 
-Opcjonalnie w zakładce **Variables**: `CLAUDE_MODEL` (domyślnie `claude-sonnet-5-5`), `GRAPH_API_VERSION` (domyślnie `v23.0`).
+Opcjonalnie w zakładce **Variables**: `CLAUDE_MODEL` (domyślnie `claude-sonnet-5-5`).
 
 ### 6. Marka i materiały
 - `config/brand.yaml` — kolory i czcionki obu apek (przeniesione z Twoich filmów), handle IG.
@@ -64,7 +57,7 @@ Opcjonalnie w zakładce **Variables**: `CLAUDE_MODEL` (domyślnie `claude-sonnet
 - Grafiki lub rolkę chcesz inne? Zamknij PR i uruchom **Generuj posty** ręcznie dla tej apki i daty.
 
 ## Koszty (orientacyjnie)
-Claude API: kilka groszy za post (2–4 wywołania). GitHub Actions (publiczne repo), Graph API: w darmowych limitach przy tym rytmie.
+Claude API: kilka groszy za post (2–4 wywołania). GitHub Actions, Zernio (1 konto): w darmowych limitach przy tym rytmie.
 
 ## Lokalnie
 ```

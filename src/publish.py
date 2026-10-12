@@ -1,19 +1,20 @@
-"""Publikuje zaakceptowane posty (scalone do main), których termin publikacji minął.
+"""Publikuje zaakceptowane posty (scalone do main), których termin publikacji minął — przez Zernio.
 
-Bez zewnętrznego hostingu: zdjęcia Instagram pobiera z publicznego repo (raw.githubusercontent.com),
-a filmy wysyłamy prosto do Instagrama (resumable upload). Po publikacji powstaje published.json.
+Zernio ma własną, zatwierdzoną przez Metę aplikację; konto Instagram jest połączone w panelu Zernio
+(logowanie Instagramem, bez Facebooka). Pliki wysyłamy do Zernio (presign + PUT), więc repo nie musi być publiczne.
+Po publikacji powstaje posts/<post>/published.json.
 
 Zmienne środowiskowe:
-  IG_USER_ID, IG_ACCESS_TOKEN          — konto Instagram (Graph API)
-  GITHUB_REPOSITORY, GITHUB_SHA        — ustawia GitHub Actions (skąd brać linki do zdjęć)
-  GRAPH_API_VERSION (domyślnie v23.0), GRAPH_HOST (domyślnie graph.facebook.com)
+  ZERNIO_API_KEY       — klucz API (sk_...)
+  ZERNIO_ACCOUNT_ID    — opcjonalnie; domyślnie wykrywane jedyne aktywne konto Instagram
 
-Użycie: python src/publish.py [--dry-run] [--now]
+Użycie: python src/publish.py [--dry-run] [--now] [--check]
 """
 from __future__ import annotations
 
 import argparse
 import datetime as dt
+import mimetypes
 import os
 import sys
 import time
@@ -21,61 +22,50 @@ import time
 import requests
 
 sys.path.insert(0, os.path.dirname(__file__))
-from common import ROOT, existing_posts, schedule, write_json  # noqa: E402
+from common import existing_posts, schedule, write_json  # noqa: E402
 
-API_VER = os.environ.get("GRAPH_API_VERSION") or "v23.0"
-HOST = os.environ.get("GRAPH_HOST") or "graph.facebook.com"
-
-
-# ---------- linki do mediów ----------
-
-def public_url(path) -> str:
-    """Publiczny link do pliku w repo, przypięty do konkretnego commita (nie zmieni się po publikacji)."""
-    repo = os.environ.get("GITHUB_REPOSITORY", "Przemek-cyber/handy-apps-autopilot")
-    ref = os.environ.get("GITHUB_SHA") or "main"
-    url = f"https://raw.githubusercontent.com/{repo}/{ref}/{path.relative_to(ROOT).as_posix()}"
-    r = requests.head(url, timeout=30, allow_redirects=True)
-    if r.status_code != 200:
-        raise RuntimeError(f"Plik niedostępny publicznie ({r.status_code}): {url} — czy repo jest publiczne?")
-    return url
+API = os.environ.get("ZERNIO_API_BASE") or "https://zernio.com/api/v1"
 
 
-# ---------- Graph API ----------
+# ---------- Zernio API ----------
 
-def graph(method: str, path: str, **params) -> dict:
-    token = os.environ["IG_ACCESS_TOKEN"]
-    url = f"https://{HOST}/{API_VER}/{path}"
-    if method == "POST":  # długie podpisy w treści żądania, nie w adresie
-        r = requests.post(url, data={**params, "access_token": token}, timeout=120)
-    else:
-        r = requests.request(method, url, params={**params, "access_token": token}, timeout=120)
+def api(method: str, path: str, **kwargs) -> requests.Response:
+    r = requests.request(method, f"{API}/{path.lstrip('/')}", timeout=120,
+                         headers={"Authorization": f"Bearer {os.environ['ZERNIO_API_KEY']}"}, **kwargs)
     if r.status_code >= 400:
-        raise RuntimeError(f"Graph API {path}: {r.status_code} {r.text}")
-    return r.json()
+        raise RuntimeError(f"Zernio {method} /{path}: {r.status_code} {r.text[:600]}")
+    return r
 
 
-def upload_video(ig: str, video, **params) -> str:
-    """Kontener rolki + wysłanie pliku prosto do Instagrama (bez hostingu)."""
-    created = graph("POST", f"{ig}/media", media_type="REELS", upload_type="resumable", **params)
-    size = video.stat().st_size
-    with open(video, "rb") as f:
-        r = requests.post(created["uri"], data=f, timeout=600, headers={
-            "Authorization": f"OAuth {os.environ['IG_ACCESS_TOKEN']}", "offset": "0", "file_size": str(size)})
+def instagram_accounts() -> list[dict]:
+    data = api("GET", "accounts").json()
+    accounts = data.get("accounts", []) if isinstance(data, dict) else data
+    return [a for a in accounts if a.get("platform") == "instagram" and a.get("isActive", True)]
+
+
+def account_id() -> str:
+    if v := os.environ.get("ZERNIO_ACCOUNT_ID"):
+        return v
+    accs = instagram_accounts()
+    if len(accs) != 1:
+        names = [a.get("username") for a in accs]
+        raise RuntimeError(f"Oczekiwano jednego konta Instagram w Zernio, jest {len(accs)}: {names}. "
+                           "Ustaw sekret ZERNIO_ACCOUNT_ID.")
+    return accs[0]["_id"]
+
+
+def upload(path) -> str:
+    """Wysyła plik do magazynu Zernio i zwraca jego publiczny adres."""
+    ctype = mimetypes.guess_type(path.name)[0] or {".mp4": "video/mp4"}.get(path.suffix.lower(), "")
+    if not ctype:
+        raise RuntimeError(f"Nieznany typ pliku: {path.name}")
+    size = path.stat().st_size
+    pre = api("POST", "media/presign", json={"filename": path.name, "contentType": ctype, "size": size}).json()
+    with open(path, "rb") as f:
+        r = requests.put(pre["uploadUrl"], data=f, headers={"Content-Type": ctype}, timeout=600)
     if r.status_code >= 400:
-        raise RuntimeError(f"Wysyłanie filmu: {r.status_code} {r.text}")
-    return created["id"]
-
-
-def wait_ready(container_id: str, timeout_s: int = 900) -> None:
-    start = time.time()
-    while time.time() - start < timeout_s:
-        status = graph("GET", container_id, fields="status_code,status").get("status_code")
-        if status == "FINISHED":
-            return
-        if status in {"ERROR", "EXPIRED"}:
-            raise RuntimeError(f"Kontener {container_id}: {status}")
-        time.sleep(10)
-    raise TimeoutError(f"Kontener {container_id} nie był gotowy w {timeout_s} s")
+        raise RuntimeError(f"Wysyłanie {path.name}: {r.status_code} {r.text[:300]}")
+    return pre["publicUrl"]
 
 
 def full_caption(content: dict) -> str:
@@ -83,62 +73,56 @@ def full_caption(content: dict) -> str:
     return f"{content['caption'].strip()}\n\n{tags}"[:2200]
 
 
+def _ig_result(post: dict) -> dict:
+    return next((p for p in post.get("platforms", []) if p.get("platform") == "instagram"), {})
+
+
+def wait_published(post_id: str, timeout_s: int = 900) -> dict:
+    start = time.time()
+    while time.time() - start < timeout_s:
+        post = api("GET", f"posts/{post_id}").json().get("post", {})
+        status, ig = post.get("status"), _ig_result(post)
+        if status == "published" or ig.get("status") == "published":
+            return post
+        if status in {"failed", "partial"} or ig.get("status") == "failed":
+            raise RuntimeError(f"Instagram odrzucił post: {ig.get('errorMessage') or post}")
+        time.sleep(15)
+    raise TimeoutError(f"Post {post_id} nie opublikował się w {timeout_s} s")
+
+
 def publish_post(post: dict, dry: bool) -> dict:
-    ig = ig_user_id() if not dry else "<IG_USER_ID>"
-    folder = post["_dir"]
+    folder, media = post["_dir"], post["media"]
     caption = full_caption(post["content"])
     if dry:
         print(f"[dry-run] {folder.name}: {post['format']}, {len(caption)} znaków podpisu")
         return {}
 
+    platform = {"platform": "instagram", "accountId": account_id(), "platformSpecificData": {}}
     if post["format"] == "carousel":
-        children = []
-        for name in post["media"]["images"]:
-            url = public_url(folder / name)
-            children.append(graph("POST", f"{ig}/media", image_url=url, is_carousel_item="true")["id"])
-        for c in children:
-            wait_ready(c)
-        container = graph("POST", f"{ig}/media", media_type="CAROUSEL", children=",".join(children),
-                          caption=caption)["id"]
+        items = [{"type": "image", "url": upload(folder / name)} for name in media["images"]]
     else:
-        cover = public_url(folder / post["media"]["cover"])
-        container = upload_video(ig, folder / post["media"]["video"], cover_url=cover,
-                                 caption=caption, share_to_feed="true")
-    wait_ready(container)
-    media_id = graph("POST", f"{ig}/media_publish", creation_id=container)["id"]
-    permalink = graph("GET", media_id, fields="permalink").get("permalink")
-    return {"media_id": media_id, "permalink": permalink,
+        items = [{"type": "video", "url": upload(folder / media["video"])}]
+        platform["platformSpecificData"] = {"shareToFeed": True, "instagramThumbnail": upload(folder / media["cover"])}
+
+    r = api("POST", "posts", json={"content": caption, "mediaItems": items, "platforms": [platform], "publishNow": True})
+    created = r.json().get("post", {})
+    ig = _ig_result(created)
+    if r.status_code == 207 or created.get("status") in {"failed", "partial"} or ig.get("status") == "failed":
+        raise RuntimeError(f"Instagram odrzucił post: {ig.get('errorMessage') or created}")
+    if created.get("status") != "published":
+        created = wait_published(created["_id"])
+    return {"zernio_post_id": created["_id"], "permalink": _ig_result(created).get("platformPostUrl"),
             "published_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")}
 
 
-def ig_accounts() -> list[dict]:
-    """Konta Instagram dostępne dla tokenu (przez strony na Facebooku)."""
-    data = graph("GET", "me/accounts", fields="name,instagram_business_account{id,username}").get("data", [])
-    return [{"page": d.get("name"), **d["instagram_business_account"]} for d in data if d.get("instagram_business_account")]
-
-
-def ig_user_id() -> str:
-    """IG_USER_ID z sekretu albo — jeśli pusty — wykryty automatycznie z tokenu."""
-    if v := os.environ.get("IG_USER_ID"):
-        return v
-    accounts = ig_accounts()
-    if len(accounts) != 1:
-        raise RuntimeError(f"Nie da się jednoznacznie wykryć konta IG (znaleziono {len(accounts)}): {accounts}. "
-                           "Dodaj sekret IG_USER_ID.")
-    return accounts[0]["id"]
-
-
 def check() -> None:
-    """Test połączenia: token, konto IG, limit publikacji. Nic nie publikuje."""
-    me = graph("GET", "me", fields="id,name")
-    print(f"Token OK: {me.get('name')} ({me.get('id')})")
-    for a in ig_accounts():
-        print(f"Konto IG: @{a.get('username')} id={a['id']} (strona: {a['page']})")
-        print(f"::notice title=Instagram połączony::@{a.get('username')} (id {a['id']}), strona FB: {a['page']}")
-    ig = ig_user_id()
-    lim = graph("GET", f"{ig}/content_publishing_limit", fields="quota_usage,config")
-    print(f"Limit publikacji: {lim}")
+    """Test połączenia: klucz API i konto Instagram w Zernio. Nic nie publikuje."""
+    for a in instagram_accounts():
+        print(f"::notice title=Instagram połączony przez Zernio::@{a.get('username')} (accountId {a['_id']})")
+    account_id()
 
+
+# ---------- harmonogram ----------
 
 def due(post: dict, now: dt.datetime, force_now: bool) -> bool:
     if post["_published"]:
@@ -147,6 +131,10 @@ def due(post: dict, now: dt.datetime, force_now: bool) -> bool:
     if day < now.date():
         return True
     return day == now.date() and (force_now or now.hour >= schedule()["publish_hour_utc"])
+
+
+def _safe(e: Exception) -> str:
+    return str(e).replace(os.environ.get("ZERNIO_API_KEY", "") or "\0", "***").replace("\n", " ")[:900]
 
 
 def main() -> None:
@@ -159,8 +147,7 @@ def main() -> None:
         try:
             check()
         except Exception as e:
-            msg = str(e).replace(os.environ.get("IG_ACCESS_TOKEN", "") or "\0", "***").replace("\n", " ")[:900]
-            print(f"::error title=Połączenie z Instagramem::{msg}")
+            print(f"::error title=Połączenie z Instagramem::{_safe(e)}")
             sys.exit(1)
         return
     now = dt.datetime.now(dt.timezone.utc)
@@ -174,12 +161,10 @@ def main() -> None:
             result = publish_post(post, args.dry_run)
             if result:
                 write_json(post["_dir"] / "published.json", result)
-                print(f"Opublikowano {post['_dir'].name}: {result['permalink']}")
+                print(f"::notice title=Opublikowano {post['_dir'].name}::{result['permalink']}")
         except Exception as e:  # jeden błędny post nie blokuje pozostałych
             failed += 1
-            msg = str(e).replace(os.environ.get("IG_ACCESS_TOKEN", "") or "\0", "***").replace("\n", " ")[:900]
-            print(f"BŁĄD {post['_dir'].name}: {msg}", file=sys.stderr)
-            print(f"::error title=Publikacja {post['_dir'].name}::{msg}")
+            print(f"::error title=Publikacja {post['_dir'].name}::{_safe(e)}")
     if failed:
         sys.exit(1)
 
