@@ -14,8 +14,9 @@ SLIDE_SCHEMA = {
     "type": "object",
     "properties": {
         "kind": {"type": "string", "enum": ["cover", "point", "cta"]},
-        "title": {"type": "string", "description": "Max 8 words."},
-        "body": {"type": "string", "description": "Max 30 words. Empty for cover if subtitle is enough."},
+        "title": {"type": "string", "description": "Max 8 words. Wrap 1-3 key words in *asterisks* to highlight them in orange."},
+        "body": {"type": "string", "description": "Max 30 words, no asterisks. For cover: a short subtitle."},
+        "clip": {"type": "string", "description": "Optional, point slides only: clip file name whose app screen illustrates this slide."},
     },
     "required": ["kind", "title", "body"],
 }
@@ -23,7 +24,7 @@ SLIDE_SCHEMA = {
 SCENE_SCHEMA = {
     "type": "object",
     "properties": {
-        "text": {"type": "string", "description": "On-screen text, max 12 words."},
+        "text": {"type": "string", "description": "On-screen text, max 12 words. Wrap 1-3 key words in *asterisks* to highlight them in orange."},
         "seconds": {"type": "number", "description": "2.5 to 5 seconds."},
         "visual": {"type": "string", "enum": ["card", "clip"]},
         "clip": {"type": "string", "description": "File name from the available clips list, only when visual=clip."},
@@ -106,37 +107,47 @@ def _rules() -> str:
     )
 
 
-def write_content(app_key: str, fmt: str, topic: dict, clips: list[str], recent: list[str]) -> dict:
+def _clips_text(clips: dict[str, str]) -> str:
+    return "\n".join(f"- {name}: {desc}" for name, desc in clips.items()) or "(none)"
+
+
+def write_content(app_key: str, fmt: str, topic: dict, clips: dict[str, str], recent: list[str]) -> dict:
     fmt_rules = (
         "FORMAT: carousel. Return 'slides' (6-8): slide 1 kind=cover (title = the hook, body = a short subtitle), "
-        "middle slides kind=point (one idea each), last slide kind=cta. Do not return 'scenes'."
+        "middle slides kind=point (one idea each), last slide kind=cta (title = short benefit line, the design adds "
+        "the app logo, tagline and a 'Link in bio' button). Give 1-3 point slides a 'clip' whose app screen matches "
+        "the slide (product pillar: most point slides). Do not return 'scenes'."
         if fmt == "carousel" else
         "FORMAT: reel (vertical video, no voice, text on screen, music bed). Return 'scenes' (5-7, total 18-30 s). "
-        "Scene 1 = hook, last scene = CTA. Use visual=clip only with a file name from the available clips list; "
-        "otherwise visual=card. Do not return 'slides'."
+        "Scene 1 = hook (visual=card, a bold statement or question). Last scene = CTA (visual=card; short benefit line — "
+        "the design adds app logo, tagline and a 'Link in bio' button). Middle scenes: mostly visual=clip, showing the app "
+        "screen that matches the scene text (choose by clip description, avoid repeating a clip); visual=card only for a "
+        "standalone fact. Do not return 'slides'."
     )
     user = (
         f"{_product_brief(app_key)}\n\nTOPIC: {topic['topic']}\nPILLAR: {topic['pillar']}\n\n{fmt_rules}\n\n"
-        f"Available clips: {', '.join(clips) if clips else '(none)'}\n"
+        f"Available clips (real app screen recordings):\n{_clips_text(clips)}\n"
         f"Recent topics to avoid repeating angles: {'; '.join(recent) if recent else '(none)'}\n\n"
         "Write the post."
     )
     return _call_tool(_rules(), user, "post_content", CONTENT_SCHEMA)
 
 
-def review_content(app_key: str, fmt: str, content: dict) -> dict:
+def review_content(app_key: str, fmt: str, content: dict, clips: dict[str, str] | None = None) -> dict:
     system = (
         "You are a strict quality editor for an Instagram account. You check a draft post before it is shown to the owner.\n"
         + _rules()
         + "\nCheck: (1) every product claim is in the approved facts; (2) advice is accurate, general and safe; "
         "(3) no fear-mongering; (4) English, clear, no typos; (5) structure matches the format "
         "(carousel 6-8 slides cover..cta, slide titles <= 8 words, bodies <= 30 words; reel 5-7 scenes, 18-30 s, "
-        "scene text <= 12 words, clips only from the list); (6) caption 400-1200 characters ending with the CTA; "
+        "scene text <= 12 words, clips only from the list and matching the text); highlight markup with *asterisks* "
+        "only in slide titles / scene texts, never in caption; (6) caption 400-1200 characters ending with the CTA; "
         "(7) 5-10 hashtags.\n"
         "verdict=pass if publishable as is; verdict=fix if small corrections make it publishable — then return the FULL "
         "corrected content in 'fixed'; verdict=reject if the idea itself is unsafe or off-brand."
     )
-    user = f"{_product_brief(app_key)}\n\nFORMAT: {fmt}\n\nDRAFT:\n{json.dumps(content, ensure_ascii=False, indent=2)}"
+    user = (f"{_product_brief(app_key)}\n\nAvailable clips:\n{_clips_text(clips or {})}\n\nFORMAT: {fmt}\n\n"
+            f"DRAFT:\n{json.dumps(content, ensure_ascii=False, indent=2)}")
     return _call_tool(system, user, "qa_result", QA_SCHEMA)
 
 

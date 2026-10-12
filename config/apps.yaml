@@ -27,10 +27,18 @@ bikepackpilot:
   name: BikepackPilot
   one_liner: A comprehensive framework to optimize your bikepacking adventures.
   audience: Bikepackers and touring cyclists planning self-supported trips.
-  facts:
-    - A comprehensive framework to optimize bikepacking adventures.
-    - Built for planning self-supported bikepacking trips.
-    # TODO: dopisz konkretne funkcje, formę (PDF / Excel / apka) i cenę — bez tego agent pisze ogólnie
+  facts:   # z filmu demo bikepackpilot-demo-en.mp4
+    - A comprehensive framework to optimize bikepacking adventures; plan a self-supported bikepacking route in minutes.
+    - Enter your real route distance from a map or GPX file.
+    - The route splits automatically into 50 km segments.
+    - Set surface, heat, wind and rain for each segment.
+    - It calculates realistic riding days, not just kilometres.
+    - Gear recommendations adapt to the conditions you entered (e.g. hot conditions, rough surface).
+    - Find water, food, bike repair and lodging nearby.
+    - One-tap location check-in for peace of mind; your data stays on your device.
+    - Available in English, Polish, German and Spanish.
+    - Web app at bikepackpilot.com that works offline and installs like an app.
+    # TODO: cena i forma zakupu — bez tego agent nie wspomina o cenie
   sources: []
   cta: "Plan your next trip with BikepackPilot — link in bio."
   dm_keyword: ROUTE

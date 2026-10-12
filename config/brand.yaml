@@ -1,30 +1,35 @@
-# Styl marki Handy Apps. Podmień wartości na swoje — reszta kodu czyta tylko ten plik.
+# Styl wizualny przeniesiony z filmów Ready72h-instagram-reel.mp4 i bikepackpilot-demo-en.mp4.
+# Reszta kodu czyta tylko ten plik — tu zmieniasz kolory i czcionki.
 name: Handy Apps
-handle: "@handyapps"          # TODO: Twój login na IG
-logo: assets/brand/logo.png    # PNG z przezroczystym tłem; jeśli pliku nie ma, slajdy pokażą nazwę tekstem
-font:
-  family: Inter
-  files:                       # pliki czcionek w assets/fonts
-    regular: Inter-Regular.otf
-    medium: Inter-Medium.otf
-    semibold: Inter-SemiBold.otf
-    bold: Inter-Bold.otf
-    extrabold: Inter-ExtraBold.otf
+handle: "@handyapps"   # TODO: Twój login na IG
 
-# Każda apka ma własny kolor akcentu, wspólne tło i tekst
-colors:
-  background: "#F6F4EF"
-  surface: "#FFFFFF"
-  text: "#16181D"
-  muted: "#5B6170"
+fonts:                 # pliki w assets/fonts
+  serif_bold: DejaVuSerif-Bold.ttf     # nagłówki Ready72h, nazwy apek
+  sans: DejaVuSans.ttf                 # teksty pomocnicze
+  sans_bold: DejaVuSans-Bold.ttf       # nagłówki BikepackPilot, przycisk "Link in bio"
+  mono: DejaVuSansMono.ttf             # liczby i etykiety (styl BikepackPilot)
 
 apps_style:
   ready72h:
-    accent: "#E4572E"
-    accent_soft: "#FBE3DA"
+    logo: tent72h                      # trójkąt teal/pomarańcz z napisem 72h
+    background: ["#0c1515", "#154c48"] # gradient od lewego górnego do prawego dolnego rogu
+    decor: true                        # fala u góry i koncentryczne okręgi w rogu
+    panel: "#0e1b1c"                   # panel z tekstem
+    text: "#fcf6ed"                    # kremowy tekst
+    muted: "#c9d3cf"
+    accent: "#c86e2b"                  # pomarańcz: wyróżnienia, pasek panelu, przycisk
+    headline_font: serif_bold
+    tagline: "Based on official 72-hour guidance from Sweden, Germany & Poland"
   bikepackpilot:
-    accent: "#2E7D5B"
-    accent_soft: "#DDF0E6"
+    logo: mountain                     # pomarańczowa linia gór
+    background: ["#111813", "#1b2a22"]
+    decor: false
+    panel: "#141e18"
+    text: "#f2f4ef"
+    muted: "#a9b3aa"
+    accent: "#c87522"
+    headline_font: sans_bold
+    tagline: "Plan a self-supported bikepacking route in minutes"
 
 voice:
   language: English

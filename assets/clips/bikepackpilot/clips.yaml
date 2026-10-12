@@ -1,0 +1,10 @@
+# Opis każdego klipu — agent wybiera klip pasujący do tekstu sceny/slajdu.
+enter-route-distance.mp4: "App screen: adding a new stage — start, end, route distance (km), elevation gain."
+route-splits-50km-segments.mp4: "App screen: the route splits automatically into 50 km segments."
+set-surface-heat-wind-rain.mp4: "App screen: setting surface, temperature, wind and precipitation for each 50 km segment."
+realistic-riding-days.mp4: "App screen: stage summary City A to City B, 180 km, 4 segments, 2.1 riding days calculated from conditions."
+gear-adapts-to-conditions.mp4: "App screen: gear checklist by category that adapts to conditions (hot conditions over 30°C, rough surface)."
+find-water-food-repair-nearby.mp4: "App screen: nearby search — pharmacies, drinking water, shops, bike repair, lodging, with Navigate buttons."
+safety-location-check-in.mp4: "App screen: safety — one-tap location check-in to a contact, reminder frequency; data stays on the device."
+four-languages.mp4: "App screen: language picker — Polski, English, Deutsch, Español."
+works-offline-installs-like-app.mp4: "App screen: bikepackpilot.com — works offline, installs like an app."

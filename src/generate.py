@@ -18,7 +18,7 @@ import subprocess
 import sys
 
 from common import POSTS, apps, existing_posts, is_slot, post_dir, schedule, topics, write_json
-from render import available_clips, render_carousel, render_reel
+from render import clip_catalog, render_carousel, render_reel
 
 
 def open_pr_apps() -> set[str]:
@@ -48,10 +48,10 @@ def pick_format(app_key: str) -> str:
 def produce_content(app_key: str, fmt: str, topic: dict) -> tuple[dict, list[dict]]:
     from agents import review_content, write_content
     recent = [p["topic"] for p in existing_posts(app_key)][-6:]
-    content = write_content(app_key, fmt, topic, available_clips(app_key), recent)
+    content = write_content(app_key, fmt, topic, clip_catalog(app_key), recent)
     reviews = []
     for _ in range(2):
-        qa = review_content(app_key, fmt, content)
+        qa = review_content(app_key, fmt, content, clip_catalog(app_key))
         reviews.append({"verdict": qa["verdict"], "issues": qa.get("issues", [])})
         if qa["verdict"] == "pass":
             return content, reviews
@@ -62,7 +62,36 @@ def produce_content(app_key: str, fmt: str, topic: dict) -> tuple[dict, list[dic
     raise RuntimeError(f"Kontrola jakości nie przepuściła posta: {reviews}")
 
 
-def sample_content(fmt: str) -> dict:
+def sample_content(app_key: str, fmt: str) -> dict:
+    """Próbne treści do testu renderowania bez Claude API."""
+    if app_key == "bikepackpilot":
+        base = {
+            "hook": "Kilometres lie. Riding days don't.",
+            "caption": ("180 km looks like two easy days. Add gravel, 32°C and a headwind, and it's a different trip.\n\n"
+                        "BikepackPilot splits your route into 50 km segments, lets you set surface, heat, wind and rain for each, "
+                        "and estimates realistic riding days. Your gear list adapts to the conditions you entered.\n\n"
+                        "Plan your next trip with BikepackPilot — link in bio."),
+            "hashtags": ["#bikepacking", "#bikepackinglife", "#gravelbike", "#cycletouring", "#bikepackingplanner", "#adventurecycling"],
+            "alt_text": "Reel showing how BikepackPilot turns a route into realistic riding days.",
+            "sources_used": [],
+        }
+        base["scenes"] = [
+            {"text": "Kilometres lie. *Riding days* don't.", "seconds": 3, "visual": "card"},
+            {"text": "Enter your real route distance", "seconds": 3.2, "visual": "clip", "clip": "enter-route-distance.mp4"},
+            {"text": "Set *surface, heat, wind and rain* for each 50 km", "seconds": 3.4, "visual": "clip", "clip": "set-surface-heat-wind-rain.mp4"},
+            {"text": "Get *realistic riding days*, not just kilometres", "seconds": 3.6, "visual": "clip", "clip": "realistic-riding-days.mp4"},
+            {"text": "Your *gear list* adapts to the conditions", "seconds": 3.8, "visual": "clip", "clip": "gear-adapts-to-conditions.mp4"},
+            {"text": "Plan your next trip in minutes", "seconds": 3.5, "visual": "card"},
+        ]
+        base["slides"] = [
+            {"kind": "cover", "title": "Kilometres lie. *Riding days* don't.", "body": "How to plan stages you can actually ride."},
+            {"kind": "point", "title": "Start with the *real distance*", "body": "Take it from your map or GPX file, not from a guess.", "clip": "enter-route-distance.mp4"},
+            {"kind": "point", "title": "Think in *50 km* blocks", "body": "Short segments make surface, heat and wind easy to judge."},
+            {"kind": "point", "title": "Conditions change *everything*", "body": "Gravel, 32°C and a headwind can double the time of the same distance.", "clip": "set-surface-heat-wind-rain.mp4"},
+            {"kind": "point", "title": "Plan in *riding days*", "body": "180 km on mixed terrain may be 2.1 days, not 1.5.", "clip": "realistic-riding-days.mp4"},
+            {"kind": "cta", "title": "Plan your next trip *in minutes*", "body": ""},
+        ]
+        return base
     base = {
         "hook": "How much water do you really need?",
         "caption": ("Most plans start with water — and most of us underestimate it.\n\n"
@@ -74,25 +103,23 @@ def sample_content(fmt: str) -> dict:
         "alt_text": "Carousel explaining how much water a household needs for 72 hours.",
         "sources_used": ["MSB", "BBK", "RCB"],
     }
-    if fmt == "carousel":
-        base["slides"] = [
-            {"kind": "cover", "title": "How much water do you really need?", "body": "For 72 hours. For your whole household."},
-            {"kind": "point", "title": "Water comes first", "body": "MSB, BBK and RCB all put drinking water at the top of the list."},
-            {"kind": "point", "title": "Rule of thumb", "body": "Around 3 litres per person per day, for drinking and basic cooking."},
-            {"kind": "point", "title": "Do the maths once", "body": "4 people × 3 days × 3 litres = 36 litres. Write the number down."},
-            {"kind": "point", "title": "Store it smart", "body": "Sealed bottles, in a cool dark place you can reach without moving furniture."},
-            {"kind": "point", "title": "Swap it on a schedule", "body": "Put a date on it. Rotate it into daily use before it expires."},
-            {"kind": "cta", "title": "Get the full 72h plan", "body": "Checklist, family comms plan and a 15-minute go-bag list. Pay what you want."},
-        ]
-    else:
-        base["scenes"] = [
-            {"text": "How much water for 72 hours?", "seconds": 3.5, "visual": "card"},
-            {"text": "Official guides agree: water comes first", "seconds": 3.5, "visual": "card"},
-            {"text": "About 3 litres per person per day", "seconds": 3.5, "visual": "card"},
-            {"text": "Family of 4 = 36 litres", "seconds": 3.5, "visual": "card"},
-            {"text": "Date it. Rotate it.", "seconds": 3, "visual": "card"},
-            {"text": "Full 72h checklist — link in bio", "seconds": 3.5, "visual": "card"},
-        ]
+    base["slides"] = [
+        {"kind": "cover", "title": "How much *water* do you really need?", "body": "For 72 hours. For your whole household."},
+        {"kind": "point", "title": "Water comes *first*", "body": "MSB, BBK and RCB all put drinking water at the top of the list."},
+        {"kind": "point", "title": "About *3 litres* per person, per day", "body": "For drinking and basic cooking. Add extra for hygiene if you have space.", "clip": "checklist-water-supplies.mp4"},
+        {"kind": "point", "title": "Do the maths *once*", "body": "4 people × 3 days × 3 litres = 36 litres. Write the number down."},
+        {"kind": "point", "title": "Store it *smart*", "body": "Sealed bottles, in a cool dark place you can reach without moving furniture.", "clip": "apartment-vs-house-advice.mp4"},
+        {"kind": "point", "title": "Swap it on a *schedule*", "body": "Put a date on it. Rotate it into daily use before it expires."},
+        {"kind": "cta", "title": "Get the full *72-hour* plan", "body": ""},
+    ]
+    base["scenes"] = [
+        {"text": "Most homes couldn't last *72 hours* without power.", "seconds": 3.5, "visual": "card"},
+        {"text": "A complete *72-hour checklist* for water, food, meds and cash.", "seconds": 4, "visual": "clip", "clip": "checklist-water-supplies.mp4"},
+        {"text": "A family communication plan for when *phones go down*.", "seconds": 4, "visual": "clip", "clip": "family-communication-plan.mp4"},
+        {"text": "A *15-minute grab-and-go bag*, checked and ready by the door.", "seconds": 4, "visual": "clip", "clip": "go-bag-15-minutes.mp4"},
+        {"text": "Tailored advice for *where you live*.", "seconds": 4, "visual": "clip", "clip": "apartment-vs-house-advice.mp4"},
+        {"text": "Pay what you want — *from 2 PLN*", "seconds": 3.5, "visual": "card"},
+    ]
     return base
 
 
@@ -123,13 +150,13 @@ def pr_body(app_key: str, fmt: str, topic: dict, content: dict, publish_on: dt.d
 
 def make_post(app_key: str, publish_on: dt.date, fmt: str | None, sample: bool) -> str:
     fmt = fmt or pick_format(app_key)
-    topic = pick_topic(app_key) if not sample else {"topic": "How much water a household really needs for 72 hours", "pillar": "value"}
+    topic = pick_topic(app_key) if not sample else {"topic": f"Sample {fmt}", "pillar": "value"}
     folder = post_dir(app_key, publish_on)
     if folder.exists():
         print(f"Pomijam: {folder.name} już istnieje")
         return ""
     if sample:
-        content, reviews = sample_content(fmt), []
+        content, reviews = sample_content(app_key, fmt), []
     else:
         content, reviews = produce_content(app_key, fmt, topic)
     folder.mkdir(parents=True)

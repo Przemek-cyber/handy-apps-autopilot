@@ -3,64 +3,79 @@
 <head>
 <meta charset="utf-8">
 <style>
-  @font-face { font-family: Brand; font-weight: 400; src: url("{{font_regular}}"); }
-  @font-face { font-family: Brand; font-weight: 500; src: url("{{font_medium}}"); }
-  @font-face { font-family: Brand; font-weight: 600; src: url("{{font_semibold}}"); }
-  @font-face { font-family: Brand; font-weight: 700; src: url("{{font_bold}}"); }
-  @font-face { font-family: Brand; font-weight: 800; src: url("{{font_extrabold}}"); }
+  @font-face { font-family: BrandSerif; font-weight: 700; src: url("{{font_serif_bold}}"); }
+  @font-face { font-family: BrandSans; font-weight: 400; src: url("{{font_sans}}"); }
+  @font-face { font-family: BrandSans; font-weight: 700; src: url("{{font_sans_bold}}"); }
+  @font-face { font-family: BrandMono; font-weight: 400; src: url("{{font_mono}}"); }
   :root {
-    --bg: {{bg}}; --surface: {{surface}}; --text: {{text}}; --muted: {{muted}};
-    --accent: {{accent}}; --accent-soft: {{accent_soft}};
+    --bg1: {{bg1}}; --bg2: {{bg2}}; --panel: {{panel}}; --text: {{text}}; --muted: {{muted}}; --accent: {{accent}};
+    --headline: {{headline_family}};
+    --w: {{w}}px; --h: {{h}}px; --u: {{unit}}px;   /* u = 1/100 szerokości kadru */
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { width: {{w}}px; height: {{h}}px; }
-  body {
-    font-family: Brand, sans-serif; color: var(--text);
-    background: {{page_bg}};
-    display: flex; flex-direction: column; justify-content: space-between;
-    padding: {{pad}}px;
-    -webkit-font-smoothing: antialiased;
-  }
-  .top { display: flex; align-items: center; justify-content: space-between; }
-  .tag {
-    font-size: 30px; font-weight: 600; letter-spacing: .02em;
-    color: var(--accent); background: var(--accent-soft);
-    padding: 12px 24px; border-radius: 999px;
-  }
-  .counter { font-size: 28px; font-weight: 500; color: var(--muted); }
-  .main { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 36px; }
-  .bar { width: 96px; height: 10px; border-radius: 5px; background: var(--accent); }
-  h1 { font-size: {{title_size}}px; line-height: 1.05; font-weight: 800; letter-spacing: -0.025em; }
-  h1 em { font-style: normal; color: var(--accent); }
-  p { font-size: {{body_size}}px; line-height: 1.32; font-weight: 500; color: var(--muted); max-width: 92%; }
-  .kind-point h1 { font-size: {{point_title_size}}px; }
-  .kind-cta { background: var(--accent); }
-  .kind-cta h1, .kind-cta p, .kind-cta .counter, .kind-cta .brand { color: #fff; }
-  .kind-cta .tag { background: rgba(255,255,255,.18); color: #fff; }
-  .kind-cta .bar { background: #fff; }
-  .card {
-    background: var(--surface); border-radius: 40px; padding: 64px;
-    box-shadow: 0 2px 0 rgba(0,0,0,.04);
-    display: flex; flex-direction: column; gap: 28px;
-  }
-  .kind-cta .card, .kind-cover .card { background: transparent; padding: 0; box-shadow: none; }
-  .bottom { display: flex; align-items: center; justify-content: space-between; }
-  .brand { display: flex; align-items: center; gap: 18px; font-size: 30px; font-weight: 700; }
-  .brand img { height: 64px; }
-  .swipe { font-size: 28px; font-weight: 600; color: var(--accent); }
-  .kind-cta .swipe { color: #fff; }
-  /* rolka: bezpieczne strefy pod interfejs Instagrama (góra, przyciski po prawej, podpis na dole) */
-  body.reel { padding: 200px 140px 420px 96px; }
-  body.reel .tag, body.reel .brand { font-size: 34px; }
-  /* przezroczysta nakładka tekstu na klip w rolce */
-  body.overlay { background: transparent; justify-content: flex-end; padding: 200px 140px 0 96px; }
-  body.overlay .caption {
-    background: rgba(22,24,29,.78); color: #fff; border-radius: 32px; padding: 44px 52px;
-    font-size: 64px; line-height: 1.12; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 440px;
-  }
+  html, body { width: var(--w); height: var(--h); overflow: hidden; background: transparent; }
+  body { font-family: BrandSans, sans-serif; color: var(--text); -webkit-font-smoothing: antialiased; position: relative; }
+
+  /* tło + dekoracje; .holed wycina okno telefonu (przezroczyste), w które ffmpeg wstawia nagranie */
+  .bg { position: absolute; inset: 0; background: linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 100%); }
+  .bg svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .bg.holed { -webkit-mask: url("{{hole_mask}}") 0 0 / 100% 100% no-repeat; mask: url("{{hole_mask}}") 0 0 / 100% 100% no-repeat; }
+
+  .layer { position: absolute; inset: 0; }
+  .header { position: absolute; left: 0; right: 0; top: calc(var(--u) * {{header_top}}); display: flex; justify-content: center; align-items: center; gap: calc(var(--u) * 2); }
+  .header .word { font-family: BrandSerif; font-weight: 700; font-size: calc(var(--u) * 4.6); letter-spacing: -0.01em; color: var(--text); }
+  .header svg { height: calc(var(--u) * 4.4); width: auto; }
+
+  em { font-style: normal; color: var(--accent); }
+  .headline { font-family: var(--headline); font-weight: 700; line-height: 1.16; letter-spacing: -0.01em; }
+
+  /* panel tekstowy z pomarańczowym paskiem (jak w rolce Ready72h i banerach BikepackPilot) */
+  .panel { position: absolute; background: var(--panel); border-radius: calc(var(--u) * 2.2); overflow: hidden;
+           padding: calc(var(--u) * 3.6) calc(var(--u) * 4.4) calc(var(--u) * 3.6) calc(var(--u) * 5);
+           display: flex; flex-direction: column; justify-content: center; gap: calc(var(--u) * 1.8); }
+  .panel::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--u) * 0.75); background: var(--accent); }
+  .panel .headline { font-size: calc(var(--u) * 5.4); }
+  .panel p { font-size: calc(var(--u) * 3.3); line-height: 1.38; color: var(--muted); }
+  .kicker { font-family: BrandMono; font-size: calc(var(--u) * 2.6); color: var(--accent); letter-spacing: 0.08em; }
+
+  /* telefon */
+  .phone { position: absolute; border-radius: calc(var(--u) * 3.4); overflow: hidden;
+           box-shadow: 0 0 0 calc(var(--u) * 0.28) rgba(255,255,255,.16), 0 calc(var(--u) * 3) calc(var(--u) * 8) rgba(0,0,0,.45); }
+  .phone img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+
+  /* okładka / hak */
+  .hero { position: absolute; left: calc(var(--u) * 8); right: calc(var(--u) * 8); top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: calc(var(--u) * 3.4); }
+  .hero .headline { font-size: calc(var(--u) * {{hero_size}}); }
+  .hero p { font-size: calc(var(--u) * 3.6); line-height: 1.4; color: var(--muted); max-width: 92%; }
+
+  /* karta końcowa */
+  .end { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: calc(var(--u) * 3); padding: 0 calc(var(--u) * 9); }
+  .end svg { height: calc(var(--u) * 14); width: auto; margin-bottom: calc(var(--u) * 1.5); }
+  .end .name { font-family: BrandSerif; font-weight: 700; font-size: calc(var(--u) * 9.6); line-height: 1; }
+  .end .line { font-size: calc(var(--u) * 3.6); line-height: 1.4; color: var(--muted); }
+  .end .line.big { font-family: var(--headline); font-weight: 700; color: var(--text); font-size: calc(var(--u) * 4.6); line-height: 1.25; }
+  .pill { margin-top: calc(var(--u) * 1.5); background: var(--accent); color: #141414; font-weight: 700; font-size: calc(var(--u) * 3.6);
+          padding: calc(var(--u) * 1.7) calc(var(--u) * 5); border-radius: 999px; }
+
+  .foot { position: absolute; left: calc(var(--u) * 6.5); right: calc(var(--u) * 6.5); bottom: calc(var(--u) * 5); display: flex; justify-content: space-between; align-items: center;
+          font-size: calc(var(--u) * 2.7); color: var(--muted); }
+  .foot .swipe { font-weight: 700; color: var(--accent); }
+  .foot .count { font-family: BrandMono; }
 </style>
 </head>
-<body class="{{body_class}}">
+<body>
 {{content}}
+<script>
+  // dopasowanie wielkości tekstu: zmniejsza czcionkę, dopóki element mieści się w swoim limicie wysokości
+  window.__ready = false;
+  document.fonts.ready.then(() => {
+    document.querySelectorAll('[data-fit]').forEach(el => {
+      const max = parseFloat(el.dataset.fit);
+      let size = parseFloat(getComputedStyle(el).fontSize);
+      while (el.getBoundingClientRect().height > max && size > 12) { size -= 2; el.style.fontSize = size + 'px'; }
+    });
+    window.__ready = true;
+  });
+</script>
 </body>
 </html>

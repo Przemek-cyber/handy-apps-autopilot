@@ -47,9 +47,9 @@ Repo → **Settings → Secrets and variables → Actions → New repository sec
 Opcjonalnie w zakładce **Variables**: `CLAUDE_MODEL` (domyślnie `claude-sonnet-5-5`), `GRAPH_API_VERSION` (domyślnie `v23.0`).
 
 ### 6. Marka i materiały
-- `config/brand.yaml` — kolory, czcionka, handle; logo do `assets/brand/logo.png`.
+- `config/brand.yaml` — kolory i czcionki obu apek (przeniesione z Twoich filmów), handle IG.
 - `config/apps.yaml` — **fakty o produktach**. Agent nie napisze nic spoza tej listy; uzupełnij BikepackPilot.
-- `assets/clips/<apka>/` — nagrania ekranu apek (MP4, najlepiej pionowe). Agent wplata je w rolki.
+- `assets/clips/<apka>/` — nagrania ekranu apek + `clips.yaml` z opisem każdego klipu; agent dobiera klip do tekstu. Nowy klip = plik MP4 + linijka w clips.yaml.
 - `assets/music/` — muzyka bez praw autorskich (MP3), na zmianę w rolkach. Bez plików rolka będzie cicha.
 - `config/topics.yaml` — bank tematów; gdy się skończy, agent wymyśla nowe.
 - `config/schedule.yaml` — rytm (co 3 dni), data startu, godzina publikacji.
