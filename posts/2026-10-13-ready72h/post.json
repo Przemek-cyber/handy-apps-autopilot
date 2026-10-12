@@ -1,0 +1,99 @@
+{
+  "app": "ready72h",
+  "format": "carousel",
+  "topic": "How much water a household really needs for 72 hours",
+  "pillar": "value",
+  "publish_on": "2026-10-13",
+  "created_at": "2026-10-12T12:44:31+00:00",
+  "content": {
+    "hook": "How much water does your household really need?",
+    "slides": [
+      {
+        "kind": "cover",
+        "title": "How much *water* for *72 hours*?",
+        "body": "A simple sum. No panic, no pallets of bottles."
+      },
+      {
+        "kind": "point",
+        "title": "Start with *3 litres* a day",
+        "body": "Per person, for drinking and basic cooking. It is a practical planning figure, in line with official guidance such as MSB and RCB."
+      },
+      {
+        "kind": "point",
+        "title": "Three days means *9 litres* each",
+        "body": "3 litres × 3 days = 9 litres per person. Family of four? 36 litres. That is six 6-litre bottles.",
+        "clip": "checklist-water-supplies.mp4"
+      },
+      {
+        "kind": "point",
+        "title": "Some people need *more*",
+        "body": "Babies, hot weather, pets and anyone unwell may need extra. Treat 9 litres as a minimum and add a margin."
+      },
+      {
+        "kind": "point",
+        "title": "Store it *smart*",
+        "body": "Use clean, sealed bottles. Keep them somewhere cool and dark. Check dates once or twice a year."
+      },
+      {
+        "kind": "point",
+        "title": "Apartment? Think *weight and spread*",
+        "body": "Water is heavy and lifts may not work. Spread bottles across a few cupboards instead of one big stack.",
+        "clip": "apartment-vs-house-advice.mp4"
+      },
+      {
+        "kind": "point",
+        "title": "Do it in *one evening*",
+        "body": "Count your household, do the sum, buy the bottles, write the date on them. Done. Then you can stop thinking about it."
+      },
+      {
+        "kind": "cta",
+        "title": "The full 72-hour list, *ready to tick off*",
+        "body": ""
+      }
+    ],
+    "caption": "Water is the one thing people overthink and under-prepare.\n\nHere is the calm version.\n\nPlan for about 3 litres per person per day. That covers drinking and basic cooking. Over 72 hours, that is 9 litres each.\n\nA family of four: 36 litres. Not a bunker. Just a few bottles in a cupboard.\n\nThen add a margin. Babies, hot weather, pets and anyone unwell may need more. When in doubt, store a little extra.\n\nKeep it simple:\n• Clean, sealed bottles\n• Cool, dark place\n• Check dates once or twice a year\n• In an apartment, spread the weight across a few cupboards\n\nThat is the whole job. One evening, and it is off your mind.\n\nReady72h is a household preparedness planner for the first 72 hours of a crisis. It is based on official guidance from Sweden's MSB, Germany's BBK and Poland's RCB. It includes a full supply checklist: water, food, medicine, cash and communications. This is a safety topic, not a place to profit off anxiety.\n\nSave this post for your next shopping list.\n\nGet the planner — link in bio (pay what you want).",
+    "hashtags": [
+      "#preparedness",
+      "#72hours",
+      "#emergencyprep",
+      "#waterstorage",
+      "#powerOutage",
+      "#familysafety",
+      "#apartmentliving",
+      "#calmprep"
+    ],
+    "alt_text": "Carousel on household water for 72 hours: plan 3 litres per person per day, so 9 litres each, 36 for a family of four, plus storage tips.",
+    "sources_used": [
+      "MSB (Sweden) — 'In case of crisis or war' guidance",
+      "BBK (Germany) — emergency preparedness guide",
+      "RCB (Poland) — Rządowe Centrum Bezpieczeństwa guidance"
+    ]
+  },
+  "media": {
+    "images": [
+      "slide-01.png",
+      "slide-02.png",
+      "slide-03.png",
+      "slide-04.png",
+      "slide-05.png",
+      "slide-06.png",
+      "slide-07.png",
+      "slide-08.png"
+    ]
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "Cover title is 10 words; the limit is 8.",
+        "Slide 2 and the caption say 3 litres a day is the figure used by MSB, BBK and RCB. BBK's figure is about 2.5 litres a day, so the claim is too exact. Reworded to say it is in line with official guidance.",
+        "Caption was close to the 1200-character limit. Tightened it for a safe margin.",
+        "Everything else checks out: product claims are within the approved facts, the arithmetic is right, the tone is calm, the clips match their slides, there are 8 hashtags, and the caption ends with the CTA and has no asterisks."
+      ]
+    },
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}
