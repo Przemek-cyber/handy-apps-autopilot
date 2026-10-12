@@ -50,7 +50,8 @@ def produce_content(app_key: str, fmt: str, topic: dict) -> tuple[dict, list[dic
     recent = [p["topic"] for p in existing_posts(app_key)][-6:]
     content = write_content(app_key, fmt, topic, clip_catalog(app_key), recent)
     reviews = []
-    for _ in range(2):
+    rounds = 3
+    for n in range(1, rounds + 1):
         qa = review_content(app_key, fmt, content, clip_catalog(app_key))
         reviews.append({"verdict": qa["verdict"], "issues": qa.get("issues", [])})
         if qa["verdict"] == "pass":
@@ -59,6 +60,8 @@ def produce_content(app_key: str, fmt: str, topic: dict) -> tuple[dict, list[dic
             break
         if qa.get("fixed"):
             content = qa["fixed"]
+            if n == rounds:  # ostatnia runda: przyjmujemy wersję poprawioną przez kontrolera (i tak akceptujesz ją w PR)
+                return content, reviews
     raise RuntimeError(f"Kontrola jakości nie przepuściła posta: {reviews}")
 
 
