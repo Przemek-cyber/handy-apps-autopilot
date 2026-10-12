@@ -1,0 +1,90 @@
+{
+  "app": "ready72h",
+  "format": "carousel",
+  "topic": "How much water a household really needs for 72 hours",
+  "pillar": "value",
+  "publish_on": "2026-10-13",
+  "created_at": "2026-10-12T12:39:40+00:00",
+  "content": {
+    "hook": "How much water do you really need?",
+    "slides": [
+      {
+        "kind": "cover",
+        "title": "How much *water* do you really need?",
+        "body": "A calm, simple answer for the first 72 hours."
+      },
+      {
+        "kind": "point",
+        "title": "The simple rule: *3 litres* a day",
+        "body": "Plan about 3 litres per person, per day. That covers drinking and basic food preparation. Official guidance in Europe points in the same direction."
+      },
+      {
+        "kind": "point",
+        "title": "72 hours means *9 litres* each",
+        "body": "3 litres x 3 days = 9 litres per person. A family of four? 36 litres. That is about six large bottles of 6 litres.",
+        "clip": "checklist-water-supplies.mp4"
+      },
+      {
+        "kind": "point",
+        "title": "Then add a *safety margin*",
+        "body": "Children, pets, hot weather and illness can raise the need. Round up rather than down. Extra water never goes to waste."
+      },
+      {
+        "kind": "point",
+        "title": "Store it *where you can carry it*",
+        "body": "Use sealed bottles in a cool, dark place. Check dates now and then. In an apartment, spread them over a few spots instead of one heavy stack.",
+        "clip": "apartment-vs-house-advice.mp4"
+      },
+      {
+        "kind": "point",
+        "title": "Think about *washing water* too",
+        "body": "Drinking water is the priority. For hygiene and flushing, keep a few extra containers. If you get a warning, fill them before the taps stop."
+      },
+      {
+        "kind": "point",
+        "title": "Keep a *backup* option",
+        "body": "Water purification tablets are a light, cheap backup. Always follow the instructions on the pack. Tick it off once, then forget about it."
+      },
+      {
+        "kind": "cta",
+        "title": "Your whole *72-hour list*, in one place",
+        "body": "Water, food, medicine, cash and communication. Calm and practical."
+      }
+    ],
+    "caption": "Water is the first thing most people ask about. Good news: the maths is simple.\n\nPlan about 3 litres per person, per day. That covers drinking and basic food preparation.\n\nFor 72 hours, that is 9 litres each.\nA household of four: 36 litres.\n\nThen add a margin. Children, pets, warm weather and illness can raise the need. Round up.\n\nA few calm tips:\n• Store sealed bottles in a cool, dark place.\n• Check dates a couple of times a year.\n• In an apartment, spread bottles around so nothing is too heavy to carry.\n• Keep spare containers for washing water.\n• Purification tablets make a light backup. Follow the pack instructions.\n\nThis is general guidance in line with civil-protection agencies such as Sweden's MSB, Germany's BBK and Poland's RCB. Your household may need more, so adjust to your own situation.\n\nNo panic needed. One afternoon of setup, and water is sorted.\n\nSave this post for your next shopping trip. Send it to someone you live with.\n\nThe Ready72h planner has a full 72-hour supply checklist, including water, plus a free offline companion app. Comment PLAN and I will send you the details.\n\nGet the planner — link in bio (pay what you want).",
+    "hashtags": [
+      "#preparedness",
+      "#72hours",
+      "#emergencypreparedness",
+      "#familysafety",
+      "#powerOutage",
+      "#homeprep",
+      "#calmprepared",
+      "#Ready72h"
+    ],
+    "alt_text": "Carousel on how much water a household needs for 72 hours: 3 litres per person per day, 9 litres each, storage tips and a backup option.",
+    "sources_used": [
+      "MSB (Sweden) — 'In case of crisis or war' guidance",
+      "BBK (Germany) — emergency preparedness guide",
+      "RCB (Poland) — Rządowe Centrum Bezpieczeństwa guidance"
+    ]
+  },
+  "media": {
+    "images": [
+      "slide-01.png",
+      "slide-02.png",
+      "slide-03.png",
+      "slide-04.png",
+      "slide-05.png",
+      "slide-06.png",
+      "slide-07.png",
+      "slide-08.png"
+    ]
+  },
+  "qa": [
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}
