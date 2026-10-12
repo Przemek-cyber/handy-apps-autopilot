@@ -238,7 +238,7 @@ def render_reel(app_key: str, content: dict, out_dir: Path, music_index: int = 0
             frame = (f'<div class="phone" style="left:{x}px;top:{y}px;width:{pw}px;height:{ph}px;border-radius:{r}px;'
                      f'box-shadow:0 0 0 3px rgba(255,255,255,.16)"></div>')
             panel = (f'<div class="panel" data-fit="330" style="left:70px;right:70px;top:1410px;min-height:290px">'
-                     f'<div class="headline" style="font-size:58px">{rich(sc["text"])}</div></div>')
+                     f'<div class="headline" style="font-size:1.76em">{rich(sc["text"])}</div></div>')
             body = f"{_bg(app_key, W, H, holed=True)}{_header(app_key)}{frame}{panel}"
             pages_holed.append((_page(app_key, W, H, body, hole=REEL_PHONE), png))
         elif i == 1:  # hak
@@ -247,7 +247,7 @@ def render_reel(app_key: str, content: dict, out_dir: Path, music_index: int = 0
         else:
             panel = (f'<div class="panel" data-fit="760" style="left:70px;right:70px;top:46%;transform:translateY(-50%);'
                      f'min-height:300px"><div class="kicker">{i - 1:02d}</div>'
-                     f'<div class="headline" style="font-size:66px">{rich(sc["text"])}</div></div>')
+                     f'<div class="headline" style="font-size:2em">{rich(sc["text"])}</div></div>')
             body = f"{_bg(app_key, W, H)}{_header(app_key)}{panel}"
             pages_opaque.append((_page(app_key, W, H, body), png))
         plan.append((png, clip, max(2.5, min(6.0, float(sc.get("seconds", 3.5))))))

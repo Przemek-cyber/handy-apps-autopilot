@@ -15,7 +15,7 @@ SLIDE_SCHEMA = {
     "properties": {
         "kind": {"type": "string", "enum": ["cover", "point", "cta"]},
         "title": {"type": "string", "description": "Max 8 words. Wrap 1-3 key words in *asterisks* to highlight them in orange."},
-        "body": {"type": "string", "description": "Max 30 words, no asterisks. For cover: a short subtitle."},
+        "body": {"type": "string", "description": "Max 24 words, no asterisks. For cover: a short subtitle (max 12 words). For cta: empty or max 10 words."},
         "clip": {"type": "string", "description": "Optional, point slides only: clip file name whose app screen illustrates this slide."},
     },
     "required": ["kind", "title", "body"],
@@ -111,7 +111,9 @@ def _product_brief(app_key: str) -> str:
         f"PRODUCT: {a['name']}\nOne-liner: {a['one_liner']}\nAudience: {a['audience']}\n"
         f"Approved product facts (the ONLY claims allowed about the product):\n{facts}\n"
         f"Reference sources for advice:\n{sources}\n"
-        f"Call to action: {a['cta']}\nDM keyword (optional, 'Comment {a['dm_keyword']}' style): {a['dm_keyword']}"
+        f"Call to action: {a['cta']}\n"
+        + (f"DM keyword (optional, 'Comment {a['dm_keyword']}' style): {a['dm_keyword']}" if a.get("dm_keyword")
+           else "Do NOT ask people to comment a keyword or promise to send DMs — there is no DM automation yet.")
     )
 
 
@@ -163,7 +165,7 @@ def review_content(app_key: str, fmt: str, content: dict, clips: dict[str, str] 
         + _rules()
         + "\nCheck: (1) every product claim is in the approved facts; (2) advice is accurate, general and safe; "
         "(3) no fear-mongering; (4) English, clear, no typos; (5) structure matches the format "
-        "(carousel 6-8 slides cover..cta, slide titles <= 8 words, bodies <= 30 words; reel 5-7 scenes, 18-30 s, "
+        "(carousel 6-8 slides cover..cta, slide titles <= 8 words, bodies <= 24 words; reel 5-7 scenes, 18-30 s, "
         "scene text <= 12 words, clips only from the list and matching the text); highlight markup with *asterisks* "
         "only in slide titles / scene texts, never in caption; (6) caption 400-1200 characters ending with the CTA; "
         "(7) 5-10 hashtags.\n"

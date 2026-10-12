@@ -20,7 +20,7 @@ ready72h:
     - "BBK (Germany) — emergency preparedness guide"
     - "RCB (Poland) — Rządowe Centrum Bezpieczeństwa guidance"
   cta: "Get the planner — link in bio (pay what you want)."
-  dm_keyword: PLAN
+  dm_keyword: ""   # np. PLAN — włącz dopiero, gdy działa automat DM (ManyChat)
   link: ""   # TODO: link do Lemon Squeezy (używany w odpowiedzi DM / opisie)
 
 bikepackpilot:
@@ -41,5 +41,5 @@ bikepackpilot:
     # TODO: cena i forma zakupu — bez tego agent nie wspomina o cenie
   sources: []
   cta: "Plan your next trip with BikepackPilot — link in bio."
-  dm_keyword: ROUTE
+  dm_keyword: ""   # np. ROUTE — jw.
   link: ""   # TODO
