@@ -1,0 +1,84 @@
+{
+  "app": "ready72h",
+  "format": "carousel",
+  "topic": "How much water a household really needs for 72 hours",
+  "pillar": "value",
+  "publish_on": "2026-10-13",
+  "created_at": "2026-10-12T12:59:09+00:00",
+  "content": {
+    "hook": "How much water does your household really need?",
+    "slides": [
+      {
+        "kind": "cover",
+        "title": "How much *water* do you really need?",
+        "body": "A simple 72-hour number for your household."
+      },
+      {
+        "kind": "point",
+        "title": "The baseline: *3 litres* a day",
+        "body": "Per person, per day, for drinking and basic food prep. Three days adds up to 9 litres each."
+      },
+      {
+        "kind": "point",
+        "title": "Do the *maths* for your home",
+        "body": "Four people × 9 litres = 36 litres. Write your own number down. No more guessing.",
+        "clip": "checklist-water-supplies.mp4"
+      },
+      {
+        "kind": "point",
+        "title": "Some people need *more*",
+        "body": "Infants, pets, hot weather, illness. Add a buffer for them, plus a little extra for basic washing."
+      },
+      {
+        "kind": "point",
+        "title": "Store it *smart*",
+        "body": "Sealed bottles, cool and dark place. Check dates twice a year. Skip the giant container you can't lift."
+      },
+      {
+        "kind": "point",
+        "title": "Apartment? Spread it *around*",
+        "body": "Smaller bottles in several spots: cupboards, under beds. Easier to carry if the lift is out.",
+        "clip": "apartment-vs-house-advice.mp4"
+      },
+      {
+        "kind": "cta",
+        "title": "Your 72-hour plan, *sorted*",
+        "body": "Pay what you want, from 2 PLN."
+      }
+    ],
+    "caption": "Water is the first thing most people think of. It's also the thing most people guess at.\n\nHere's a calm, simple way to get a number:\n\n• Plan for about 3 litres per person, per day. That covers drinking and basic food prep.\n• Three days = 9 litres per person.\n• Family of four = 36 litres. That's about 24 bottles of 1.5 litres.\n\nThen adjust. Babies, pets, hot weather and illness all raise the need. A little extra for basic washing helps too.\n\nStorage tips:\n• Keep it in sealed bottles, somewhere cool and dark.\n• Check dates twice a year.\n• Use smaller bottles, not one heavy container. Spread them around the home, especially in an apartment.\n\nThis is general guidance in line with civil-protection agencies like Sweden's MSB, Germany's BBK and Poland's RCB. You don't need a bunker. You need a number and a shelf.\n\nReady72h is a household planner for the first 72 hours, with a supply checklist (water included), a family communication plan and a go-bag list. It's a safety topic, so it's pay what you want. Even the minimum unlocks everything.\n\nSave this post for when you do your shopping list.\n\nGet the planner — link in bio (pay what you want).",
+    "hashtags": [
+      "#preparedness",
+      "#72hours",
+      "#emergencypreparedness",
+      "#familysafety",
+      "#powerOutage",
+      "#homeprep",
+      "#waterstorage",
+      "#calmprep"
+    ],
+    "alt_text": "Carousel on household water for 72 hours: about 3 litres per person per day, 9 litres each, a four-person example, who needs more, and storage tips.",
+    "sources_used": [
+      "MSB (Sweden) — 'In case of crisis or war' guidance",
+      "BBK (Germany) — emergency preparedness guide",
+      "RCB (Poland) — Rządowe Centrum Bezpieczeństwa guidance"
+    ]
+  },
+  "media": {
+    "images": [
+      "slide-01.jpg",
+      "slide-02.jpg",
+      "slide-03.jpg",
+      "slide-04.jpg",
+      "slide-05.jpg",
+      "slide-06.jpg",
+      "slide-07.jpg"
+    ]
+  },
+  "qa": [
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}
