@@ -64,18 +64,42 @@ def _client() -> anthropic.Anthropic:
     return anthropic.Anthropic()  # czyta ANTHROPIC_API_KEY
 
 
+def _json_from_text(text: str) -> dict | None:
+    """Awaryjnie: wyciąga obiekt JSON z odpowiedzi tekstowej."""
+    start, end = text.find("{"), text.rfind("}")
+    if start == -1 or end <= start:
+        return None
+    try:
+        return json.loads(text[start:end + 1])
+    except json.JSONDecodeError:
+        return None
+
+
 def _call_tool(system: str, user: str, tool_name: str, schema: dict) -> dict:
-    resp = _client().messages.create(
-        model=MODEL,
-        max_tokens=4000,
-        system=system,
-        tools=[{"name": tool_name, "description": "Return the result.", "input_schema": schema}],
-        tool_choice={"type": "tool", "name": tool_name},
-        messages=[{"role": "user", "content": user}],
-    )
-    for block in resp.content:
-        if block.type == "tool_use":
-            return block.input
+    """Wynik jako wywołanie narzędzia (tool_choice=auto — nowsze modele nie przyjmują wymuszenia),
+    z awaryjnym odczytem JSON z tekstu i jedną ponowną próbą."""
+    system = (system + f"\n\nAlways deliver your final answer by calling the `{tool_name}` tool exactly once, "
+              "with every required field filled. Do not answer in plain text.")
+    messages = [{"role": "user", "content": user}]
+    for _ in range(2):
+        resp = _client().messages.create(
+            model=MODEL,
+            max_tokens=8000,
+            system=system,
+            tools=[{"name": tool_name, "description": "Return the result.", "input_schema": schema}],
+            tool_choice={"type": "auto"},
+            messages=messages,
+        )
+        text = ""
+        for block in resp.content:
+            if block.type == "tool_use" and block.name == tool_name:
+                return block.input
+            if block.type == "text":
+                text += block.text
+        if (data := _json_from_text(text)) and all(k in data for k in schema.get("required", [])):
+            return data
+        messages = messages + [{"role": "assistant", "content": resp.content},
+                               {"role": "user", "content": f"Please call the `{tool_name}` tool now with the result."}]
     raise RuntimeError("Model nie zwrócił wyniku narzędzia")
 
 
