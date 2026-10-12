@@ -8,7 +8,7 @@ import anthropic
 
 from common import apps, brand
 
-MODEL = os.environ.get("CLAUDE_MODEL", "claude-sonnet-5-5")
+MODEL = os.environ.get("CLAUDE_MODEL") or "claude-sonnet-5-5"  # pusta zmienna w GitHub = domyślny model
 
 SLIDE_SCHEMA = {
     "type": "object",

@@ -24,8 +24,8 @@ import requests
 sys.path.insert(0, os.path.dirname(__file__))
 from common import existing_posts, schedule, write_json  # noqa: E402
 
-API_VER = os.environ.get("GRAPH_API_VERSION", "v23.0")
-HOST = os.environ.get("GRAPH_HOST", "graph.facebook.com")
+API_VER = os.environ.get("GRAPH_API_VERSION") or "v23.0"
+HOST = os.environ.get("GRAPH_HOST") or "graph.facebook.com"
 
 
 # ---------- Cloudinary ----------
@@ -134,7 +134,9 @@ def main() -> None:
                 print(f"Opublikowano {post['_dir'].name}: {result['permalink']}")
         except Exception as e:  # jeden błędny post nie blokuje pozostałych
             failed += 1
-            print(f"BŁĄD {post['_dir'].name}: {e}", file=sys.stderr)
+            msg = str(e).replace(os.environ.get("IG_ACCESS_TOKEN", "") or "\0", "***").replace("\n", " ")[:900]
+            print(f"BŁĄD {post['_dir'].name}: {msg}", file=sys.stderr)
+            print(f"::error title=Publikacja {post['_dir'].name}::{msg}")
     if failed:
         sys.exit(1)
 

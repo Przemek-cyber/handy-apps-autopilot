@@ -202,4 +202,9 @@ def main() -> None:
 
 if __name__ == "__main__":
     sys.path.insert(0, os.path.dirname(__file__))
-    main()
+    try:
+        main()
+    except Exception as e:  # komunikat jako adnotacja GitHub (widoczna w podsumowaniu uruchomienia)
+        msg = f"{type(e).__name__}: {e}".replace("\n", " ")[:900]
+        print(f"::error title=Generowanie nie powiodło się::{msg}")
+        raise
