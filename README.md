@@ -41,7 +41,7 @@ Repo → **Settings → Secrets and variables → Actions → New repository sec
 |---|---|
 | `ANTHROPIC_API_KEY` | krok 4 |
 | `IG_ACCESS_TOKEN` | krok 2.3 |
-| `IG_USER_ID` | krok 2.4 |
+| `IG_USER_ID` | opcjonalnie — wykrywany automatycznie z tokenu |
 
 Opcjonalnie w zakładce **Variables**: `CLAUDE_MODEL` (domyślnie `claude-sonnet-5-5`), `GRAPH_API_VERSION` (domyślnie `v23.0`).
 

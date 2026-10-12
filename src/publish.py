@@ -84,7 +84,7 @@ def full_caption(content: dict) -> str:
 
 
 def publish_post(post: dict, dry: bool) -> dict:
-    ig = os.environ.get("IG_USER_ID", "<IG_USER_ID>")
+    ig = ig_user_id() if not dry else "<IG_USER_ID>"
     folder = post["_dir"]
     caption = full_caption(post["content"])
     if dry:
@@ -111,6 +111,35 @@ def publish_post(post: dict, dry: bool) -> dict:
             "published_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")}
 
 
+def ig_accounts() -> list[dict]:
+    """Konta Instagram dostępne dla tokenu (przez strony na Facebooku)."""
+    data = graph("GET", "me/accounts", fields="name,instagram_business_account{id,username}").get("data", [])
+    return [{"page": d.get("name"), **d["instagram_business_account"]} for d in data if d.get("instagram_business_account")]
+
+
+def ig_user_id() -> str:
+    """IG_USER_ID z sekretu albo — jeśli pusty — wykryty automatycznie z tokenu."""
+    if v := os.environ.get("IG_USER_ID"):
+        return v
+    accounts = ig_accounts()
+    if len(accounts) != 1:
+        raise RuntimeError(f"Nie da się jednoznacznie wykryć konta IG (znaleziono {len(accounts)}): {accounts}. "
+                           "Dodaj sekret IG_USER_ID.")
+    return accounts[0]["id"]
+
+
+def check() -> None:
+    """Test połączenia: token, konto IG, limit publikacji. Nic nie publikuje."""
+    me = graph("GET", "me", fields="id,name")
+    print(f"Token OK: {me.get('name')} ({me.get('id')})")
+    for a in ig_accounts():
+        print(f"Konto IG: @{a.get('username')} id={a['id']} (strona: {a['page']})")
+        print(f"::notice title=Instagram połączony::@{a.get('username')} (id {a['id']}), strona FB: {a['page']}")
+    ig = ig_user_id()
+    lim = graph("GET", f"{ig}/content_publishing_limit", fields="quota_usage,config")
+    print(f"Limit publikacji: {lim}")
+
+
 def due(post: dict, now: dt.datetime, force_now: bool) -> bool:
     if post["_published"]:
         return False
@@ -124,7 +153,16 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--now", action="store_true", help="publikuj dzisiejsze posty bez czekania na godzinę")
+    ap.add_argument("--check", action="store_true", help="tylko sprawdź połączenie z Instagramem")
     args = ap.parse_args()
+    if args.check:
+        try:
+            check()
+        except Exception as e:
+            msg = str(e).replace(os.environ.get("IG_ACCESS_TOKEN", "") or "\0", "***").replace("\n", " ")[:900]
+            print(f"::error title=Połączenie z Instagramem::{msg}")
+            sys.exit(1)
+        return
     now = dt.datetime.now(dt.timezone.utc)
     todo = [p for p in existing_posts() if due(p, now, args.now)]
     if not todo:
