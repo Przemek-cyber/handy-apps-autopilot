@@ -117,6 +117,11 @@ def publish_post(post: dict, dry: bool) -> dict:
 
 def check() -> None:
     """Test połączenia: klucz API i konto Instagram w Zernio. Nic nie publikuje."""
+    raw = os.environ.get("ZERNIO_API_KEY", "")
+    k = raw.strip()
+    print(f"::notice title=Diagnostyka klucza::początek='{k[:3]}', długość={len(k)}, "
+          f"białe znaki={'tak' if raw != k or ' ' in k else 'nie'}, cudzysłowy={'tak' if any(c in k for c in '\"\'') else 'nie'}, "
+          f"'Bearer' w środku={'tak' if 'bearer' in k.lower() else 'nie'}, API={API}")
     for a in instagram_accounts():
         print(f"::notice title=Instagram połączony przez Zernio::@{a.get('username')} (accountId {a['_id']})")
     account_id()
