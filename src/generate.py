@@ -137,11 +137,11 @@ def issue_body(post: dict, folder, sched: dict | None) -> str:
     return "\n".join(lines) + "\n"
 
 
-def make_post(app_key: str, publish_on: dt.date, fmt: str, sample: bool) -> dict:
+def make_post(app_key: str, publish_on: dt.date, fmt: str, sample: bool) -> dict | None:
     """Pisze, sprawdza i renderuje post. Przy odrzuceniu tematu przez kontrolę próbuje kolejnego."""
     folder = post_dir(app_key, publish_on)
     if folder.exists():
-        raise FileExistsError(f"{folder.name} już istnieje")
+        return None  # post na ten dzień już jest (np. przygotowany ręcznie) — nic do zrobienia
     tried: set[str] = set()
     for attempt in range(2):
         topic = pick_topic(app_key, tried) if not sample else {"topic": f"Sample {fmt}", "pillar": "value"}
@@ -191,6 +191,9 @@ def main() -> None:
     for app_key in targets:
         try:
             post = make_post(app_key, day, args.format, args.sample)
+            if post is None:
+                print(f"::notice title={app_key}: post na {day} już istnieje::pomijam")
+                continue
             sched_info = None
             if not args.no_schedule:
                 from publish import schedule_post
