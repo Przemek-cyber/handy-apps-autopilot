@@ -54,18 +54,26 @@ def account_id() -> str:
     return accs[0]["_id"]
 
 
-def upload(path) -> str:
-    """Wysyła plik do magazynu Zernio i zwraca jego publiczny adres."""
+def upload(path, attempts: int = 4) -> str:
+    """Wysyła plik do magazynu Zernio i zwraca jego publiczny adres (z ponawianiem przy chwilowych błędach)."""
     ctype = mimetypes.guess_type(path.name)[0] or {".mp4": "video/mp4"}.get(path.suffix.lower(), "")
     if not ctype:
         raise RuntimeError(f"Nieznany typ pliku: {path.name}")
     size = path.stat().st_size
-    pre = api("POST", "media/presign", json={"filename": path.name, "contentType": ctype, "size": size}).json()
-    with open(path, "rb") as f:
-        r = requests.put(pre["uploadUrl"], data=f, headers={"Content-Type": ctype}, timeout=600)
-    if r.status_code >= 400:
-        raise RuntimeError(f"Wysyłanie {path.name}: {r.status_code} {r.text[:300]}")
-    return pre["publicUrl"]
+    last = ""
+    for n in range(attempts):
+        if n:
+            time.sleep(5 * 2 ** n)
+        try:
+            pre = api("POST", "media/presign", json={"filename": path.name, "contentType": ctype, "size": size}).json()
+            with open(path, "rb") as f:
+                r = requests.put(pre["uploadUrl"], data=f, headers={"Content-Type": ctype}, timeout=600)
+            if r.status_code < 400:
+                return pre["publicUrl"]
+            last = f"{r.status_code} {r.text[:200]}"
+        except requests.RequestException as e:
+            last = str(e)[:200]
+    raise RuntimeError(f"Wysyłanie {path.name} nie powiodło się po {attempts} próbach: {last}")
 
 
 def full_caption(content: dict) -> str:
