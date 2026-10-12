@@ -1,0 +1,57 @@
+name: Sprawdź publikacje
+
+# Wt i pt po godzinach publikacji (7:00 i 12:00 czasu polskiego, w lecie i w zimie):
+# zapisuje linki do opublikowanych postów i zamyka zgłoszenia. Błąd publikacji = czerwony workflow + mail.
+on:
+  schedule:
+    - cron: "47 6 * * 2,5"
+    - cron: "47 11 * * 2,5"
+    - cron: "47 17 * * 2,5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency: sync
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml requests
+
+      - name: Sprawdź status w Zernio
+        id: sync
+        env:
+          ZERNIO_API_KEY: ${{ secrets.ZERNIO_API_KEY }}
+        run: python src/sync.py
+
+      - name: Zamknij zgłoszenia i zapisz
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          [ -f sync_results.json ] || exit 0
+          python - <<'EOF'
+          import json, subprocess
+          for r in json.load(open("sync_results.json")):
+              num = subprocess.run(["gh", "issue", "list", "--label", "autopost", "--state", "open", "--search",
+                                    f"{r['post']} in:title", "--json", "number", "--jq", ".[0].number"],
+                                   capture_output=True, text=True).stdout.strip()
+              if not num:
+                  continue
+              if r["status"] == "published":
+                  subprocess.run(["gh", "issue", "comment", num, "--body", f"✅ Opublikowano: {r['link']}"])
+                  subprocess.run(["gh", "issue", "close", num])
+              else:
+                  subprocess.run(["gh", "issue", "comment", num, "--body", f"❌ Publikacja nie powiodła się: {r['error']}"])
+          EOF
+          git config user.name "handy-apps-bot"
+          git config user.email "handy-apps-bot@users.noreply.github.com"
+          git add posts/*/published.json 2>/dev/null || true
+          git diff --cached --quiet || (git commit -q -m "Opublikowane posty" && git pull -q --rebase origin main && git push -q origin HEAD:main)

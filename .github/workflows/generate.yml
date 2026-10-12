@@ -1,30 +1,33 @@
 name: Generuj posty
 
+# Pon i czw ok. 18:00 czasu polskiego (cron w UTC): agenci przygotowują posty na wt / pt,
+# planują je w Zernio i zakładają zgłoszenia do Twojej kontroli (gotowe przed 20:00).
 on:
   schedule:
-    - cron: "17 5 * * *"   # codziennie ok. 7:17 w Polsce; generuje tylko, gdy apka ma termin
+    - cron: "47 15 * * 1,4"
   workflow_dispatch:
     inputs:
       app:
-        description: "Apka (ready72h / bikepackpilot); puste = wg harmonogramu"
+        description: "Apka (ready72h / bikepackpilot); puste = obie"
         required: false
       format:
-        description: "carousel / reel; puste = rotacja"
+        description: "auto / carousel / reel"
         required: false
+        default: auto
       date:
         description: "Data publikacji RRRR-MM-DD; puste = jutro"
         required: false
 
 permissions:
   contents: write
-  pull-requests: write
+  issues: write
 
 concurrency: generate
 
 jobs:
   generate:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
 
@@ -39,34 +42,39 @@ jobs:
           pip install -r requirements.txt
           python -m playwright install --with-deps chromium
 
-      - name: Generuj
+      - name: Generuj i zaplanuj
         id: gen
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           CLAUDE_MODEL: ${{ vars.CLAUDE_MODEL }}
-          GH_TOKEN: ${{ github.token }}
+          ZERNIO_API_KEY: ${{ secrets.ZERNIO_API_KEY }}
+          ZERNIO_ACCOUNT_ID: ${{ secrets.ZERNIO_ACCOUNT_ID }}
+          IN_APP: ${{ inputs.app }}
+          IN_FORMAT: ${{ inputs.format }}
+          IN_DATE: ${{ inputs.date }}
         run: |
           ARGS=""
-          [ -n "${{ inputs.app }}" ] && ARGS="$ARGS --app ${{ inputs.app }}"
-          [ -n "${{ inputs.format }}" ] && ARGS="$ARGS --format ${{ inputs.format }}"
-          [ -n "${{ inputs.date }}" ] && ARGS="$ARGS --date ${{ inputs.date }}"
+          [ -n "$IN_APP" ] && ARGS="$ARGS --app $IN_APP"
+          [ -n "$IN_FORMAT" ] && ARGS="$ARGS --format $IN_FORMAT"
+          [ -n "$IN_DATE" ] && ARGS="$ARGS --date $IN_DATE"
           python src/generate.py $ARGS
 
-      - name: Otwórz PR do akceptacji
-        if: steps.gen.outputs.created != ''
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Zapisz posty w repo
+        if: always() && steps.gen.outputs.created != ''
         run: |
           git config user.name "handy-apps-bot"
           git config user.email "handy-apps-bot@users.noreply.github.com"
-          gh label create autopost --color E4572E --description "Post do akceptacji" --force
+          for NAME in ${{ steps.gen.outputs.created }}; do git add "posts/$NAME"; git reset -q -- "posts/$NAME/issue_body.md"; done
+          git commit -q -m "Posty do publikacji: ${{ steps.gen.outputs.created }}"
+          for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 5; done
+
+      - name: Zgłoszenia do kontroli
+        if: always() && steps.gen.outputs.created != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create autopost --color E4572E --description "Post zaplanowany przez agentów" --force
           for NAME in ${{ steps.gen.outputs.created }}; do
-            BRANCH="autopost/$NAME"
-            git checkout -B "$BRANCH" origin/main
-            git add "posts/$NAME"
-            git reset -q -- "posts/$NAME/pr_body.md"
-            git commit -q -m "Post: $NAME"
-            git push -f origin "$BRANCH"
-            gh pr create --base main --head "$BRANCH" --label autopost \
-              --title "📣 $NAME" --body-file "posts/$NAME/pr_body.md"
+            gh issue create --title "📣 $NAME" --label autopost --assignee "${{ github.repository_owner }}" \
+              --body-file "posts/$NAME/issue_body.md"
           done

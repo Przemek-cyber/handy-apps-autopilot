@@ -35,6 +35,7 @@ SCENE_SCHEMA = {
 CONTENT_SCHEMA = {
     "type": "object",
     "properties": {
+        "format": {"type": "string", "enum": ["carousel", "reel"], "description": "The format you chose for this post."},
         "hook": {"type": "string", "description": "First line that stops the scroll, max 10 words."},
         "slides": {"type": "array", "items": SLIDE_SCHEMA,
                    "description": "Carousel only: 6-8 slides, first 'cover', last 'cta'."},
@@ -137,31 +138,53 @@ def _clips_text(clips: dict[str, str]) -> str:
     return "\n".join(f"- {name}: {desc}" for name, desc in clips.items()) or "(none)"
 
 
-def write_content(app_key: str, fmt: str, topic: dict, clips: dict[str, str], recent: list[str]) -> dict:
-    fmt_rules = (
-        "FORMAT: carousel. Return 'slides' (6-8): slide 1 kind=cover (title = the hook, body = a short subtitle), "
-        "middle slides kind=point (one idea each), last slide kind=cta (title = short benefit line, the design adds "
-        "the app logo, tagline and a 'Link in bio' button). Give 1-3 point slides a 'clip' whose app screen matches "
-        "the slide (product pillar: most point slides). Do not return 'scenes'."
-        if fmt == "carousel" else
-        "FORMAT: reel (vertical video, no voice, text on screen, music bed). Return 'scenes' (5-7, total 18-30 s). "
-        "Scene 1 = hook (visual=card, a bold statement or question). Last scene = CTA (visual=card; short benefit line — "
-        "the design adds app logo, tagline and a 'Link in bio' button). Middle scenes: mostly visual=clip, showing the app "
-        "screen that matches the scene text (choose by clip description, avoid repeating a clip); visual=card only for a "
-        "standalone fact. Do not return 'slides'."
-    )
+CAROUSEL_RULES = (
+    "FORMAT: carousel. Return 'slides' (6-8): slide 1 kind=cover (title = the hook, body = a short subtitle), "
+    "middle slides kind=point (one idea each), last slide kind=cta (title = short benefit line, the design adds "
+    "the app logo, tagline and a 'Link in bio' button). Give 1-3 point slides a 'clip' whose app screen matches "
+    "the slide (product pillar: most point slides). Do not return 'scenes'."
+)
+REEL_RULES = (
+    "FORMAT: reel (vertical video, no voice, text on screen, music bed). Return 'scenes' (5-7, total 18-30 s). "
+    "Scene 1 = hook (visual=card, a bold statement or question). Last scene = CTA (visual=card; short benefit line — "
+    "the design adds app logo, tagline and a 'Link in bio' button). Middle scenes: mostly visual=clip, showing the app "
+    "screen that matches the scene text (choose by clip description, avoid repeating a clip); visual=card only for a "
+    "standalone fact. Do not return 'slides'."
+)
+
+
+def write_content(app_key: str, fmt: str, topic: dict, clips: dict[str, str], recent: list[str],
+                  recent_formats: list[str] | None = None) -> dict:
+    """fmt = 'carousel' | 'reel' | 'auto' (agent wybiera format sam)."""
+    if fmt == "auto":
+        recent_formats = recent_formats or []
+        banned = recent_formats[-1] if len(recent_formats) >= 2 and recent_formats[-1] == recent_formats[-2] else None
+        fmt_rules = (
+            "CHOOSE THE FORMAT yourself and set 'format'. Pick what fits the topic best: a reel when showing the app "
+            "in action or a quick, punchy idea; a carousel for step-by-step lists, numbers, checklists or saveable tips.\n"
+            f"Recent formats for this app (oldest first): {', '.join(recent_formats) or '(none)'}."
+            + (f" You MUST NOT choose '{banned}' this time (never 3 in a row)." if banned else "")
+            + f"\n\nIf carousel — {CAROUSEL_RULES}\n\nIf reel — {REEL_RULES}"
+        )
+    else:
+        fmt_rules = CAROUSEL_RULES if fmt == "carousel" else REEL_RULES
     user = (
         f"{_product_brief(app_key)}\n\nTOPIC: {topic['topic']}\nPILLAR: {topic['pillar']}\n\n{fmt_rules}\n\n"
         f"Available clips (real app screen recordings):\n{_clips_text(clips)}\n"
         f"Recent topics to avoid repeating angles: {'; '.join(recent) if recent else '(none)'}\n\n"
         "Write the post."
     )
-    return _call_tool(_rules(), user, "post_content", CONTENT_SCHEMA)
+    content = _call_tool(_rules(), user, "post_content", CONTENT_SCHEMA)
+    if fmt != "auto":
+        content["format"] = fmt
+    elif content.get("format") not in ("carousel", "reel"):
+        content["format"] = "reel" if content.get("scenes") else "carousel"
+    return content
 
 
 def review_content(app_key: str, fmt: str, content: dict, clips: dict[str, str] | None = None) -> dict:
     system = (
-        "You are a strict quality editor for an Instagram account. You check a draft post before it is shown to the owner.\n"
+        "You are a strict quality editor for an Instagram account. You check a draft post before it is published automatically — there is no other human check, so be strict.\n"
         + _rules()
         + "\nCheck: (1) every product claim is in the approved facts; (2) advice is accurate, general and safe; "
         "(3) no fear-mongering; (4) English, clear, no typos; (5) structure matches the format "

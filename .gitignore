@@ -3,3 +3,5 @@ __pycache__/
 .venv/
 _work/
 .DS_Store
+reply.md
+sync_results.json

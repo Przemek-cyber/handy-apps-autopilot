@@ -1,51 +1,40 @@
-name: Publikuj na Instagram
+name: Narzędzia publikacji (ręcznie)
 
+# Zwykła publikacja działa sama (Generuj posty → Zernio). Tu: test połączenia albo awaryjna publikacja od razu.
 on:
-  schedule:
-    - cron: "5 16 * * *"   # codziennie po godzinie publikacji (publish_hour_utc w config/schedule.yaml)
-  push:
-    branches: [main]
-    paths: ["posts/**/post.json"]   # akceptacja po terminie publikuje od razu
   workflow_dispatch:
     inputs:
-      now:
-        description: "Publikuj dzisiejsze posty od razu"
-        type: boolean
-        default: false
       check:
         description: "Tylko test połączenia z Instagramem (nic nie publikuje)"
         type: boolean
-        default: false
+        default: true
+      post:
+        description: "Folder z posts/ do natychmiastowej publikacji (np. 2026-10-13-ready72h); puste = nic"
+        required: false
 
 permissions:
   contents: write
 
-concurrency: publish
-
 jobs:
   publish:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-          cache: pip
-
       - run: pip install pyyaml requests
-
-      - name: Publikuj
+      - name: Uruchom
         env:
           ZERNIO_API_KEY: ${{ secrets.ZERNIO_API_KEY }}
           ZERNIO_ACCOUNT_ID: ${{ secrets.ZERNIO_ACCOUNT_ID }}
-        run: python src/publish.py ${{ inputs.now && '--now' || '' }} ${{ inputs.check && '--check' || '' }}
-
-      - name: Zapisz status publikacji
+          IN_POST: ${{ inputs.post }}
+        run: |
+          if [ -n "$IN_POST" ]; then python src/publish.py --post "$IN_POST"; else python src/publish.py --check; fi
+      - name: Zapisz status
         if: always()
         run: |
           git config user.name "handy-apps-bot"
           git config user.email "handy-apps-bot@users.noreply.github.com"
           git add posts/*/published.json 2>/dev/null || true
-          git diff --cached --quiet || (git commit -m "Opublikowano posty" && git push)
+          git diff --cached --quiet || (git commit -q -m "Opublikowano post (ręcznie)" && git push -q)

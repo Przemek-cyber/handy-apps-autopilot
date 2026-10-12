@@ -1,54 +1,40 @@
-"""Generuje post dla apki, która ma termin publikacji za `lead_days` dni.
+"""Agenci przygotowują posty na następny dzień i planują je w Zernio.
 
 Użycie:
-  python src/generate.py                      # tryb harmonogramu (GitHub Actions)
-  python src/generate.py --app ready72h --format reel --date 2026-10-12   # ręcznie
-  python src/generate.py --sample             # próbny post bez Claude API (test renderowania)
+  python src/generate.py                       # tryb harmonogramu: obie apki, publikacja jutro (GitHub Actions)
+  python src/generate.py --app ready72h --date 2026-10-13 --format reel
+  python src/generate.py --sample --no-schedule  # próbne posty bez Claude API i bez Zernio
 
-Wynik: posts/<data>-<apka>/ z post.json, grafikami lub rolką i pr_body.md.
+Wynik: posts/<data>-<apka>/ z post.json, grafikami lub rolką, scheduled.json i issue_body.md.
 Na wyjściu ustawia GITHUB_OUTPUT: created=<lista folderów>.
 """
 from __future__ import annotations
 
 import argparse
 import datetime as dt
-import json
 import os
-import subprocess
 import sys
+from zoneinfo import ZoneInfo
 
-from common import POSTS, apps, existing_posts, is_slot, post_dir, schedule, topics, write_json
+from common import POSTS, apps, existing_posts, post_dir, schedule, topics, write_json
 from render import clip_catalog, render_carousel, render_reel
 
 
-def open_pr_apps() -> set[str]:
-    """Apki, które czekają już na akceptację w otwartym PR (żeby nie dublować)."""
-    try:
-        out = subprocess.run(["gh", "pr", "list", "--label", "autopost", "--state", "open",
-                              "--json", "headRefName"], capture_output=True, text=True, check=True).stdout
-        return {r["headRefName"].split("/")[-1].split("-", 3)[-1] for r in json.loads(out)}
-    except Exception:
-        return set()
-
-
-def pick_topic(app_key: str) -> dict:
-    used = [p["topic"] for p in existing_posts(app_key)]
+def pick_topic(app_key: str, skip: set[str] | None = None) -> dict:
+    used = {p["topic"] for p in existing_posts(app_key) if not p["_cancelled"]} | (skip or set())
     for t in topics().get(app_key, []):
         if t["topic"] not in used:
             return t
     from agents import new_topic
-    return new_topic(app_key, used)
-
-
-def pick_format(app_key: str) -> str:
-    rot = schedule()["format_rotation"]
-    return rot[len(existing_posts(app_key)) % len(rot)]
+    return new_topic(app_key, sorted(used))
 
 
 def produce_content(app_key: str, fmt: str, topic: dict) -> tuple[dict, list[dict]]:
     from agents import review_content, write_content
-    recent = [p["topic"] for p in existing_posts(app_key)][-6:]
-    content = write_content(app_key, fmt, topic, clip_catalog(app_key), recent)
+    history = [p for p in existing_posts(app_key) if not p["_cancelled"]]
+    recent = [p["topic"] for p in history][-6:]
+    content = write_content(app_key, fmt, topic, clip_catalog(app_key), recent, [p["format"] for p in history][-4:])
+    fmt = content["format"]
     reviews = []
     rounds = 3
     for n in range(1, rounds + 1):
@@ -59,8 +45,8 @@ def produce_content(app_key: str, fmt: str, topic: dict) -> tuple[dict, list[dic
         if qa["verdict"] == "reject":
             break
         if qa.get("fixed"):
-            content = qa["fixed"]
-            if n == rounds:  # ostatnia runda: przyjmujemy wersję poprawioną przez kontrolera (i tak akceptujesz ją w PR)
+            content = {**qa["fixed"], "format": fmt}
+            if n == rounds:  # ostatnia runda: przyjmujemy wersję poprawioną przez kontrolera
                 return content, reviews
     raise RuntimeError(f"Kontrola jakości nie przepuściła posta: {reviews}")
 
@@ -126,46 +112,55 @@ def sample_content(app_key: str, fmt: str) -> dict:
     return base
 
 
-def pr_body(app_key: str, fmt: str, topic: dict, content: dict, publish_on: dt.date, folder, reviews) -> str:
-    repo = os.environ.get("GITHUB_REPOSITORY", "")
-    branch = f"autopost/{folder.name}"  # ta sama nazwa gałęzi tworzy workflow
+def issue_body(post: dict, folder, sched: dict | None) -> str:
+    repo = os.environ.get("GITHUB_REPOSITORY", "Przemek-cyber/handy-apps-autopilot")
     rel = folder.relative_to(POSTS.parent).as_posix()
-    raw = lambda f: f"https://github.com/{repo}/blob/{branch}/{rel}/{f}?raw=true"  # noqa: E731
-    lines = [f"## {apps()[app_key]['name']} · {fmt} · publikacja {publish_on.isoformat()}",
-             f"**Temat:** {topic['topic']} ({topic['pillar']})", "",
-             "**Merge** = akceptuję i publikuję w dniu publikacji. **Close** = odrzucam (temat wraca do puli).",
-             "Poprawki: edytuj `post.json` w tym PR przed scaleniem (podpis, hashtagi).", ""]
+    raw = lambda f: f"https://github.com/{repo}/blob/main/{rel}/{f}?raw=true"  # noqa: E731
+    content, fmt = post["content"], post["format"]
+    when = f"{sched['scheduled_for'].replace('T', ' ')[:16]} ({sched['timezone']})" if sched else "nie zaplanowano"
+    lines = [f"<!-- post: {rel} -->",
+             f"## {apps()[post['app']]['name']} · {fmt} · publikacja {when}",
+             f"**Temat:** {post['topic']} ({post['pillar']})", "",
+             "> **Brak komentarza = post wychodzi automatycznie.**",
+             "> Napisz tu dowolny komentarz (np. „stop” albo uwagę), a post zostanie **wstrzymany** i usunięty z kolejki.",
+             "> Komentarz „ok” niczego nie zmienia.", ""]
     if fmt == "carousel":
         imgs = sorted(p.name for p in folder.glob("slide-*.jpg"))
         lines += ["### Slajdy", " ".join(f'<img src="{raw(i)}" width="240">' for i in imgs)]
     else:
         lines += ["### Rolka", f'<img src="{raw("cover.jpg")}" width="240">',
-                  f"[▶ Obejrzyj reel.mp4]({raw('reel.mp4')})", "",
-                  "| # | Tekst | s |", "|---|---|---|"]
+                  f"[▶ Obejrzyj reel.mp4]({raw('reel.mp4')})", "", "| # | Tekst | s |", "|---|---|---|"]
         lines += [f"| {i} | {s['text']} | {s['seconds']} |" for i, s in enumerate(content["scenes"], 1)]
-    lines += ["", "### Podpis", "```", content["caption"], "", " ".join(content["hashtags"]), "```",
-              "", f"Kontrola jakości: {' → '.join(r['verdict'] for r in reviews) or 'próbka'}"]
-    for r in reviews:
-        for issue in r["issues"]:
-            lines.append(f"- {issue}")
+    lines += ["", "### Podpis", "```", content["caption"], "", " ".join(content["hashtags"]), "```", "",
+              f"Kontrola jakości: {' → '.join(r['verdict'] for r in post['qa']) or 'próbka'}"]
+    lines += [f"- {i}" for r in post["qa"] for i in r["issues"]]
     return "\n".join(lines) + "\n"
 
 
-def make_post(app_key: str, publish_on: dt.date, fmt: str | None, sample: bool) -> str:
-    fmt = fmt or pick_format(app_key)
-    topic = pick_topic(app_key) if not sample else {"topic": f"Sample {fmt}", "pillar": "value"}
+def make_post(app_key: str, publish_on: dt.date, fmt: str, sample: bool) -> dict:
+    """Pisze, sprawdza i renderuje post. Przy odrzuceniu tematu przez kontrolę próbuje kolejnego."""
     folder = post_dir(app_key, publish_on)
     if folder.exists():
-        print(f"Pomijam: {folder.name} już istnieje")
-        return ""
-    if sample:
-        content, reviews = sample_content(app_key, fmt), []
+        raise FileExistsError(f"{folder.name} już istnieje")
+    tried: set[str] = set()
+    for attempt in range(2):
+        topic = pick_topic(app_key, tried) if not sample else {"topic": f"Sample {fmt}", "pillar": "value"}
+        try:
+            if sample:
+                f = "carousel" if fmt == "auto" else fmt
+                content, reviews = {**sample_content(app_key, f), "format": f}, []
+            else:
+                content, reviews = produce_content(app_key, fmt, topic)
+            break
+        except RuntimeError as e:
+            print(f"::warning title={app_key}: temat odrzucony::{topic['topic']} — {str(e)[:300]}")
+            tried.add(topic["topic"])
     else:
-        content, reviews = produce_content(app_key, fmt, topic)
+        raise RuntimeError(f"{app_key}: kontrola jakości odrzuciła 2 tematy z rzędu")
+    fmt = content["format"]
     folder.mkdir(parents=True)
-    media = {}
     if fmt == "carousel":
-        media["images"] = [p.name for p in render_carousel(app_key, content, folder)]
+        media = {"images": [p.name for p in render_carousel(app_key, content, folder)]}
     else:
         r = render_reel(app_key, content, folder, music_index=len(existing_posts(app_key)))
         media = {"video": r["video"].name, "cover": r["cover"].name, "duration": r["duration"], "music": r["music"]}
@@ -173,41 +168,50 @@ def make_post(app_key: str, publish_on: dt.date, fmt: str | None, sample: bool) 
             "publish_on": publish_on.isoformat(), "created_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
             "content": content, "media": media, "qa": reviews}
     write_json(folder / "post.json", post)
-    (folder / "pr_body.md").write_text(pr_body(app_key, fmt, topic, content, publish_on, folder, reviews), encoding="utf-8")
-    print(f"Utworzono {folder}")
-    return folder.name
+    post["_dir"] = folder
+    return post
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--app")
-    ap.add_argument("--format", choices=["carousel", "reel"])
-    ap.add_argument("--date", help="data publikacji RRRR-MM-DD")
-    ap.add_argument("--sample", action="store_true")
+    ap.add_argument("--app", help="tylko ta apka (domyślnie wszystkie z config/schedule.yaml)")
+    ap.add_argument("--format", choices=["carousel", "reel", "auto"], default="auto")
+    ap.add_argument("--date", help="data publikacji RRRR-MM-DD (domyślnie: jutro wg strefy z harmonogramu)")
+    ap.add_argument("--sample", action="store_true", help="próbne treści bez Claude API")
+    ap.add_argument("--no-schedule", action="store_true", help="nie planuj w Zernio")
     args = ap.parse_args()
 
     sched = schedule()
-    if args.app:
-        day = dt.date.fromisoformat(args.date) if args.date else dt.date.today() + dt.timedelta(days=sched["lead_days"])
-        targets = [(args.app, day)]
-    else:
-        day = dt.date.today() + dt.timedelta(days=sched["lead_days"])
-        waiting = open_pr_apps()
-        targets = [(a, day) for a in sched["apps"] if is_slot(a, day, sched) and a not in waiting]
+    tz = sched["timezone"]
+    today = dt.datetime.now(ZoneInfo(tz)).date()
+    day = dt.date.fromisoformat(args.date) if args.date else today + dt.timedelta(days=sched["publish_after_days"])
+    targets = [args.app] if args.app else list(sched["publish_times"])
 
-    created = [n for a, d in targets if (n := make_post(a, d, args.format, args.sample))]
-    if not created:
-        print("Nic do wygenerowania dzisiaj.")
+    created, failed = [], []
+    for app_key in targets:
+        try:
+            post = make_post(app_key, day, args.format, args.sample)
+            sched_info = None
+            if not args.no_schedule:
+                from publish import schedule_post
+                local = f"{day.isoformat()}T{sched['publish_times'][app_key]}:00"
+                sched_info = schedule_post(post, local, tz)
+                write_json(post["_dir"] / "scheduled.json", sched_info)
+            (post["_dir"] / "issue_body.md").write_text(issue_body(post, post["_dir"], sched_info), encoding="utf-8")
+            created.append(post["_dir"].name)
+            print(f"::notice title=Gotowe: {post['_dir'].name}::{post['format']} · {post['topic']}"
+                  + (f" · zaplanowano na {sched_info['scheduled_for']}" if sched_info else ""))
+        except Exception as e:  # jedna apka nie blokuje drugiej
+            failed.append(app_key)
+            print(f"::error title=Generowanie {app_key} nie powiodło się::{type(e).__name__}: {str(e)[:800]}")
+
     if out := os.environ.get("GITHUB_OUTPUT"):
         with open(out, "a") as f:
             f.write(f"created={' '.join(created)}\n")
+    if failed:
+        sys.exit(1)
 
 
 if __name__ == "__main__":
     sys.path.insert(0, os.path.dirname(__file__))
-    try:
-        main()
-    except Exception as e:  # komunikat jako adnotacja GitHub (widoczna w podsumowaniu uruchomienia)
-        msg = f"{type(e).__name__}: {e}".replace("\n", " ")[:900]
-        print(f"::error title=Generowanie nie powiodło się::{msg}")
-        raise
+    main()

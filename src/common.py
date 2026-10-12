@@ -43,14 +43,6 @@ def post_dir(app: str, publish_on: dt.date) -> Path:
     return POSTS / f"{publish_on.isoformat()}-{app}"
 
 
-def is_slot(app: str, day: dt.date, sched: dict | None = None) -> bool:
-    """Czy w dniu `day` apka ma zaplanowaną publikację."""
-    sched = sched or schedule()
-    first = parse_date(sched["start_date"]) + dt.timedelta(days=sched["apps"][app]["offset_days"])
-    delta = (day - first).days
-    return delta >= 0 and delta % sched["interval_days"] == 0
-
-
 def existing_posts(app: str | None = None) -> list[dict]:
     """Wszystkie posty w repo (przyjęte), najstarsze pierwsze."""
     out = []
@@ -65,6 +57,8 @@ def existing_posts(app: str | None = None) -> list[dict]:
             continue
         data["_dir"] = d
         data["_published"] = (d / "published.json").exists()
+        data["_scheduled"] = (d / "scheduled.json").exists()
+        data["_cancelled"] = (d / "cancelled.json").exists()
         out.append(data)
     return out
 

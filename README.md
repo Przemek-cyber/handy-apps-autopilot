@@ -1,12 +1,15 @@
 # Handy Apps Autopilot
 
-Automat do Instagrama dla Ready72h i BikepackPilot. Agenci co 3 dni (na apkę, z przesunięciem) tworzą karuzelę albo rolkę, sprawdzają ją i dają Ci do akceptacji jako Pull Request. Scalenie PR = publikacja w zaplanowanym dniu.
+Automat do Instagrama dla Ready72h i BikepackPilot. Dwa razy w tygodniu agenci tworzą po jednym poście na apkę, planują publikację i dają Ci czas na wstrzymanie. Bez Twojej reakcji wszystko dzieje się samo.
 
 ```
-codziennie 7:17   Generuj posty  → Claude pisze → Claude sprawdza → render PNG/MP4 → Pull Request
-Ty (telefon)      Merge = akceptuję · Close = odrzucam · edycja post.json = poprawka podpisu
-codziennie 18:05  Publikuj      → Zernio → Instagram → published.json
-niedziela         Statystyki    → reports/stats.md
+pon i czw ~18:00   Generuj posty   → 2 agenci piszą (BikepackPilot + Ready72h), sami wybierają rolkę / karuzelę
+                                    → kontrola jakości → grafiki / rolka → zaplanowanie w Zernio
+                                    → zgłoszenie (Issue) z podglądem dla Ciebie, gotowe przed 20:00
+Ty                 brak komentarza = post wychodzi · dowolny komentarz (poza „ok”) = post wstrzymany
+wt i pt            Zernio publikuje: BikepackPilot 7:00, Ready72h 12:00 (czas polski)
+wt i pt            Sprawdź publikacje → link do posta w zgłoszeniu, zgłoszenie zamknięte; błąd = mail z GitHuba
+niedziela          Statystyki → reports/stats.md
 ```
 
 ## Konfiguracja (jednorazowo, ok. 1 h)
@@ -50,11 +53,12 @@ Opcjonalnie w zakładce **Variables**: `CLAUDE_MODEL` (domyślnie `claude-sonnet
 **Actions → Generuj posty → Run workflow** (np. app `ready72h`, format `carousel`). Po kilku minutach pojawi się PR z podglądem. Scal go i uruchom **Publikuj na Instagram** z opcją *now*.
 
 ## Na co dzień
-- Powiadomienie o nowym PR przychodzi z aplikacji GitHub. Podgląd slajdów lub rolki jest w opisie.
-- **Merge** → post wyjdzie w dniu publikacji o 18:05 (albo od razu, jeśli termin już minął).
-- **Close** → post odrzucony; temat wróci w kolejnym cyklu.
-- Poprawka podpisu/hashtagów: edytuj `post.json` w PR (ikona ołówka) i dopiero scal.
-- Grafiki lub rolkę chcesz inne? Zamknij PR i uruchom **Generuj posty** ręcznie dla tej apki i daty.
+- Pon i czw wieczorem dostajesz z GitHuba powiadomienie o 2 nowych zgłoszeniach (Issues) z podglądem postów.
+- **Nic nie robisz** → posty wychodzą we wt / pt (BikepackPilot 7:00, Ready72h 12:00).
+- **Komentarz pod zgłoszeniem** (np. „stop”) → ten post zostaje wstrzymany i nie wyjdzie. Komentarz „ok” nic nie zmienia.
+- Chcesz nową wersję wstrzymanego posta? **Actions → Generuj posty → Run workflow** (apka + data).
+- Godziny i dni zmieniasz w `config/schedule.yaml` (godziny) i `.github/workflows/generate.yml` (dni generowania).
+- Awaryjnie: **Actions → Narzędzia publikacji** — test połączenia albo natychmiastowa publikacja wybranego posta.
 
 ## Koszty (orientacyjnie)
 Claude API: kilka groszy za post (2–4 wywołania). GitHub Actions, Zernio (1 konto): w darmowych limitach przy tym rytmie.

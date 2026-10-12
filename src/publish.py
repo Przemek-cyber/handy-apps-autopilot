@@ -22,7 +22,7 @@ import time
 import requests
 
 sys.path.insert(0, os.path.dirname(__file__))
-from common import existing_posts, schedule, write_json  # noqa: E402
+from common import existing_posts, write_json  # noqa: E402
 
 API = os.environ.get("ZERNIO_API_BASE") or "https://zernio.com/api/v1"
 
@@ -90,21 +90,43 @@ def wait_published(post_id: str, timeout_s: int = 900) -> dict:
     raise TimeoutError(f"Post {post_id} nie opublikował się w {timeout_s} s")
 
 
-def publish_post(post: dict, dry: bool) -> dict:
+def _create(post: dict, extra: dict) -> requests.Response:
+    """Wysyła media do Zernio i tworzy post (natychmiast albo zaplanowany — zależnie od `extra`)."""
     folder, media = post["_dir"], post["media"]
-    caption = full_caption(post["content"])
-    if dry:
-        print(f"[dry-run] {folder.name}: {post['format']}, {len(caption)} znaków podpisu")
-        return {}
-
     platform = {"platform": "instagram", "accountId": account_id(), "platformSpecificData": {}}
     if post["format"] == "carousel":
         items = [{"type": "image", "url": upload(folder / name)} for name in media["images"]]
     else:
         items = [{"type": "video", "url": upload(folder / media["video"])}]
         platform["platformSpecificData"] = {"shareToFeed": True, "instagramThumbnail": upload(folder / media["cover"])}
+    return api("POST", "posts", json={"content": full_caption(post["content"]), "mediaItems": items,
+                                      "platforms": [platform], **extra})
 
-    r = api("POST", "posts", json={"content": caption, "mediaItems": items, "platforms": [platform], "publishNow": True})
+
+def schedule_post(post: dict, local_time: str, timezone: str) -> dict:
+    """Planuje post w Zernio na `local_time` (RRRR-MM-DDTHH:MM:SS, czas lokalny strefy `timezone`)."""
+    r = _create(post, {"scheduledFor": local_time, "timezone": timezone})
+    created = r.json().get("post", {})
+    if r.status_code == 207 or created.get("status") in {"failed", "partial"}:
+        raise RuntimeError(f"Zernio nie zaplanował posta: {_ig_result(created).get('errorMessage') or created}")
+    return {"zernio_post_id": created["_id"], "scheduled_for": local_time, "timezone": timezone,
+            "status": created.get("status", "scheduled")}
+
+
+def get_post(post_id: str) -> dict:
+    return api("GET", f"posts/{post_id}").json().get("post", {})
+
+
+def cancel_post(post_id: str) -> None:
+    api("DELETE", f"posts/{post_id}")
+
+
+def publish_post(post: dict, dry: bool) -> dict:
+    """Publikacja natychmiastowa (ręczna, awaryjna)."""
+    if dry:
+        print(f"[dry-run] {post['_dir'].name}: {post['format']}, {len(full_caption(post['content']))} znaków podpisu")
+        return {}
+    r = _create(post, {"publishNow": True})
     created = r.json().get("post", {})
     ig = _ig_result(created)
     if r.status_code == 207 or created.get("status") in {"failed", "partial"} or ig.get("status") == "failed":
@@ -127,50 +149,30 @@ def check() -> None:
     account_id()
 
 
-# ---------- harmonogram ----------
-
-def due(post: dict, now: dt.datetime, force_now: bool) -> bool:
-    if post["_published"]:
-        return False
-    day = dt.date.fromisoformat(post["publish_on"])
-    if day < now.date():
-        return True
-    return day == now.date() and (force_now or now.hour >= schedule()["publish_hour_utc"])
-
-
 def _safe(e: Exception) -> str:
     return str(e).replace(os.environ.get("ZERNIO_API_KEY", "") or "\0", "***").replace("\n", " ")[:900]
 
 
 def main() -> None:
+    """Narzędzia ręczne. Zwykła publikacja odbywa się przez planowanie w Zernio (generate.py)."""
     ap = argparse.ArgumentParser()
+    ap.add_argument("--check", action="store_true", help="sprawdź połączenie z Instagramem przez Zernio")
+    ap.add_argument("--post", help="nazwa folderu w posts/ do natychmiastowej publikacji (awaryjnie)")
     ap.add_argument("--dry-run", action="store_true")
-    ap.add_argument("--now", action="store_true", help="publikuj dzisiejsze posty bez czekania na godzinę")
-    ap.add_argument("--check", action="store_true", help="tylko sprawdź połączenie z Instagramem")
     args = ap.parse_args()
-    if args.check:
-        try:
+    try:
+        if args.check:
             check()
-        except Exception as e:
-            print(f"::error title=Połączenie z Instagramem::{_safe(e)}")
-            sys.exit(1)
-        return
-    now = dt.datetime.now(dt.timezone.utc)
-    todo = [p for p in existing_posts() if due(p, now, args.now)]
-    if not todo:
-        print("Brak postów do publikacji.")
-        return
-    failed = 0
-    for post in todo:
-        try:
+        elif args.post:
+            post = next(p for p in existing_posts() if p["_dir"].name == args.post)
             result = publish_post(post, args.dry_run)
             if result:
                 write_json(post["_dir"] / "published.json", result)
-                print(f"::notice title=Opublikowano {post['_dir'].name}::{result['permalink']}")
-        except Exception as e:  # jeden błędny post nie blokuje pozostałych
-            failed += 1
-            print(f"::error title=Publikacja {post['_dir'].name}::{_safe(e)}")
-    if failed:
+                print(f"::notice title=Opublikowano {args.post}::{result['permalink']}")
+        else:
+            ap.print_help()
+    except Exception as e:
+        print(f"::error title=Publikacja / połączenie::{_safe(e)}")
         sys.exit(1)
 
 
