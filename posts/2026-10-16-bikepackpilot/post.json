@@ -1,0 +1,83 @@
+{
+  "app": "bikepackpilot",
+  "format": "reel",
+  "style": "slideshow",
+  "topic": "Planning water stops on a self-supported route",
+  "pillar": "value",
+  "publish_on": "2026-10-16",
+  "created_at": "2026-10-13T07:34:18+00:00",
+  "content": {
+    "format": "carousel",
+    "hook": "Water stops: plan them before you're thirsty",
+    "slides": [
+      {
+        "kind": "cover",
+        "title": "Plan your *water stops* before you're thirsty",
+        "body": "A calm 6-step check for self-supported routes."
+      },
+      {
+        "kind": "point",
+        "title": "Mark *every* possible refill",
+        "body": "Scan the map for towns, villages, taps and fountains along the route."
+      },
+      {
+        "kind": "point",
+        "title": "Check the *gaps* between them",
+        "body": "The long stretch with nothing is the one that sets how much you carry."
+      },
+      {
+        "kind": "point",
+        "title": "Heat and surface change *the maths*",
+        "body": "Hot, rough or windy days use more water. Plan the gaps with that in mind.",
+        "clip": "set-surface-heat-wind-rain.mp4"
+      },
+      {
+        "kind": "point",
+        "title": "Think in *short segments*",
+        "body": "Checking water every 50 km keeps the plan simple and easy to adjust.",
+        "clip": "route-splits-50km-segments.mp4"
+      },
+      {
+        "kind": "point",
+        "title": "Carry a *buffer*",
+        "body": "Sources can be closed, dry or out of order. Always keep a little spare."
+      },
+      {
+        "kind": "point",
+        "title": "Look *nearby* as you ride",
+        "body": "Search for drinking water, shops and repair close to where you are.",
+        "clip": "find-water-food-repair-nearby.mp4"
+      },
+      {
+        "kind": "cta",
+        "title": "Plan your next trip with *BikepackPilot*",
+        "body": "Link in bio."
+      }
+    ],
+    "caption": "Water is the quiet detail that shapes a self-supported route.\n\nYou don't need to over-plan it. You just need a clear picture before you leave.\n\nHere's a simple routine:\n1. Mark every possible refill point on your map.\n2. Look at the gaps between them. The longest gap decides how much you carry.\n3. Adjust for heat, wind and rough surface. Hard days use more.\n4. Break the route into short segments, like 50 km, and check water for each one.\n5. Carry a small buffer. Taps get switched off and shops close.\n6. On the road, check for water and shops nearby.\n\nSave this for your next planning session.\n\nBikepackPilot helps with the planning side. Enter your route, set surface, heat, wind and rain for each 50 km segment, and look up drinking water, food, bike repair and lodging nearby. It's a web app at bikepackpilot.com that works offline.\n\nPlan your next trip with BikepackPilot — link in bio.",
+    "hashtags": [
+      "#bikepacking",
+      "#bikepackingtips",
+      "#bikepackingroute",
+      "#selfsupported",
+      "#cycletouring",
+      "#touringcyclist",
+      "#routeplanning",
+      "#gravelbikepacking"
+    ],
+    "alt_text": "Carousel with six calm tips for planning water stops on a self-supported bikepacking route, with app screens for segments, conditions and nearby search.",
+    "sources_used": []
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 34.9,
+    "music": "09-nastelbom-507938.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}
