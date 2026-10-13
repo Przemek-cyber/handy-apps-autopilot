@@ -157,6 +157,48 @@ def check() -> None:
     account_id()
 
 
+def publish_now(name: str, dry: bool = False) -> None:
+    """Publikuje post od razu. Jeśli był zaplanowany w Zernio — najpierw zdejmuje go z kolejki,
+    a folder przenosi na dzisiejszą datę (zwalnia termin dla nowego posta)."""
+    import json
+    import shutil
+    from zoneinfo import ZoneInfo
+
+    from common import POSTS, schedule
+    post = next(p for p in existing_posts() if p["_dir"].name == name)
+    if post["_published"]:
+        raise RuntimeError(f"{name} jest już opublikowany")
+    if dry:
+        publish_post(post, True)
+        return
+    folder = post["_dir"]
+    if (folder / "scheduled.json").exists():
+        sched = json.loads((folder / "scheduled.json").read_text())
+        try:
+            cancel_post(sched["zernio_post_id"])
+        except RuntimeError as e:
+            if "404" not in str(e):
+                raise
+        (folder / "scheduled.json").unlink()
+    result = publish_post(post, False)
+    today = dt.datetime.now(ZoneInfo(schedule()["timezone"])).date().isoformat()
+    if post["publish_on"] != today:
+        target = POSTS / f"{today}-{post['app']}"
+        n = 2
+        while target.exists():
+            target = POSTS / f"{today}-{post['app']}-{n}"
+            n += 1
+        shutil.move(str(folder), str(target))
+        folder = target
+        data = json.loads((folder / "post.json").read_text(encoding="utf-8"))
+        data["publish_on"] = today
+        write_json(folder / "post.json", data)
+    write_json(folder / "published.json", result)
+    with open("published_now.txt", "a") as f:
+        f.write(f"{name}\t{folder.name}\t{result['permalink']}\n")
+    print(f"::notice title=Opublikowano {folder.name}::{result['permalink']}")
+
+
 def _safe(e: Exception) -> str:
     return str(e).replace(os.environ.get("ZERNIO_API_KEY", "") or "\0", "***").replace("\n", " ")[:900]
 
@@ -165,18 +207,15 @@ def main() -> None:
     """Narzędzia ręczne. Zwykła publikacja odbywa się przez planowanie w Zernio (generate.py)."""
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true", help="sprawdź połączenie z Instagramem przez Zernio")
-    ap.add_argument("--post", help="nazwa folderu w posts/ do natychmiastowej publikacji (awaryjnie)")
+    ap.add_argument("--post", help="folder(y) w posts/ do natychmiastowej publikacji, oddzielone spacją")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
     try:
         if args.check:
             check()
         elif args.post:
-            post = next(p for p in existing_posts() if p["_dir"].name == args.post)
-            result = publish_post(post, args.dry_run)
-            if result:
-                write_json(post["_dir"] / "published.json", result)
-                print(f"::notice title=Opublikowano {args.post}::{result['permalink']}")
+            for name in args.post.split():
+                publish_now(name, args.dry_run)
         else:
             ap.print_help()
     except Exception as e:

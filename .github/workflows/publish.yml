@@ -14,6 +14,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   publish:
@@ -31,10 +32,19 @@ jobs:
           IN_POST: ${{ inputs.post }}
         run: |
           if [ -n "$IN_POST" ]; then python src/publish.py --post "$IN_POST"; else python src/publish.py --check; fi
-      - name: Zapisz status
+      - name: Zapisz status i zamknij zgłoszenia
         if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          IN_POST: ${{ inputs.post }}
         run: |
           git config user.name "handy-apps-bot"
           git config user.email "handy-apps-bot@users.noreply.github.com"
-          git add posts/*/published.json 2>/dev/null || true
-          git diff --cached --quiet || (git commit -q -m "Opublikowano post (ręcznie)" && git push -q)
+          git add -A posts
+          git diff --cached --quiet || (git commit -q -m "Opublikowano od razu: $IN_POST" && git pull -q --rebase origin main && git push -q origin HEAD:main)
+          [ -f published_now.txt ] || exit 0
+          while IFS=$'\t' read -r OLD NEW LINK; do
+            NUM=$(gh issue list --label autopost --state open --search "$OLD in:title" --json number --jq '.[0].number')
+            [ -n "$NUM" ] && gh issue comment "$NUM" --body "✅ Opublikowano od razu (poza harmonogramem): $LINK" && gh issue close "$NUM"
+          done < published_now.txt
+        shell: bash
