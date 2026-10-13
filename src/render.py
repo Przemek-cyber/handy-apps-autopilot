@@ -218,17 +218,41 @@ def render_carousel(app_key: str, content: dict, out_dir: Path) -> list[Path]:
 
 # ---------- rolka ----------
 
-def _music(index: int) -> Path | None:
-    tracks = sorted(p for p in (ASSETS / "music").glob("*") if p.suffix.lower() in {".mp3", ".m4a", ".wav"})
-    return tracks[index % len(tracks)] if tracks else None
+def music_tracks() -> list[Path]:
+    return sorted(p for p in (ASSETS / "music").glob("*") if p.suffix.lower() in {".mp3", ".m4a", ".wav"})
+
+
+def pick_music(recently_used: list[str], seed: str) -> Path:
+    """Losowy utwór z biblioteki, z pominięciem ostatnio użytych (wspólna pula dla obu apek)."""
+    import random
+    tracks = music_tracks()
+    if not tracks:
+        raise RuntimeError("Brak muzyki w assets/music — post nie może być cichy")
+    avoid = set(recently_used[-max(1, len(tracks) // 2):])
+    pool = [t for t in tracks if t.name not in avoid] or tracks
+    return random.Random(seed).choice(pool)
+
+
+def slides_to_scenes(content: dict) -> list[dict]:
+    """Treść karuzelowa -> sceny pokazu slajdów (rolka z muzyką; API nie dodaje muzyki do karuzel)."""
+    scenes = []
+    for sl in content["slides"]:
+        words = len((sl.get("title", "") + " " + sl.get("body", "")).split())
+        secs = round(min(6.0, max(3.0, 1.6 + words * 0.17)), 1)
+        sc = {"text": sl["title"], "body": sl.get("body", ""), "seconds": secs, "visual": "card"}
+        if sl["kind"] == "point" and sl.get("clip"):
+            sc.update(visual="clip", clip=sl["clip"])
+        scenes.append(sc)
+    return scenes
 
 
 def _fade(secs: float) -> str:
     return f"fade=t=in:st=0:d=0.2,fade=t=out:st={secs - 0.2:.2f}:d=0.2"
 
 
-def render_reel(app_key: str, content: dict, out_dir: Path, music_index: int = 0) -> dict:
-    scenes = content["scenes"]
+def render_reel(app_key: str, content: dict, out_dir: Path, track: Path) -> dict:
+    use_slides = content.get("format") == "carousel" or not content.get("scenes")
+    scenes = slides_to_scenes(content) if use_slides else content["scenes"]
     W, H, total = REEL_W, REEL_H, len(scenes)
     work = out_dir / "_work"
     work.mkdir(parents=True, exist_ok=True)
@@ -244,20 +268,24 @@ def render_reel(app_key: str, content: dict, out_dir: Path, music_index: int = 0
             x, y, pw, ph, r = REEL_PHONE
             frame = (f'<div class="phone" style="left:{x}px;top:{y}px;width:{pw}px;height:{ph}px;border-radius:{r}px;'
                      f'box-shadow:0 0 0 3px rgba(255,255,255,.16)"></div>')
-            panel = (f'<div class="panel" data-fit="330" style="left:70px;right:70px;top:1410px;min-height:290px">'
-                     f'<div class="headline" style="font-size:1.76em">{rich(sc["text"])}</div></div>')
+            body_p = f'<p>{html.escape(plain(sc["body"]))}</p>' if sc.get("body") else ""
+            panel = (f'<div class="panel" data-fit="380" style="left:70px;right:70px;top:1380px;min-height:290px">'
+                     f'<div class="headline" style="font-size:1.76em">{rich(sc["text"])}</div>{body_p}</div>')
             body = f"{_bg(app_key, W, H, holed=True)}{_header(app_key)}{frame}{panel}"
             pages_holed.append((_page(app_key, W, H, body, hole=REEL_PHONE), png))
         elif i == 1:  # hak
-            body = f'{_bg(app_key, W, H)}{_header(app_key)}<div class="hero"><div class="headline" data-fit="900">{rich(sc["text"])}</div></div>'
+            sub = f'<p>{html.escape(plain(sc["body"]))}</p>' if sc.get("body") else ""
+            body = f'{_bg(app_key, W, H)}{_header(app_key)}<div class="hero"><div class="headline" data-fit="900">{rich(sc["text"])}</div>{sub}</div>'
             pages_opaque.append((_page(app_key, W, H, body, hero_size=7.4), png))
         else:
             panel = (f'<div class="panel" data-fit="760" style="left:70px;right:70px;top:46%;transform:translateY(-50%);'
                      f'min-height:300px"><div class="kicker">{i - 1:02d}</div>'
-                     f'<div class="headline" style="font-size:2em">{rich(sc["text"])}</div></div>')
+                     f'<div class="headline" style="font-size:2em">{rich(sc["text"])}</div>'
+                     + (f'<p style="font-size:1.25em">{html.escape(plain(sc["body"]))}</p>' if sc.get("body") else "")
+                     + '</div>')
             body = f"{_bg(app_key, W, H)}{_header(app_key)}{panel}"
             pages_opaque.append((_page(app_key, W, H, body), png))
-        plan.append((png, clip, max(2.5, min(6.0, float(sc.get("seconds", 3.5))))))
+        plan.append((png, clip, max(2.5, min(7.0, float(sc.get("seconds", 3.5))))))
     if pages_opaque:
         _screenshot(pages_opaque, W, H)
     if pages_holed:
@@ -285,16 +313,13 @@ def render_reel(app_key: str, content: dict, out_dir: Path, music_index: int = 0
 
     duration = sum(s for _, s in segments)
     reel = out_dir / "reel.mp4"
-    track = _music(music_index)
-    if track:
-        _ffmpeg("-i", str(silent), "-stream_loop", "-1", "-i", str(track), "-t", f"{duration:.2f}",
-                "-filter_complex", f"[1:a]volume=0.6,afade=t=in:st=0:d=0.5,afade=t=out:st={duration - 1.5:.2f}:d=1.5[a]",
-                "-map", "0:v", "-map", "[a]", "-c:v", "copy", "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart", str(reel))
-    else:  # Instagram wymaga ścieżki audio — dokładamy ciszę
-        _ffmpeg("-i", str(silent), "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo", "-t", f"{duration:.2f}",
-                "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-c:a", "aac", "-shortest", "-movflags", "+faststart", str(reel))
+    if not track or not Path(track).exists():
+        raise RuntimeError("Brak utworu muzycznego — post nie może być cichy")
+    _ffmpeg("-i", str(silent), "-stream_loop", "-1", "-i", str(track), "-t", f"{duration:.2f}",
+            "-filter_complex", f"[1:a]volume=0.9,afade=t=in:st=0:d=0.6,afade=t=out:st={duration - 1.8:.2f}:d=1.8[a]",
+            "-map", "0:v", "-map", "[a]", "-c:v", "copy", "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart", str(reel))
 
     cover = out_dir / "cover.jpg"
     _ffmpeg("-i", str(plan[0][0]), "-q:v", "3", str(cover))
     shutil.rmtree(work)
-    return {"video": reel, "cover": cover, "duration": round(duration, 1), "music": track.name if track else None}
+    return {"video": reel, "cover": cover, "duration": round(duration, 1), "music": Path(track).name}

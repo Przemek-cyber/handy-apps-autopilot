@@ -17,7 +17,7 @@ import sys
 from zoneinfo import ZoneInfo
 
 from common import POSTS, apps, existing_posts, post_dir, schedule, topics, write_json
-from render import clip_catalog, render_carousel, render_reel
+from render import clip_catalog, pick_music, render_reel, slides_to_scenes
 
 
 def pick_topic(app_key: str, skip: set[str] | None = None) -> dict:
@@ -33,7 +33,8 @@ def produce_content(app_key: str, fmt: str, topic: dict) -> tuple[dict, list[dic
     from agents import review_content, write_content
     history = [p for p in existing_posts(app_key) if not p["_cancelled"]]
     recent = [p["topic"] for p in history][-6:]
-    content = write_content(app_key, fmt, topic, clip_catalog(app_key), recent, [p["format"] for p in history][-4:])
+    content = write_content(app_key, fmt, topic, clip_catalog(app_key), recent,
+                            [("carousel" if p.get("style") == "slideshow" else p["format"]) for p in history][-4:])
     fmt = content["format"]
     reviews = []
     rounds = 3
@@ -116,7 +117,8 @@ def issue_body(post: dict, folder, sched: dict | None) -> str:
     repo = os.environ.get("GITHUB_REPOSITORY", "Przemek-cyber/handy-apps-autopilot")
     rel = folder.relative_to(POSTS.parent).as_posix()
     raw = lambda f: f"https://github.com/{repo}/blob/main/{rel}/{f}?raw=true"  # noqa: E731
-    content, fmt = post["content"], post["format"]
+    content = post["content"]
+    fmt = "pokaz slajdów" if post.get("style") == "slideshow" else "rolka"
     when = f"{sched['scheduled_for'].replace('T', ' ')[:16]} ({sched['timezone']})" if sched else "nie zaplanowano"
     lines = [f"<!-- post: {rel} -->",
              f"## {apps()[post['app']]['name']} · {fmt} · publikacja {when}",
@@ -124,13 +126,12 @@ def issue_body(post: dict, folder, sched: dict | None) -> str:
              "> **Brak komentarza = post wychodzi automatycznie.**",
              "> Napisz tu dowolny komentarz (np. „stop” albo uwagę), a post zostanie **wstrzymany** i usunięty z kolejki.",
              "> Komentarz „ok” niczego nie zmienia.", ""]
-    if fmt == "carousel":
-        imgs = sorted(p.name for p in folder.glob("slide-*.jpg"))
-        lines += ["### Slajdy", " ".join(f'<img src="{raw(i)}" width="240">' for i in imgs)]
-    else:
-        lines += ["### Rolka", f'<img src="{raw("cover.jpg")}" width="240">',
-                  f"[▶ Obejrzyj reel.mp4]({raw('reel.mp4')})", "", "| # | Tekst | s |", "|---|---|---|"]
-        lines += [f"| {i} | {s['text']} | {s['seconds']} |" for i, s in enumerate(content["scenes"], 1)]
+    scenes = slides_to_scenes(content) if (content.get("format") == "carousel" or not content.get("scenes")) else content["scenes"]
+    lines += ["### Wideo", f'<img src="{raw("cover.jpg")}" width="240">',
+              f"[▶ Obejrzyj reel.mp4 (z muzyką)]({raw('reel.mp4')})",
+              f"🎵 Muzyka: `{post['media'].get('music')}` · {post['media'].get('duration')} s", "",
+              "| # | Tekst | Opis | s |", "|---|---|---|---|"]
+    lines += [f"| {i} | {s['text']} | {s.get('body', '')} | {s['seconds']} |" for i, s in enumerate(scenes, 1)]
     lines += ["", "### Podpis", "```", content["caption"], "", " ".join(content["hashtags"]), "```", "",
               f"Kontrola jakości: {' → '.join(r['verdict'] for r in post['qa']) or 'próbka'}"]
     lines += [f"- {i}" for r in post["qa"] for i in r["issues"]]
@@ -157,14 +158,14 @@ def make_post(app_key: str, publish_on: dt.date, fmt: str, sample: bool) -> dict
             tried.add(topic["topic"])
     else:
         raise RuntimeError(f"{app_key}: kontrola jakości odrzuciła 2 tematy z rzędu")
-    fmt = content["format"]
+    style = "slideshow" if content["format"] == "carousel" else "reel"
     folder.mkdir(parents=True)
-    if fmt == "carousel":
-        media = {"images": [p.name for p in render_carousel(app_key, content, folder)]}
-    else:
-        r = render_reel(app_key, content, folder, music_index=len(existing_posts(app_key)))
-        media = {"video": r["video"].name, "cover": r["cover"].name, "duration": r["duration"], "music": r["music"]}
-    post = {"app": app_key, "format": fmt, "topic": topic["topic"], "pillar": topic["pillar"],
+    # Każdy post to rolka z muzyką (API Instagrama nie dodaje muzyki do karuzel) — karuzela = pokaz slajdów.
+    used_music = [p["media"].get("music") for p in existing_posts() if p.get("media", {}).get("music")]
+    track = pick_music(used_music, seed=folder.name)
+    r = render_reel(app_key, content, folder, track)
+    media = {"video": r["video"].name, "cover": r["cover"].name, "duration": r["duration"], "music": r["music"]}
+    post = {"app": app_key, "format": "reel", "style": style, "topic": topic["topic"], "pillar": topic["pillar"],
             "publish_on": publish_on.isoformat(), "created_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
             "content": content, "media": media, "qa": reviews}
     write_json(folder / "post.json", post)

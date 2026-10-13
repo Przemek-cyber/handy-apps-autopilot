@@ -3,7 +3,7 @@
 Automat do Instagrama dla Ready72h i BikepackPilot. Dwa razy w tygodniu agenci tworzą po jednym poście na apkę, planują publikację i dają Ci czas na wstrzymanie. Bez Twojej reakcji wszystko dzieje się samo.
 
 ```
-pon i czw ~18:00   Generuj posty   → 2 agenci piszą (BikepackPilot + Ready72h), sami wybierają rolkę / karuzelę
+pon i czw ~18:00   Generuj posty   → 2 agenci piszą (BikepackPilot + Ready72h), sami wybierają rolkę / pokaz slajdów — zawsze wideo z muzyką
                                     → kontrola jakości → grafiki / rolka → zaplanowanie w Zernio
                                     → zgłoszenie (Issue) z podglądem dla Ciebie, gotowe przed 20:00
 Ty                 brak komentarza = post wychodzi · dowolny komentarz (poza „ok”) = post wstrzymany
@@ -45,7 +45,7 @@ Opcjonalnie w zakładce **Variables**: `CLAUDE_MODEL` (domyślnie `claude-sonnet
 - `config/brand.yaml` — kolory i czcionki obu apek (przeniesione z Twoich filmów), handle IG.
 - `config/apps.yaml` — **fakty o produktach**. Agent nie napisze nic spoza tej listy; uzupełnij BikepackPilot.
 - `assets/clips/<apka>/` — nagrania ekranu apek + `clips.yaml` z opisem każdego klipu; agent dobiera klip do tekstu. Nowy klip = plik MP4 + linijka w clips.yaml.
-- `assets/music/` — muzyka bez praw autorskich (MP3), na zmianę w rolkach. Bez plików rolka będzie cicha.
+- `assets/music/` — biblioteka muzyki (Pixabay, bez praw autorskich). Każdy post to rolka z muzyką: agent losuje utwór nieużyty ostatnio, wspólny dla obu apek. Bez muzyki post się nie wygeneruje. Nowy utwór = plik MP3 w tym folderze.
 - `config/topics.yaml` — bank tematów; gdy się skończy, agent wymyśla nowe.
 - `config/schedule.yaml` — rytm (co 3 dni), data startu, godzina publikacji.
 

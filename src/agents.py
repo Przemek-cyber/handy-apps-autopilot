@@ -15,7 +15,7 @@ SLIDE_SCHEMA = {
     "properties": {
         "kind": {"type": "string", "enum": ["cover", "point", "cta"]},
         "title": {"type": "string", "description": "Max 8 words. Wrap 1-3 key words in *asterisks* to highlight them in orange."},
-        "body": {"type": "string", "description": "Max 24 words, no asterisks. For cover: a short subtitle (max 12 words). For cta: empty or max 10 words."},
+        "body": {"type": "string", "description": "Max 18 words, no asterisks. For cover: a short subtitle (max 12 words). For cta: empty or max 10 words."},
         "clip": {"type": "string", "description": "Optional, point slides only: clip file name whose app screen illustrates this slide."},
     },
     "required": ["kind", "title", "body"],
@@ -142,7 +142,8 @@ CAROUSEL_RULES = (
     "FORMAT: carousel. Return 'slides' (6-8): slide 1 kind=cover (title = the hook, body = a short subtitle), "
     "middle slides kind=point (one idea each), last slide kind=cta (title = short benefit line, the design adds "
     "the app logo, tagline and a 'Link in bio' button). Give 1-3 point slides a 'clip' whose app screen matches "
-    "the slide (product pillar: most point slides). Do not return 'scenes'."
+    "the slide (product pillar: most point slides). Do not return 'scenes'. NOTE: the slides are published as a "
+    "video slideshow with music (each slide is on screen for only 3-6 seconds), so keep slide bodies short — max 18 words."
 )
 REEL_RULES = (
     "FORMAT: reel (vertical video, no voice, text on screen, music bed). Return 'scenes' (5-7, total 18-30 s). "
@@ -188,7 +189,7 @@ def review_content(app_key: str, fmt: str, content: dict, clips: dict[str, str] 
         + _rules()
         + "\nCheck: (1) every product claim is in the approved facts; (2) advice is accurate, general and safe; "
         "(3) no fear-mongering; (4) English, clear, no typos; (5) structure matches the format "
-        "(carousel 6-8 slides cover..cta, slide titles <= 8 words, bodies <= 24 words; reel 5-7 scenes, 18-30 s, "
+        "(carousel 6-8 slides cover..cta, slide titles <= 8 words, bodies <= 18 words; reel 5-7 scenes, 18-30 s, "
         "scene text <= 12 words, clips only from the list and matching the text); highlight markup with *asterisks* "
         "only in slide titles / scene texts, never in caption; (6) caption 400-1200 characters ending with the CTA; "
         "(7) 5-10 hashtags.\n"
