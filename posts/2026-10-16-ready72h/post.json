@@ -1,0 +1,93 @@
+{
+  "app": "ready72h",
+  "format": "reel",
+  "style": "slideshow",
+  "topic": "The 15-minute evacuation bag: what goes in first",
+  "pillar": "value",
+  "publish_on": "2026-10-16",
+  "created_at": "2026-10-13T07:51:01+00:00",
+  "content": {
+    "format": "carousel",
+    "hook": "The 15-minute bag: what goes in first",
+    "slides": [
+      {
+        "kind": "cover",
+        "title": "The *15-minute* bag: what goes in first",
+        "body": "Start with what's hardest to replace. Add the rest after."
+      },
+      {
+        "kind": "point",
+        "title": "*Documents* come first",
+        "body": "ID, insurance, key papers. Keep copies in a waterproof pouch.",
+        "clip": "go-bag-15-minutes.mp4"
+      },
+      {
+        "kind": "point",
+        "title": "Then *cash*",
+        "body": "Small notes and coins. Card readers stop working without power."
+      },
+      {
+        "kind": "point",
+        "title": "*Medicine* and health basics",
+        "body": "Regular medicines, a list of prescriptions, glasses, a simple first-aid kit."
+      },
+      {
+        "kind": "point",
+        "title": "*Phone*, charger, power bank",
+        "body": "Add a paper list of key phone numbers. Batteries run out."
+      },
+      {
+        "kind": "point",
+        "title": "Water, snacks, a *warm layer*",
+        "body": "Keep it light. Pack only what you can carry comfortably."
+      },
+      {
+        "kind": "point",
+        "title": "Keep it *by the door*",
+        "body": "Check it twice a year. Swap anything that has expired."
+      },
+      {
+        "kind": "cta",
+        "title": "A calm plan, *ready* before you need it",
+        "body": ""
+      }
+    ],
+    "caption": "If you had 15 minutes to leave home, what would you grab first?\n\nMost of us would grab things at random. A short order of priorities helps you stay calm.\n\nHere's a simple one:\n1. Documents (and copies)\n2. Cash in small notes\n3. Medicine and health basics\n4. Phone, charger, power bank, paper contact list\n5. Water, snacks, a warm layer\n6. Keep the bag by the door\n\nStart with what's hardest to replace. A passport or a prescription is much harder to sort out than a bottle of water. Water and food still belong in the bag, just pack what you can carry comfortably.\n\nPack the bag once. Check it twice a year. Then forget about it until you need it.\n\nThis is in the spirit of the general guidance from civil-protection agencies like Sweden's MSB, Germany's BBK and Poland's RCB.\n\nSave this post for your next weekend check.\n\nReady72h includes a \"15 minutes to leave the house\" bag checklist, as part of a planner for the first 72 hours of a crisis.\n\nGet the planner — link in bio (pay what you want).",
+    "hashtags": [
+      "#evacuationbag",
+      "#gobag",
+      "#72hours",
+      "#emergencypreparedness",
+      "#familypreparedness",
+      "#preparedness",
+      "#homesafety",
+      "#Ready72h"
+    ],
+    "alt_text": "Carousel listing what to pack first in a 15-minute evacuation bag: documents, cash, medicine, phone and power bank, water and a warm layer.",
+    "sources_used": [
+      "MSB (Sweden) — 'In case of crisis or war' guidance",
+      "BBK (Germany) — emergency preparedness guide",
+      "RCB (Poland) — Rządowe Centrum Bezpieczeństwa guidance"
+    ]
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 31.7,
+    "music": "14-nastelbom-time-617068.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "Caption says food and water 'you can usually find on the way'. That is an unsafe assumption and goes against official guidance, which treats water as essential. Reworded to say they are heavier and easier to top up, and kept in the bag.",
+        "Caption says the list 'follows' MSB, BBK and RCB guidance. That is more than the approved facts support for this specific ordering. Softened to say it is in the spirit of general guidance.",
+        "Minor: 'panic-pack' line reworded to a calmer tone. Everything else (structure, slide and body lengths, hashtags, CTA ending, clip match, product claims) is fine."
+      ]
+    },
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}
