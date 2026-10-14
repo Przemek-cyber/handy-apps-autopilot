@@ -1,0 +1,80 @@
+{
+  "app": "ready72h",
+  "format": "reel",
+  "style": "reel",
+  "topic": "Family communication plan when phones and internet are down",
+  "pillar": "value",
+  "publish_on": "2026-10-14",
+  "created_at": "2026-10-14T07:43:36+00:00",
+  "content": {
+    "format": "reel",
+    "hook": "Phones down. Where does your family meet?",
+    "scenes": [
+      {
+        "text": "Phones down. *Where* does your family meet?",
+        "seconds": 3.5,
+        "visual": "card"
+      },
+      {
+        "text": "Pick a *meeting point* near home. Then a backup further away.",
+        "seconds": 3.5,
+        "visual": "clip",
+        "clip": "family-communication-plan.mp4"
+      },
+      {
+        "text": "Choose one *out-of-area contact* everyone can report to.",
+        "seconds": 3,
+        "visual": "card"
+      },
+      {
+        "text": "Decide *who does what*: who collects kids, who checks on neighbours.",
+        "seconds": 3.5,
+        "visual": "clip",
+        "clip": "family-communication-plan.mp4"
+      },
+      {
+        "text": "Write it down. *Paper* works when batteries don't.",
+        "seconds": 3,
+        "visual": "card"
+      },
+      {
+        "text": "Your calm plan, ready before you need it.",
+        "seconds": 3,
+        "visual": "card"
+      }
+    ],
+    "caption": "Family communication plan when phones and internet are down. Start here.\n\nMobile networks can get overloaded or drop out in a power cut, flood or network blackout. A simple plan removes the guessing.\n\n1. Pick a meeting point near home, and a backup further away.\n2. Choose one out-of-area contact. Everyone reports to that person.\n3. Decide who does what: who collects the kids, who checks on neighbours.\n4. Write it all on paper. Keep a copy in your bag and give one to each family member.\n\nTen minutes at the kitchen table. That's the whole job.\n\nWhich would you pick as your meeting point?\n\nGet the planner — link in bio (pay what you want, from 2 PLN).",
+    "question": "Which would you pick as your meeting point?",
+    "hashtags": [
+      "#familyemergencyplan",
+      "#72hours",
+      "#powercoutageprep",
+      "#householdpreparedness"
+    ],
+    "alt_text": "Text reel on a family communication plan for when phones and internet are down: meeting point, out-of-area contact, roles, and a paper copy, with app screens.",
+    "sources_used": [
+      "MSB (Sweden) — 'In case of crisis or war' guidance",
+      "BBK (Germany) — emergency preparedness guide",
+      "RCB (Poland) — Rządowe Centrum Bezpieczeństwa guidance"
+    ]
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 19.5,
+    "music": "01-alex-morgan-578487.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "Scene 4 ('Decide who does what: who collects kids, who checks on neighbours') uses apartment-vs-house-advice.mp4. That clip shows supply storage, elevator and stairwell, backup heating and shutoff valves, so it doesn't match the text. The family-communication-plan.mp4 clip shows 'who does what', so I switched to it.",
+        "Everything else passes: scene count and total length (19.5 s), word limits, caption length and structure, the exact CTA, the question, hashtags, and a calm tone with no fear. Advice is general and safe. Product claims stay within the approved facts."
+      ]
+    },
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}
