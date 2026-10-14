@@ -201,7 +201,7 @@ def review_content(app_key: str, fmt: str, content: dict, clips: dict[str, str] 
         "scene text <= 12 words, clips only from the list and matching the text); highlight markup with *asterisks* "
         "only in slide titles / scene texts, never in caption; (6) caption 300-900 characters: keyword-rich first line, "
         "the question on its own line, ends with the exact call to action from the brief; (7) 'question' is easy to answer "
-        "in a few words; (8) 3-5 specific niche hashtags.\n"
+        "in a few words; (8) 3-5 specific niche hashtags, each spelled correctly and actually used on Instagram (no typos, no invented compound words).\n"
         "verdict=pass if publishable as is; verdict=fix if small corrections make it publishable — then return the FULL "
         "corrected content in 'fixed'; verdict=reject if the idea itself is unsafe or off-brand."
     )
