@@ -132,10 +132,18 @@ def issue_body(post: dict, folder, sched: dict | None) -> str:
               f"🎵 Muzyka: `{post['media'].get('music')}` · {post['media'].get('duration')} s", "",
               "| # | Tekst | Opis | s |", "|---|---|---|---|"]
     lines += [f"| {i} | {s['text']} | {s.get('body', '')} | {s['seconds']} |" for i, s in enumerate(scenes, 1)]
+    if content.get("question"):
+        lines += ["", f"💬 **Pytanie do komentarzy:** {content['question']}"]
     lines += ["", "### Podpis", "```", content["caption"], "", " ".join(content["hashtags"]), "```", "",
               f"Kontrola jakości: {' → '.join(r['verdict'] for r in post['qa']) or 'próbka'}"]
     lines += [f"- {i}" for r in post["qa"] for i in r["issues"]]
     return "\n".join(lines) + "\n"
+
+
+def app_for(day: dt.date, sched: dict) -> str:
+    """Która apka ma post danego dnia (rotacja dzień po dniu)."""
+    rot = sched.get("daily_apps") or list(sched["publish_times"])
+    return rot[day.toordinal() % len(rot)]
 
 
 def make_post(app_key: str, publish_on: dt.date, fmt: str, sample: bool) -> dict | None:
@@ -175,7 +183,7 @@ def make_post(app_key: str, publish_on: dt.date, fmt: str, sample: bool) -> dict
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--app", help="tylko ta apka (domyślnie wszystkie z config/schedule.yaml)")
+    ap.add_argument("--app", help="apka (domyślnie wg rotacji dziennej); 'all' = obie na podaną datę")
     ap.add_argument("--format", choices=["carousel", "reel", "auto"], default="auto")
     ap.add_argument("--date", help="data publikacji RRRR-MM-DD (domyślnie: jutro wg strefy z harmonogramu)")
     ap.add_argument("--sample", action="store_true", help="próbne treści bez Claude API")
@@ -185,11 +193,17 @@ def main() -> None:
     sched = schedule()
     tz = sched["timezone"]
     today = dt.datetime.now(ZoneInfo(tz)).date()
-    day = dt.date.fromisoformat(args.date) if args.date else today + dt.timedelta(days=sched["publish_after_days"])
-    targets = [args.app] if args.app else list(sched["publish_times"])
+    if args.date:
+        day0 = dt.date.fromisoformat(args.date)
+        apps_ = list(sched["publish_times"]) if args.app == "all" else [args.app or app_for(day0, sched)]
+        targets = [(a, day0) for a in apps_]
+    else:
+        offsets = sched.get("generate_plan", {}).get(today.strftime("%a").lower(), [sched["publish_after_days"]])
+        days = [today + dt.timedelta(days=o) for o in offsets]
+        targets = [(args.app or app_for(d, sched), d) for d in days]
 
     created, failed = [], []
-    for app_key in targets:
+    for app_key, day in targets:
         try:
             post = make_post(app_key, day, args.format, args.sample)
             if post is None:
@@ -206,7 +220,7 @@ def main() -> None:
             print(f"::notice title=Gotowe: {post['_dir'].name}::{post['format']} · {post['topic']}"
                   + (f" · zaplanowano na {sched_info['scheduled_for']}" if sched_info else ""))
         except Exception as e:  # jedna apka nie blokuje drugiej
-            failed.append(app_key)
+            failed.append(f"{app_key}@{day}")
             print(f"::error title=Generowanie {app_key} nie powiodło się::{type(e).__name__}: {str(e)[:800]}")
 
     if out := os.environ.get("GITHUB_OUTPUT"):

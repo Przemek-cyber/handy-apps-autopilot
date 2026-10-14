@@ -1,12 +1,18 @@
 # Harmonogram Handy Apps
 #
-# Pon i czw (ok. 18:00) agenci przygotowują posty na następny dzień i od razu planują je w Zernio.
+# Pon i czw (ok. 18:00) agenci przygotowują posty na kolejne dni (codziennie 1 post, apki na zmianę) i planują je w Zernio.
 # Do 20:00 dostajesz zgłoszenia (GitHub Issues) z podglądem. Brak komentarza = post wychodzi.
 # Komentarz pod zgłoszeniem (inny niż "ok") = post zostaje wstrzymany (usunięty z kolejki Zernio).
 #
 # Dni generowania ustawia cron w .github/workflows/generate.yml (pon i czw).
 timezone: Europe/Warsaw
-publish_after_days: 1          # publikacja następnego dnia po wygenerowaniu (wt i pt)
+publish_after_days: 1          # (tryb ręczny) domyślna data publikacji = jutro
+# Publikacja CODZIENNA, apki na zmianę (parzysty / nieparzysty dzień). Generowanie w paczkach:
+# poniedziałek przygotowuje wt–czw, czwartek przygotowuje pt–pon (posty z wyprzedzeniem do Twojej kontroli).
+generate_plan:
+  mon: [1, 2, 3]
+  thu: [1, 2, 3, 4]
+daily_apps: [bikepackpilot, ready72h]   # kolejność rotacji dzień po dniu
 publish_times:                 # godzina publikacji dla każdej apki (czas polski)
   bikepackpilot: "07:00"
   ready72h: "12:00"

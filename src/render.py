@@ -132,12 +132,18 @@ def _header(app_key: str) -> str:
     return f'<div class="header">{logo_svg(app_key)}<span class="word">{html.escape(apps()[app_key]["name"])}</span></div>'
 
 
-def _end(app_key: str, line: str, big: bool) -> str:
+def _end(app_key: str, line: str, big: bool, question: str = "", pill: str = "") -> str:
+    """Karta końcowa: logo, nazwa, korzyść, pytanie do komentarza, przycisk (słowo-klucz albo link w bio)."""
     st = _style(app_key)
     name = html.escape(apps()[app_key]["name"])
     first = f'<div class="line big">{rich(line)}</div>' if big and line else ""
-    return (f'<div class="end">{logo_svg(app_key, full=True)}<div class="name">{name}</div>{first}'
-            f'<div class="line">{html.escape(st["tagline"])}</div><div class="pill">Link in bio</div></div>')
+    q = (f'<div class="line" style="color:var(--text);font-weight:700">💬 {html.escape(plain(question))}</div>'
+         if question else f'<div class="line">{html.escape(st["tagline"])}</div>')
+    kw = apps()[app_key].get("dm_keyword") if apps()[app_key].get("dm_enabled") else ""
+    pill = pill or (f"Comment “{kw}” → link in DM" if kw else "Link in bio")
+    return (f'<div class="end">{logo_svg(app_key, full=True)}<div class="name">{name}</div>{first}{q}'
+            f'<div class="pill">{html.escape(pill)}</div>'
+            f'<div class="line" style="font-size:calc(var(--u) * 2.8)">🔖 Save this for later</div></div>')
 
 
 def _px(v: float) -> str:
@@ -238,7 +244,7 @@ def slides_to_scenes(content: dict) -> list[dict]:
     scenes = []
     for sl in content["slides"]:
         words = len((sl.get("title", "") + " " + sl.get("body", "")).split())
-        secs = round(min(6.0, max(3.0, 1.6 + words * 0.17)), 1)
+        secs = round(min(4.2, max(2.2, 1.0 + words * 0.14)), 1)  # krótko: 15–20 s na całość
         sc = {"text": sl["title"], "body": sl.get("body", ""), "seconds": secs, "visual": "card"}
         if sl["kind"] == "point" and sl.get("clip"):
             sc.update(visual="clip", clip=sl["clip"])
@@ -246,8 +252,12 @@ def slides_to_scenes(content: dict) -> list[dict]:
     return scenes
 
 
-def _fade(secs: float) -> str:
-    return f"fade=t=in:st=0:d=0.2,fade=t=out:st={secs - 0.2:.2f}:d=0.2"
+def _motion(secs: float, first: bool) -> str:
+    """Ruch od pierwszej klatki (bez wejścia z czerni): delikatne przybliżanie, na pierwszej scenie nieco szybsze."""
+    rate = 0.035 if first else 0.025
+    z = f"(1+{rate}*t/{secs:.2f})"
+    return (f"scale=w='trunc({REEL_W}*{z}/2)*2':h='trunc({REEL_H}*{z}/2)*2':eval=frame,"
+            f"crop={REEL_W}:{REEL_H}")
 
 
 def render_reel(app_key: str, content: dict, out_dir: Path, track: Path) -> dict:
@@ -262,7 +272,7 @@ def render_reel(app_key: str, content: dict, out_dir: Path, track: Path) -> dict
         png = work / f"scene-{i:02d}.png"
         clip = _clip_path(app_key, sc.get("clip")) if sc.get("visual") == "clip" else None
         if i == total:  # karta końcowa
-            body = f'{_bg(app_key, W, H)}{_end(app_key, sc["text"], big=True)}'
+            body = f'{_bg(app_key, W, H)}{_end(app_key, sc["text"], big=True, question=content.get("question", ""))}'
             pages_opaque.append((_page(app_key, W, H, body), png))
         elif clip:
             x, y, pw, ph, r = REEL_PHONE
@@ -285,7 +295,7 @@ def render_reel(app_key: str, content: dict, out_dir: Path, track: Path) -> dict
                      + '</div>')
             body = f"{_bg(app_key, W, H)}{_header(app_key)}{panel}"
             pages_opaque.append((_page(app_key, W, H, body), png))
-        plan.append((png, clip, max(2.5, min(7.0, float(sc.get("seconds", 3.5))))))
+        plan.append((png, clip, max(2.0, min(5.0, float(sc.get("seconds", 3.0))))))
     if pages_opaque:
         _screenshot(pages_opaque, W, H)
     if pages_holed:
@@ -298,11 +308,11 @@ def render_reel(app_key: str, content: dict, out_dir: Path, track: Path) -> dict
             x, y, pw, ph, _ = REEL_PHONE
             fc = (f"color=c=black:s={W}x{H}:r={FPS}[base];"
                   f"[0:v]fps={FPS},scale={pw}:{ph}:force_original_aspect_ratio=increase,crop={pw}:{ph}:(iw-{pw})/2:0,setsar=1[clip];"
-                  f"[base][clip]overlay={x}:{y}:shortest=1[v1];[v1][1:v]overlay=0:0,{_fade(secs)},format=yuv420p")
+                  f"[base][clip]overlay={x}:{y}:shortest=1[v1];[v1][1:v]overlay=0:0,format=yuv420p")
             _ffmpeg("-stream_loop", "-1", "-i", str(clip), "-loop", "1", "-i", str(png), "-t", f"{secs:.2f}",
                     "-filter_complex", fc, "-r", str(FPS), "-c:v", "libx264", "-preset", "veryfast", "-crf", "19", "-an", str(seg))
         else:
-            _ffmpeg("-loop", "1", "-i", str(png), "-t", f"{secs:.2f}", "-vf", f"fps={FPS},{_fade(secs)},format=yuv420p",
+            _ffmpeg("-loop", "1", "-i", str(png), "-t", f"{secs:.2f}", "-vf", f"fps={FPS},{_motion(secs, i == 1)},format=yuv420p",
                     "-c:v", "libx264", "-preset", "veryfast", "-crf", "19", "-an", str(seg))
         segments.append((seg, secs))
 

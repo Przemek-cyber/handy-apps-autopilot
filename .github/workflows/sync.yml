@@ -1,12 +1,12 @@
 name: Sprawdź publikacje
 
-# Wt i pt po godzinach publikacji (7:00 i 12:00 czasu polskiego, w lecie i w zimie):
+# Codziennie po godzinach publikacji (7:00 i 12:00 czasu polskiego, w lecie i w zimie):
 # zapisuje linki do opublikowanych postów i zamyka zgłoszenia. Błąd publikacji = czerwony workflow + mail.
 on:
   schedule:
-    - cron: "47 6 * * 2,5"
-    - cron: "47 11 * * 2,5"
-    - cron: "47 17 * * 2,5"
+    - cron: "47 6 * * *"
+    - cron: "47 11 * * *"
+    - cron: "47 17 * * *"
   workflow_dispatch:
 
 permissions:

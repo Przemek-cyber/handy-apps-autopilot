@@ -38,16 +38,22 @@ CONTENT_SCHEMA = {
         "format": {"type": "string", "enum": ["carousel", "reel"], "description": "The format you chose for this post."},
         "hook": {"type": "string", "description": "First line that stops the scroll, max 10 words."},
         "slides": {"type": "array", "items": SLIDE_SCHEMA,
-                   "description": "Carousel only: 6-8 slides, first 'cover', last 'cta'."},
+                   "description": "Carousel only: 5-6 slides, first 'cover', last 'cta'."},
         "scenes": {"type": "array", "items": SCENE_SCHEMA,
-                   "description": "Reel only: 5-7 scenes, total 18-30 s, first scene is the hook, last is the CTA."},
-        "caption": {"type": "string", "description": "Instagram caption, 400-1200 characters, line breaks allowed, ends with the CTA."},
-        "hashtags": {"type": "array", "items": {"type": "string"}, "description": "5-10 hashtags without spaces, each starting with #."},
+                   "description": "Reel only: 5-6 scenes, total 14-20 s, first scene is the hook, last is the CTA."},
+        "caption": {"type": "string", "description": "Instagram caption, 300-900 characters. Line 1 = keyword-rich hook "
+                    "(the words people search for, e.g. 'bikepacking water planning'). Then short value. Then the QUESTION "
+                    "on its own line. Last line = the call to action."},
+        "question": {"type": "string", "description": "One easy, specific question that invites a short comment "
+                     "(answerable in 1-5 words, e.g. 'How many litres do you have at home right now?'). Max 12 words. "
+                     "Shown on the final video frame and in the caption."},
+        "hashtags": {"type": "array", "items": {"type": "string"}, "description": "3-5 specific niche hashtags (no generic "
+                     "ones like #love or #instagood), without spaces, each starting with #."},
         "alt_text": {"type": "string", "description": "Accessibility description of the post, max 200 characters."},
         "sources_used": {"type": "array", "items": {"type": "string"},
                          "description": "Which configured sources the advice relies on; empty if none."},
     },
-    "required": ["hook", "caption", "hashtags", "alt_text", "sources_used"],
+    "required": ["hook", "caption", "question", "hashtags", "alt_text", "sources_used"],
 }
 
 QA_SCHEMA = {
@@ -112,9 +118,11 @@ def _product_brief(app_key: str) -> str:
         f"PRODUCT: {a['name']}\nOne-liner: {a['one_liner']}\nAudience: {a['audience']}\n"
         f"Approved product facts (the ONLY claims allowed about the product):\n{facts}\n"
         f"Reference sources for advice:\n{sources}\n"
-        f"Call to action: {a['cta']}\n"
-        + (f"DM keyword (optional, 'Comment {a['dm_keyword']}' style): {a['dm_keyword']}" if a.get("dm_keyword")
-           else "Do NOT ask people to comment a keyword or promise to send DMs — there is no DM automation yet.")
+        + (f"Call to action (MANDATORY, last line of the caption): Comment \"{a['dm_keyword']}\" and I'll send you the "
+           f"link in DM. (A comment-to-DM automation sends the checkout link automatically.)"
+           if a.get("dm_enabled") and a.get("dm_keyword") else
+           f"Call to action (last line of the caption): {a['cta']}\n"
+           "Do NOT ask people to comment a keyword or promise to send DMs — there is no DM automation yet.")
     )
 
 
@@ -139,14 +147,14 @@ def _clips_text(clips: dict[str, str]) -> str:
 
 
 CAROUSEL_RULES = (
-    "FORMAT: carousel. Return 'slides' (6-8): slide 1 kind=cover (title = the hook, body = a short subtitle), "
+    "FORMAT: carousel. Return 'slides' (5-6): slide 1 kind=cover (title = the hook, body = a short subtitle), "
     "middle slides kind=point (one idea each), last slide kind=cta (title = short benefit line, the design adds "
     "the app logo, tagline and a 'Link in bio' button). Give 1-3 point slides a 'clip' whose app screen matches "
     "the slide (product pillar: most point slides). Do not return 'scenes'. NOTE: the slides are published as a "
     "video slideshow with music (each slide is on screen for only 3-6 seconds), so keep slide bodies short — max 18 words."
 )
 REEL_RULES = (
-    "FORMAT: reel (vertical video, no voice, text on screen, music bed). Return 'scenes' (5-7, total 18-30 s). "
+    "FORMAT: reel (vertical video, no voice, text on screen, music bed). Return 'scenes' (5-6, total 14-20 s; short videos get watched to the end). "
     "Scene 1 = hook (visual=card, a bold statement or question). Last scene = CTA (visual=card; short benefit line — "
     "the design adds app logo, tagline and a 'Link in bio' button). Middle scenes: mostly visual=clip, showing the app "
     "screen that matches the scene text (choose by clip description, avoid repeating a clip); visual=card only for a "
@@ -189,10 +197,11 @@ def review_content(app_key: str, fmt: str, content: dict, clips: dict[str, str] 
         + _rules()
         + "\nCheck: (1) every product claim is in the approved facts; (2) advice is accurate, general and safe; "
         "(3) no fear-mongering; (4) English, clear, no typos; (5) structure matches the format "
-        "(carousel 6-8 slides cover..cta, slide titles <= 8 words, bodies <= 18 words; reel 5-7 scenes, 18-30 s, "
+        "(carousel 5-6 slides cover..cta, slide titles <= 8 words, bodies <= 18 words; reel 5-6 scenes, 14-20 s, "
         "scene text <= 12 words, clips only from the list and matching the text); highlight markup with *asterisks* "
-        "only in slide titles / scene texts, never in caption; (6) caption 400-1200 characters ending with the CTA; "
-        "(7) 5-10 hashtags.\n"
+        "only in slide titles / scene texts, never in caption; (6) caption 300-900 characters: keyword-rich first line, "
+        "the question on its own line, ends with the exact call to action from the brief; (7) 'question' is easy to answer "
+        "in a few words; (8) 3-5 specific niche hashtags.\n"
         "verdict=pass if publishable as is; verdict=fix if small corrections make it publishable — then return the FULL "
         "corrected content in 'fixed'; verdict=reject if the idea itself is unsafe or off-brand."
     )

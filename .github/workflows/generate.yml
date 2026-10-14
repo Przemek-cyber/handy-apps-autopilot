@@ -1,6 +1,7 @@
 name: Generuj posty
 
-# Pon i czw ok. 18:00 czasu polskiego (cron w UTC): agenci przygotowują posty na wt / pt,
+# Pon i czw ok. 18:00 czasu polskiego (cron w UTC): agenci przygotowują posty na kolejne dni
+# (pon → wt–czw, czw → pt–pon; codziennie 1 post, apki na zmianę),
 # planują je w Zernio i zakładają zgłoszenia do Twojej kontroli (gotowe przed 20:00).
 on:
   schedule:
@@ -8,14 +9,14 @@ on:
   workflow_dispatch:
     inputs:
       app:
-        description: "Apka (ready72h / bikepackpilot); puste = obie"
+        description: "Apka (ready72h / bikepackpilot / all); puste = wg rotacji dziennej"
         required: false
       format:
         description: "auto / carousel / reel"
         required: false
         default: auto
       date:
-        description: "Data publikacji RRRR-MM-DD; puste = jutro"
+        description: "Data publikacji RRRR-MM-DD; puste = wg planu (pon: wt–czw, czw: pt–pon)"
         required: false
 
 permissions:
