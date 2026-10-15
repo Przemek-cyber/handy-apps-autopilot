@@ -21,7 +21,7 @@ ready72h:
     - "RCB (Poland) — Rządowe Centrum Bezpieczeństwa guidance"
   cta: "Get the planner — link in bio (pay what you want, from 2 PLN)."
   dm_keyword: PLAN       # słowo-klucz: komentarz → DM z linkiem
-  dm_enabled: false      # true dopiero, gdy automat komentarz → DM działa w Zernio
+  dm_enabled: true       # automat komentarz → DM działa w Zernio (src/publish.py --automations)
   link: "https://przemek.lemonsqueezy.com/checkout/buy/4ebf56da-3b44-4d2f-9928-e9aaaa581d5b"
   dm_message: "Here's your Ready72h planner (pay what you want, from 2 PLN): {link} — PDF + offline app, based on MSB, BBK and RCB guidance. Stay calm and ready 🧡"
 
@@ -44,6 +44,6 @@ bikepackpilot:
   sources: []
   cta: "Plan your next trip with BikepackPilot — link in bio."
   dm_keyword: ROUTE
-  dm_enabled: false
+  dm_enabled: true
   link: "https://przemek.lemonsqueezy.com/checkout/buy/0c0586a4-a00a-45ca-9407-99d445aee50e"
   dm_message: "Here's BikepackPilot: {link} — split your route into 50 km segments, get realistic riding days and a gear list that fits the conditions. Ride relaxed 🚲"

@@ -31,6 +31,12 @@ jobs:
           ZERNIO_API_KEY: ${{ secrets.ZERNIO_API_KEY }}
         run: python src/sync.py
 
+      - name: Sprawdź automat komentarz → DM
+        if: always()
+        env:
+          ZERNIO_API_KEY: ${{ secrets.ZERNIO_API_KEY }}
+        run: python src/publish.py --automation-logs
+
       - name: Zamknij zgłoszenia i zapisz
         if: always()
         env:

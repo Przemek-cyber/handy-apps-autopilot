@@ -233,6 +233,8 @@ def ensure_automations() -> None:
 
 
 def automation_logs() -> None:
+    """Podgląd automatów DM; błąd (mail z GitHuba), jeśli w ostatnich 2 dniach któraś wiadomość się nie wysłała."""
+    failures: list[str] = []
     pid = profile_id()
     existing = api("GET", "comment-automations", params={"profileId": pid}).json()
     existing = existing.get("automations", existing.get("data", [])) if isinstance(existing, dict) else existing
@@ -243,6 +245,20 @@ def automation_logs() -> None:
         print(f"::notice title=Automat {a.get('name')}::aktywny={a.get('isActive')}, słowa={a.get('keywords')}, wpisów w logu={len(items)}")
         for it in items[:5]:
             print(f"::notice title=Log {a.get('name')}::{str({k: it.get(k) for k in ('status', 'commentText', 'createdAt', 'error', 'reason') if k in it})[:400]}")
+        since = dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=2)
+        for it in items:
+            st = str(it.get("status", "")).lower()
+            when = str(it.get("createdAt", ""))
+            try:
+                recent = dt.datetime.fromisoformat(when.replace("Z", "+00:00")) >= since
+            except ValueError:
+                recent = True
+            if recent and ("fail" in st or "error" in st):
+                failures.append(f"{a.get('name')}: {st} {it.get('error') or it.get('reason') or ''}")
+    if failures:
+        for f in failures[:5]:
+            print(f"::error title=Automat DM nie wysłał wiadomości::{str(f)[:400]}")
+        sys.exit(1)
 
 
 def reschedule() -> None:

@@ -118,8 +118,10 @@ def _product_brief(app_key: str) -> str:
         f"PRODUCT: {a['name']}\nOne-liner: {a['one_liner']}\nAudience: {a['audience']}\n"
         f"Approved product facts (the ONLY claims allowed about the product):\n{facts}\n"
         f"Reference sources for advice:\n{sources}\n"
-        + (f"Call to action (MANDATORY, last line of the caption): Comment \"{a['dm_keyword']}\" and I'll send you the "
-           f"link in DM. (A comment-to-DM automation sends the checkout link automatically.)"
+        + (f"Call to action (MANDATORY, last line of the caption, keep this meaning): Comment \"{a['dm_keyword']}\" and "
+           f"I'll send you the link in DM — or tap the link in bio. (A comment-to-DM automation sends the checkout link "
+           f"automatically.) Do not put the keyword in the final scene/slide text — the design adds a "
+           f"'Comment {a['dm_keyword']} → link in DM' button there."
            if a.get("dm_enabled") and a.get("dm_keyword") else
            f"Call to action (last line of the caption): {a['cta']}\n"
            "Do NOT ask people to comment a keyword or promise to send DMs — there is no DM automation yet.")
