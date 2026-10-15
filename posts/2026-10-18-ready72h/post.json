@@ -1,0 +1,81 @@
+{
+  "app": "ready72h",
+  "format": "reel",
+  "style": "reel",
+  "topic": "Why keep some cash at home for a blackout",
+  "pillar": "value",
+  "publish_on": "2026-10-18",
+  "created_at": "2026-10-15T16:15:10+00:00",
+  "content": {
+    "format": "reel",
+    "hook": "Blackout tonight. Can you pay for anything?",
+    "scenes": [
+      {
+        "text": "Blackout. Card readers *down*. Do you have cash?",
+        "seconds": 3,
+        "visual": "card"
+      },
+      {
+        "text": "No power or network? Shops and ATMs may not *work*.",
+        "seconds": 3,
+        "visual": "card"
+      },
+      {
+        "text": "Keep *small notes* and some coins. Change can run out.",
+        "seconds": 3,
+        "visual": "card"
+      },
+      {
+        "text": "Pack some with your documents in the *go bag*.",
+        "seconds": 3.5,
+        "visual": "clip",
+        "clip": "go-bag-15-minutes.mp4"
+      },
+      {
+        "text": "Store it dry, out of sight. Tell the *family* where.",
+        "seconds": 3,
+        "visual": "card"
+      },
+      {
+        "text": "Calm plan. *Everything* in one place.",
+        "seconds": 2.5,
+        "visual": "card"
+      }
+    ],
+    "caption": "Cash at home for a blackout: a small, boring habit that helps a lot.\n\nWhen the power or network is down, card terminals and ATMs often stop working. A little cash lets you buy basics from shops that still open.\n\nQuick tips:\n- Keep small notes and some coins. Shops may run out of change.\n- Store it somewhere dry and out of sight.\n- Keep part of it with your documents in your go bag.\n- Make sure your family knows where it is.\n\nYou don't need a big pile. Just enough for a few days of basics. This matches the general guidance from MSB, BBK and RCB.\n\nCash is one line on the 72-hour supply checklist in Ready72h, next to water, food, medicine and communications.\n\nDo you keep cash at home: none, a little, plenty?\n\nComment \"PLAN\" and I'll send you the link in DM — or tap the link in bio.",
+    "question": "Do you keep cash at home: none, a little, plenty?",
+    "hashtags": [
+      "#emergencypreparedness",
+      "#72hourkit",
+      "#homepreparedness",
+      "#poweroutage",
+      "#preparedness"
+    ],
+    "alt_text": "Text reel on keeping small notes and coins at home for a power outage, with an app screen of a go-bag checklist covering documents and money.",
+    "sources_used": [
+      "MSB (Sweden) — 'In case of crisis or war' guidance",
+      "BBK (Germany) — emergency preparedness guide",
+      "RCB (Poland) — Rządowe Centrum Bezpieczeństwa guidance"
+    ]
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 18.0,
+    "music": "15-paulyudin-482400.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "Hashtags #emergencycash and #powerOutagePlan are very low-use or invented-sounding; replaced with established niche tags.",
+        "Caption question differed from the 'question' field; aligned them so the on-video and caption questions match.",
+        "Everything else passes: structure, 18 s runtime, clip matches the go-bag scene, product claims are within approved facts, advice is general and calm, CTA is exact and the keyword is not in the final scene."
+      ]
+    },
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}
