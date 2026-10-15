@@ -20,7 +20,9 @@ jobs:
       - name: Raport
         env:
           ZERNIO_API_KEY: ${{ secrets.ZERNIO_API_KEY }}
-        run: python src/stats.py
+        run: |
+          python src/publish.py --check
+          python src/stats.py
       - name: Zapisz raport
         run: |
           git config user.name "handy-apps-bot"

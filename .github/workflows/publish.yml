@@ -8,6 +8,10 @@ on:
         description: "Tylko test połączenia z Instagramem (nic nie publikuje)"
         type: boolean
         default: true
+      reschedule:
+        description: "Zaplanuj ponownie wszystkie zaplanowane posty (np. po ponownym połączeniu Instagrama)"
+        type: boolean
+        default: false
       post:
         description: "Folder z posts/ do natychmiastowej publikacji (np. 2026-10-13-ready72h); puste = nic"
         required: false
@@ -31,7 +35,8 @@ jobs:
           ZERNIO_ACCOUNT_ID: ${{ secrets.ZERNIO_ACCOUNT_ID }}
           IN_POST: ${{ inputs.post }}
         run: |
-          if [ -n "$IN_POST" ]; then python src/publish.py --post "$IN_POST"; else python src/publish.py --check; fi
+          if [ "${{ inputs.reschedule }}" = "true" ]; then python src/publish.py --reschedule;
+          elif [ -n "$IN_POST" ]; then python src/publish.py --post "$IN_POST"; else python src/publish.py --check; fi
       - name: Zapisz status i zamknij zgłoszenia
         if: always()
         env:

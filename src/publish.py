@@ -145,16 +145,62 @@ def publish_post(post: dict, dry: bool) -> dict:
             "published_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")}
 
 
+def _expiry_days(acc: dict) -> float | None:
+    """Dni do wygaśnięcia tokenu Instagrama (szuka pola z datą wygaśnięcia w danych konta)."""
+    def walk(d, prefix=""):
+        for k, v in (d.items() if isinstance(d, dict) else []):
+            if isinstance(v, dict):
+                yield from walk(v, prefix + k + ".")
+            elif "expir" in k.lower() and isinstance(v, str):
+                yield prefix + k, v
+    for key, val in walk(acc):
+        try:
+            when = dt.datetime.fromisoformat(val.replace("Z", "+00:00"))
+            return (when - dt.datetime.now(dt.timezone.utc)).total_seconds() / 86400
+        except ValueError:
+            continue
+    return None
+
+
 def check() -> None:
-    """Test połączenia: klucz API i konto Instagram w Zernio. Nic nie publikuje."""
-    raw = os.environ.get("ZERNIO_API_KEY", "")
-    k = raw.strip()
-    print(f"::notice title=Diagnostyka klucza::początek='{k[:3]}', długość={len(k)}, "
-          f"białe znaki={'tak' if raw != k or ' ' in k else 'nie'}, cudzysłowy={'tak' if any(c in k for c in '\"\'') else 'nie'}, "
-          f"'Bearer' w środku={'tak' if 'bearer' in k.lower() else 'nie'}, API={API}")
+    """Test połączenia: konto Instagram w Zernio, ważność tokenu, stan zaplanowanych postów. Nic nie publikuje."""
+    import json
+    current = account_id()
     for a in instagram_accounts():
-        print(f"::notice title=Instagram połączony przez Zernio::@{a.get('username')} (accountId {a['_id']})")
-    account_id()
+        days = _expiry_days(a)
+        exp = f", token ważny jeszcze {days:.0f} dni" if days is not None else ""
+        print(f"::notice title=Instagram połączony przez Zernio::@{a.get('username')} (accountId {a['_id']}){exp}")
+        print("Pola konta:", sorted(a.keys()))
+        if days is not None and days < 10:
+            print(f"::error title=Połączenie Instagrama wygasa za {days:.0f} dni::W Zernio: Connections → Instagram → Disconnect → Connect.")
+            sys.exit(1)
+    for p in existing_posts():
+        if p["_scheduled"] and not (p["_published"] or p["_cancelled"]):
+            sched = json.loads((p["_dir"] / "scheduled.json").read_text())
+            try:
+                post = get_post(sched["zernio_post_id"])
+                acc = [x.get("accountId") for x in post.get("platforms", [])]
+                acc = [x.get("_id") if isinstance(x, dict) else x for x in acc]
+                print(f"::notice title=Zaplanowany {p['_dir'].name}::status {post.get('status')}, konto {acc}, aktualne {current}")
+            except Exception as e:
+                print(f"::warning title=Zaplanowany {p['_dir'].name}::nie znaleziono w Zernio ({_safe(e)[:200]})")
+
+
+def reschedule() -> None:
+    """Planuje ponownie wszystkie zaplanowane (nieopublikowane) posty — np. po ponownym połączeniu konta."""
+    import json
+    for p in existing_posts():
+        if not p["_scheduled"] or p["_published"] or p["_cancelled"]:
+            continue
+        folder = p["_dir"]
+        sched = json.loads((folder / "scheduled.json").read_text())
+        try:
+            cancel_post(sched["zernio_post_id"])
+        except RuntimeError:
+            pass  # post mógł już zniknąć razem z odłączonym kontem
+        new = schedule_post(p, sched["scheduled_for"], sched["timezone"])
+        write_json(folder / "scheduled.json", new)
+        print(f"::notice title=Zaplanowano ponownie {folder.name}::{new['scheduled_for']} (id {new['zernio_post_id']})")
 
 
 def publish_now(name: str, dry: bool = False) -> None:
@@ -209,9 +255,12 @@ def main() -> None:
     ap.add_argument("--check", action="store_true", help="sprawdź połączenie z Instagramem przez Zernio")
     ap.add_argument("--post", help="folder(y) w posts/ do natychmiastowej publikacji, oddzielone spacją")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--reschedule", action="store_true", help="zaplanuj ponownie wszystkie zaplanowane posty")
     args = ap.parse_args()
     try:
-        if args.check:
+        if args.reschedule:
+            reschedule()
+        elif args.check:
             check()
         elif args.post:
             for name in args.post.split():
