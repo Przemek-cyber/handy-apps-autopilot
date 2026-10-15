@@ -186,6 +186,65 @@ def check() -> None:
                 print(f"::warning title=Zaplanowany {p['_dir'].name}::nie znaleziono w Zernio ({_safe(e)[:200]})")
 
 
+def profile_id() -> str:
+    """Profil Zernio konta Instagram (wymagany przez automaty komentarzy)."""
+    accs = instagram_accounts()
+    acc = next((a for a in accs if a["_id"] == account_id()), accs[0])
+    pid = acc.get("profileId")
+    if isinstance(pid, dict):
+        pid = pid.get("_id")
+    if pid:
+        return pid
+    profiles = api("GET", "profiles").json()
+    profiles = profiles.get("profiles", profiles) if isinstance(profiles, dict) else profiles
+    return profiles[0]["_id"]
+
+
+def ensure_automations() -> None:
+    """Automaty komentarz → DM dla każdej apki z dm_keyword (na całe konto). Tworzy brakujące, aktualizuje istniejące."""
+    from common import apps
+    pid, aid = profile_id(), account_id()
+    existing = api("GET", "comment-automations", params={"profileId": pid}).json()
+    existing = existing.get("automations", existing.get("data", [])) if isinstance(existing, dict) else existing
+    by_name = {a.get("name"): a for a in existing}
+    for key, a in apps().items():
+        kw = a.get("dm_keyword")
+        if not kw or not a.get("link"):
+            continue
+        name = f"Handy Apps – {kw} → {a['name']}"
+        body = {
+            "profileId": pid, "accountId": aid, "name": name, "trigger": "comment",
+            "keywords": [kw], "matchMode": "word", "typoTolerance": True,
+            "dmMessage": a["dm_message"].format(link=a["link"]),
+            "commentReply": "Sent! Check your DMs 📩",
+            "commentReplyVariations": ["Done — it's in your DMs 📩", "Sent you the link in DM ✅", "Check your inbox 📩"],
+            "publicReplyPolicy": "after_dm",
+            "isActive": True,
+        }
+        if name in by_name:
+            aut_id = by_name[name].get("id") or by_name[name].get("_id")
+            upd = {k: v for k, v in body.items() if k not in ("profileId", "accountId")}
+            api("PATCH", f"comment-automations/{aut_id}", json=upd)
+            print(f"::notice title=Zaktualizowano automat {kw}::{name} ({aut_id})")
+        else:
+            r = api("POST", "comment-automations", json=body).json()
+            aut = r.get("automation", {})
+            print(f"::notice title=Utworzono automat {kw}::{name} ({aut.get('id')})")
+
+
+def automation_logs() -> None:
+    pid = profile_id()
+    existing = api("GET", "comment-automations", params={"profileId": pid}).json()
+    existing = existing.get("automations", existing.get("data", [])) if isinstance(existing, dict) else existing
+    for a in existing:
+        aut_id = a.get("id") or a.get("_id")
+        logs = api("GET", f"comment-automations/{aut_id}/logs").json()
+        items = logs.get("logs", logs.get("data", [])) if isinstance(logs, dict) else logs
+        print(f"::notice title=Automat {a.get('name')}::aktywny={a.get('isActive')}, słowa={a.get('keywords')}, wpisów w logu={len(items)}")
+        for it in items[:5]:
+            print(f"::notice title=Log {a.get('name')}::{str({k: it.get(k) for k in ('status', 'commentText', 'createdAt', 'error', 'reason') if k in it})[:400]}")
+
+
 def reschedule() -> None:
     """Planuje ponownie wszystkie zaplanowane (nieopublikowane) posty — np. po ponownym połączeniu konta."""
     import json
@@ -256,9 +315,15 @@ def main() -> None:
     ap.add_argument("--post", help="folder(y) w posts/ do natychmiastowej publikacji, oddzielone spacją")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--reschedule", action="store_true", help="zaplanuj ponownie wszystkie zaplanowane posty")
+    ap.add_argument("--automations", action="store_true", help="utwórz / zaktualizuj automaty komentarz → DM")
+    ap.add_argument("--automation-logs", action="store_true", help="pokaż ostatnie zdarzenia automatów DM")
     args = ap.parse_args()
     try:
-        if args.reschedule:
+        if args.automations:
+            ensure_automations()
+        elif args.automation_logs:
+            automation_logs()
+        elif args.reschedule:
             reschedule()
         elif args.check:
             check()

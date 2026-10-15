@@ -8,6 +8,9 @@ on:
         description: "Tylko test połączenia z Instagramem (nic nie publikuje)"
         type: boolean
         default: true
+      action:
+        description: "Inne: automations (utwórz automaty komentarz → DM) / automation-logs (podgląd zdarzeń)"
+        required: false
       reschedule:
         description: "Zaplanuj ponownie wszystkie zaplanowane posty (np. po ponownym połączeniu Instagrama)"
         type: boolean
@@ -35,7 +38,8 @@ jobs:
           ZERNIO_ACCOUNT_ID: ${{ secrets.ZERNIO_ACCOUNT_ID }}
           IN_POST: ${{ inputs.post }}
         run: |
-          if [ "${{ inputs.reschedule }}" = "true" ]; then python src/publish.py --reschedule;
+          if [ -n "${{ inputs.action }}" ]; then python src/publish.py --${{ inputs.action }};
+          elif [ "${{ inputs.reschedule }}" = "true" ]; then python src/publish.py --reschedule;
           elif [ -n "$IN_POST" ]; then python src/publish.py --post "$IN_POST"; else python src/publish.py --check; fi
       - name: Zapisz status i zamknij zgłoszenia
         if: always()
