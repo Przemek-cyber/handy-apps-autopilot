@@ -1,0 +1,41 @@
+name: Pomocnicze — specyfikacja Zernio
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  spec:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pobierz i wytnij fragment o komentarzach
+        run: |
+          curl -sSL https://zernio.com/openapi.json -o /tmp/spec.json || curl -sSL https://docs.zernio.com/api/openapi -o /tmp/spec.json
+          python3 - <<'PY'
+          import json
+          spec = json.load(open("/tmp/spec.json"))
+          comps = spec.get("components", {}).get("schemas", {})
+          def resolve(o, depth=0):
+              if depth > 6: return o
+              if isinstance(o, dict):
+                  if "$ref" in o:
+                      name = o["$ref"].split("/")[-1]
+                      return {"$ref": name, **resolve(comps.get(name, {}), depth + 1)}
+                  return {k: resolve(v, depth + 1) for k, v in o.items()}
+              if isinstance(o, list): return [resolve(x, depth + 1) for x in o]
+              return o
+          out = {"servers": spec.get("servers"), "paths": {}}
+          for path, ops in spec.get("paths", {}).items():
+              if "comment-automation" in path or "automation" in path.lower():
+                  out["paths"][path] = resolve(ops)
+          json.dump(out, open("tools/zernio-comment-automations.json", "w"), indent=1)
+          print(list(out["paths"]))
+          PY
+      - run: |
+          git config user.name "handy-apps-bot"
+          git config user.email "handy-apps-bot@users.noreply.github.com"
+          git add tools/zernio-comment-automations.json
+          git commit -q -m "Specyfikacja Zernio: automatyzacje komentarzy" && git push -q
