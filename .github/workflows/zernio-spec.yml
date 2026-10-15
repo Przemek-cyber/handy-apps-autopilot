@@ -13,7 +13,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Pobierz i wytnij fragment o komentarzach
         run: |
-          curl -sSL https://zernio.com/openapi.json -o /tmp/spec.json || curl -sSL https://docs.zernio.com/api/openapi -o /tmp/spec.json
+          mkdir -p tools
+          curl -sSL --compressed https://zernio.com/openapi.json -o /tmp/spec.json
+          head -c 200 /tmp/spec.json | tr -d '\n' | sed 's/^/::notice title=Początek pliku::/'; echo
+          python3 -c "import json;json.load(open('/tmp/spec.json'))" 2>/dev/null || curl -sSL --compressed https://docs.zernio.com/api/openapi -o /tmp/spec.json
           python3 - <<'PY'
           import json
           spec = json.load(open("/tmp/spec.json"))
