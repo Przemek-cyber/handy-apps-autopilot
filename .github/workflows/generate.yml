@@ -6,6 +6,7 @@ name: Generuj posty
 on:
   schedule:
     - cron: "47 15 * * 1,4"
+    - cron: "23 16 * * 1,4"   # zapas: GitHub czasem gubi zaplanowane uruchomienia; istniejące posty są pomijane
   workflow_dispatch:
     inputs:
       app:

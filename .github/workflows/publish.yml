@@ -15,6 +15,10 @@ on:
         description: "Zaplanuj ponownie wszystkie zaplanowane posty (np. po ponownym połączeniu Instagrama)"
         type: boolean
         default: false
+      retime:
+        description: "Przy ponownym planowaniu ustaw godziny wg publish_times z harmonogramu"
+        type: boolean
+        default: false
       post:
         description: "Folder z posts/ do natychmiastowej publikacji (np. 2026-10-13-ready72h); puste = nic"
         required: false
@@ -37,6 +41,7 @@ jobs:
           ZERNIO_API_KEY: ${{ secrets.ZERNIO_API_KEY }}
           ZERNIO_ACCOUNT_ID: ${{ secrets.ZERNIO_ACCOUNT_ID }}
           IN_POST: ${{ inputs.post }}
+          RETIME: ${{ inputs.retime && '1' || '' }}
         run: |
           if [ -n "${{ inputs.action }}" ]; then python src/publish.py --${{ inputs.action }};
           elif [ "${{ inputs.reschedule }}" = "true" ]; then python src/publish.py --reschedule;

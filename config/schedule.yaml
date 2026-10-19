@@ -17,8 +17,8 @@ platforms:                     # od 19.10: Instagram = tylko Ready72h, TikTok = 
   ready72h: instagram
   bikepackpilot: tiktok
 publish_times:                 # godzina publikacji dla każdej apki (czas polski)
-  bikepackpilot: "18:00"
-  ready72h: "12:00"
+  bikepackpilot: "07:00"       # TikTok
+  ready72h: "07:00"            # Instagram
 # Test otwarć (hook): agent dostaje styl po kolei, raport tygodniowy porównuje zasięg wg stylu.
 hook_styles:
   question: "Open with a direct, specific question the viewer can't answer instantly (e.g. 'How long would your home last without power?')."
