@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ready72h — be ready for the first 72 hours</title>
+<meta name="description" content="Be ready for the first 72 hours of any crisis. Printable PDF planner + offline app.">
+<meta property="og:title" content="Ready72h — be ready for the first 72 hours">
+<meta property="og:description" content="Be ready for the first 72 hours of any crisis. Printable PDF planner + offline app.">
+<meta property="og:image" content="../img/ready72h.jpg">
+<style>
+  @font-face { font-family: Serif; font-weight: 700; src: url("../fonts/DejaVuSerif-Bold.ttf"); font-display: swap; }
+  @font-face { font-family: Sans; font-weight: 400; src: url("../fonts/DejaVuSans.ttf"); font-display: swap; }
+  @font-face { font-family: Sans; font-weight: 700; src: url("../fonts/DejaVuSans-Bold.ttf"); font-display: swap; }
+  :root { --text: #fcf6ed; --muted: #b9c4bf; --orange: #c86e2b; --line: rgba(255,255,255,.12); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { background: #0e1a19; }
+  body {
+    font-family: Sans, system-ui, sans-serif; color: var(--text); min-height: 100vh;
+    background: linear-gradient(170deg, #0c1515 0%, #13322f 45%, #111813 100%);
+    padding: 40px 16px 56px; -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+  header { text-align: center; padding: 8px 0 12px; }
+  header h1 { font-family: Serif; font-size: 34px; letter-spacing: -.01em; }
+  header p { color: var(--muted); margin-top: 8px; line-height: 1.5; font-size: 15px; }
+  .card {
+    border: 1px solid var(--line); border-radius: 20px; overflow: hidden;
+    background: #0d1716; display: flex; flex-direction: column;
+  }
+  .shot { height: 210px; overflow: hidden; border-bottom: 1px solid var(--line); background: #0b1210; }
+  .shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+  .body { padding: 20px 20px 22px; display: flex; flex-direction: column; gap: 12px; }
+  .tag { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--orange); font-weight: 700; }
+  h2 { font-family: Serif; font-size: 26px; display: flex; align-items: center; gap: 10px; }
+  h2 svg { height: 26px; width: auto; }
+  .lead { color: var(--text); line-height: 1.45; font-size: 16px; }
+  ul { list-style: none; display: flex; flex-direction: column; gap: 6px; color: var(--muted); font-size: 14.5px; line-height: 1.45; }
+  li::before { content: "✓"; color: var(--orange); font-weight: 700; margin-right: 8px; }
+  .btn {
+    display: block; text-align: center; text-decoration: none; margin-top: 6px;
+    background: var(--orange); color: #141414; font-weight: 700; font-size: 17px;
+    padding: 15px 18px; border-radius: 999px;
+  }
+  .btn:active { transform: scale(.98); }
+  .note { text-align: center; color: var(--muted); font-size: 13px; }
+  footer { text-align: center; color: var(--muted); font-size: 12.5px; margin-top: 8px; line-height: 1.6; }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Handy Apps</h1>
+    <p>Small, practical apps for being ready —<br>on the road and at home.</p>
+  </header>
+
+  <section class="card" id="ready72h">
+    <div class="shot"><img src="../img/ready72h.jpg" alt="Ready72h app: 72-hour supply checklist"></div>
+    <div class="body">
+      <span class="tag">For your household</span>
+      <h2><svg viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,4 4,96 50,96" fill="#14504c"/><polygon points="50,4 96,96 50,96" fill="#c86e2b"/></svg>Ready72h</h2>
+      <p class="lead">Be ready for the first 72 hours of any crisis — before help arrives.</p>
+      <ul>
+        <li>72-hour supply checklist: water, food, medicine, cash</li>
+        <li>Family communication plan for when phones go down</li>
+        <li>“15 minutes to leave the house” go-bag list</li>
+        <li>Based on official guidance from MSB, BBK and RCB</li>
+        <li>Printable PDF + offline app · PL / EN / DE / ES</li>
+      </ul>
+      <a class="btn" href="https://przemek.lemonsqueezy.com/checkout/buy/4ebf56da-3b44-4d2f-9928-e9aaaa581d5b">Get Ready72h</a>
+      <p class="note">Pay what you want, from 2 PLN · even the minimum unlocks everything</p>
+    </div>
+  </section>
+
+
+  <footer>
+    Built by an indie maker with AI · Secure checkout by Lemon Squeezy<br>
+    Questions? DM us on Instagram.
+  </footer>
+</main>
+</body>
+</html>
