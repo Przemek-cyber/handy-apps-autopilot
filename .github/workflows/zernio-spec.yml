@@ -36,9 +36,20 @@ jobs:
                   out["paths"][path] = resolve(ops)
           json.dump(out, open("tools/zernio-comment-automations.json", "w"), indent=1)
           print(list(out["paths"]))
+          tk = {k: v for k, v in comps.items() if "tiktok" in k.lower()}
+          def find(o, path=""):
+              if isinstance(o, dict):
+                  for k, v in o.items():
+                      if "tiktok" in k.lower(): tk[path + "/" + k] = v
+                      find(v, path + "/" + k)
+              elif isinstance(o, list):
+                  for i, x in enumerate(o): find(x, path + f"[{i}]")
+          find(spec.get("paths", {}).get("/v1/posts", spec.get("paths", {}).get("/posts", {})), "posts")
+          json.dump(tk, open("tools/zernio-tiktok.json", "w"), indent=1)
+          print("tiktok:", list(tk)[:40])
           PY
       - run: |
           git config user.name "handy-apps-bot"
           git config user.email "handy-apps-bot@users.noreply.github.com"
-          git add tools/zernio-comment-automations.json
-          git commit -q -m "Specyfikacja Zernio: automatyzacje komentarzy" && git push -q
+          git add tools/
+          git commit -q -m "Specyfikacja Zernio" && git push -q
