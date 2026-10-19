@@ -185,7 +185,8 @@ def make_post(app_key: str, publish_on: dt.date, fmt: str, sample: bool) -> dict
     track = pick_music(used_music, seed=folder.name)
     r = render_reel(app_key, content, folder, track)
     media = {"video": r["video"].name, "cover": r["cover"].name, "duration": r["duration"], "music": r["music"]}
-    post = {"app": app_key, "format": "reel", "style": style, "hook_style": hook_name,
+    platform = (schedule().get("platforms") or {}).get(app_key, "instagram")
+    post = {"app": app_key, "platform": platform, "format": "reel", "style": style, "hook_style": hook_name,
             "topic": topic["topic"], "pillar": topic["pillar"],
             "publish_on": publish_on.isoformat(), "created_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
             "content": content, "media": media, "qa": reviews}
@@ -206,14 +207,15 @@ def main() -> None:
     sched = schedule()
     tz = sched["timezone"]
     today = dt.datetime.now(ZoneInfo(tz)).date()
+    daily = sched.get("daily_apps") or list(sched["publish_times"])
     if args.date:
         day0 = dt.date.fromisoformat(args.date)
-        apps_ = list(sched["publish_times"]) if args.app == "all" else [args.app or app_for(day0, sched)]
+        apps_ = daily if args.app in (None, "", "all") else [args.app]
         targets = [(a, day0) for a in apps_]
     else:
         offsets = sched.get("generate_plan", {}).get(today.strftime("%a").lower(), [sched["publish_after_days"]])
         days = [today + dt.timedelta(days=o) for o in offsets]
-        targets = [(args.app or app_for(d, sched), d) for d in days]
+        targets = [(a, d) for d in days for a in ([args.app] if args.app and args.app != "all" else daily)]
 
     created, failed = [], []
     for app_key, day in targets:

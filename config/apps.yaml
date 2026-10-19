@@ -42,8 +42,10 @@ bikepackpilot:
     - Web app at bikepackpilot.com that works offline and installs like an app.
     # TODO: cena i forma zakupu — bez tego agent nie wspomina o cenie
   sources: []
-  cta: "Plan your next trip with BikepackPilot — link in bio."
-  dm_keyword: ROUTE
-  dm_enabled: true
+  # od 19.10 BikepackPilot publikujemy na TikToku: brak automatu DM i klikalnego linku → adres strony
+  cta: "Plan your next trip at bikepackpilot.com (link in bio)."
+  end_pill: "bikepackpilot.com"
+  dm_keyword: ROUTE      # automat na Instagramie zostaje (stare posty), ale treści go nie obiecują
+  dm_enabled: false
   link: "https://przemek.lemonsqueezy.com/checkout/buy/0c0586a4-a00a-45ca-9407-99d445aee50e"
   dm_message: "Here's BikepackPilot: {link} — split your route into 50 km segments, get realistic riding days and a gear list that fits the conditions. Ride relaxed 🚲"

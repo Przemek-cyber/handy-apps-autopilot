@@ -6,7 +6,7 @@ import os
 
 import anthropic
 
-from common import apps, brand
+from common import apps, brand, schedule
 
 MODEL = os.environ.get("CLAUDE_MODEL") or "claude-sonnet-5-5"  # pusta zmienna w GitHub = domyślny model
 
@@ -41,7 +41,7 @@ CONTENT_SCHEMA = {
                    "description": "Carousel only: 5-6 slides, first 'cover', last 'cta'."},
         "scenes": {"type": "array", "items": SCENE_SCHEMA,
                    "description": "Reel only: 5-6 scenes, total 14-20 s, first scene is the hook, last is the CTA."},
-        "caption": {"type": "string", "description": "Instagram caption, 300-900 characters. Line 1 = keyword-rich hook "
+        "caption": {"type": "string", "description": "Caption, 300-900 characters. Line 1 = keyword-rich hook "
                     "(the words people search for, e.g. 'bikepacking water planning'). Then short value. Then the QUESTION "
                     "on its own line. Last line = the call to action."},
         "question": {"type": "string", "description": "One easy, specific question that invites a short comment "
@@ -124,14 +124,24 @@ def _product_brief(app_key: str) -> str:
            f"'Comment {a['dm_keyword']} → link in DM' button there."
            if a.get("dm_enabled") and a.get("dm_keyword") else
            f"Call to action (last line of the caption): {a['cta']}\n"
-           "Do NOT ask people to comment a keyword or promise to send DMs — there is no DM automation yet.")
+           "Do NOT ask people to comment a keyword or promise to send DMs — there is no DM automation here.")
+        + _platform_note(app_key)
     )
+
+
+def _platform_note(app_key: str) -> str:
+    plat = (schedule().get("platforms") or {}).get(app_key, "instagram")
+    if plat == "tiktok":
+        return ("\nPLATFORM: this post is published on TikTok (not Instagram). Write the caption for TikTok: "
+                "short punchy first line (length rules unchanged), no 'link in DM'. Links in captions are not clickable — "
+                "point people to the website name instead. Hashtags: 3-5, popular on TikTok in this niche.")
+    return "\nPLATFORM: this post is published on Instagram."
 
 
 def _rules() -> str:
     b = brand()
     return (
-        f"You write for the Instagram account '{b['name']}' — a faceless, product-focused account by an indie maker "
+        f"You write for the Instagram/TikTok account '{b['name']}' — a faceless, product-focused account by an indie maker "
         "who builds practical apps with AI. Language: English only.\n"
         f"Tone: {b['voice']['tone']}\n"
         "Hard rules:\n"
@@ -197,7 +207,7 @@ def write_content(app_key: str, fmt: str, topic: dict, clips: dict[str, str], re
 
 def review_content(app_key: str, fmt: str, content: dict, clips: dict[str, str] | None = None) -> dict:
     system = (
-        "You are a strict quality editor for an Instagram account. You check a draft post before it is published automatically — there is no other human check, so be strict.\n"
+        "You are a strict quality editor for a social media account (Instagram or TikTok, see PLATFORM). You check a draft post before it is published automatically — there is no other human check, so be strict.\n"
         + _rules()
         + "\nCheck: (1) every product claim is in the approved facts; (2) advice is accurate, general and safe; "
         "(3) no fear-mongering; (4) English, clear, no typos; (5) structure matches the format "
@@ -205,7 +215,7 @@ def review_content(app_key: str, fmt: str, content: dict, clips: dict[str, str] 
         "scene text <= 12 words, clips only from the list and matching the text); highlight markup with *asterisks* "
         "only in slide titles / scene texts, never in caption; (6) caption 300-900 characters: keyword-rich first line, "
         "the question on its own line, ends with the exact call to action from the brief; (7) 'question' is easy to answer "
-        "in a few words; (8) 3-5 specific niche hashtags, each spelled correctly and actually used on Instagram (no typos, no invented compound words).\n"
+        "in a few words; (8) 3-5 specific niche hashtags, each spelled correctly and actually used on that platform (no typos, no invented compound words).\n"
         "verdict=pass if publishable as is; verdict=fix if small corrections make it publishable — then return the FULL "
         "corrected content in 'fixed'; verdict=reject if the idea itself is unsafe or off-brand."
     )

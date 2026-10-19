@@ -37,21 +37,32 @@ def api(method: str, path: str, **kwargs) -> requests.Response:
     return r
 
 
-def instagram_accounts() -> list[dict]:
+def platform_accounts(platform: str) -> list[dict]:
     data = api("GET", "accounts").json()
     accounts = data.get("accounts", []) if isinstance(data, dict) else data
-    return [a for a in accounts if a.get("platform") == "instagram" and a.get("isActive", True)]
+    return [a for a in accounts if a.get("platform") == platform and a.get("isActive", True)]
 
 
-def account_id() -> str:
-    if v := os.environ.get("ZERNIO_ACCOUNT_ID"):
+def instagram_accounts() -> list[dict]:
+    return platform_accounts("instagram")
+
+
+def account_id(platform: str = "instagram") -> str:
+    if platform == "instagram" and (v := os.environ.get("ZERNIO_ACCOUNT_ID")):
         return v
-    accs = instagram_accounts()
+    accs = platform_accounts(platform)
     if len(accs) != 1:
         names = [a.get("username") for a in accs]
-        raise RuntimeError(f"Oczekiwano jednego konta Instagram w Zernio, jest {len(accs)}: {names}. "
-                           "Ustaw sekret ZERNIO_ACCOUNT_ID.")
+        raise RuntimeError(f"Oczekiwano jednego konta {platform} w Zernio, jest {len(accs)}: {names}.")
     return accs[0]["_id"]
+
+
+def platform_for(post: dict) -> str:
+    """Gdzie idzie post: pole 'platform' w post.json, inaczej mapowanie apka → platforma z harmonogramu."""
+    if post.get("platform"):
+        return post["platform"]
+    from common import schedule
+    return (schedule().get("platforms") or {}).get(post.get("app"), "instagram")
 
 
 def upload(path, attempts: int = 4) -> str:
@@ -82,7 +93,9 @@ def full_caption(content: dict) -> str:
 
 
 def _ig_result(post: dict) -> dict:
-    return next((p for p in post.get("platforms", []) if p.get("platform") == "instagram"), {})
+    """Wynik publikacji na platformie posta (Instagram albo TikTok — każdy post idzie na jedną)."""
+    plats = post.get("platforms", [])
+    return next((p for p in plats if p.get("platform") == "instagram"), plats[0] if plats else {})
 
 
 def wait_published(post_id: str, timeout_s: int = 900) -> dict:
@@ -101,8 +114,15 @@ def wait_published(post_id: str, timeout_s: int = 900) -> dict:
 def _create(post: dict, extra: dict) -> requests.Response:
     """Wysyła media do Zernio i tworzy post (natychmiast albo zaplanowany — zależnie od `extra`)."""
     folder, media = post["_dir"], post["media"]
-    platform = {"platform": "instagram", "accountId": account_id(), "platformSpecificData": {}}
-    if post["format"] == "carousel":
+    target = platform_for(post)
+    platform = {"platform": target, "accountId": account_id(target), "platformSpecificData": {}}
+    if target == "tiktok":
+        platform["platformSpecificData"] = {
+            "privacyLevel": "PUBLIC_TO_EVERYONE", "allowComment": True, "allowDuet": True, "allowStitch": True,
+            "commercialContentType": "brand_organic", "contentPreviewConfirmed": True, "expressConsentGiven": True,
+            "videoCoverImageUrl": upload(folder / media["cover"])}
+        items = [{"type": "video", "url": upload(folder / media["video"])}]
+    elif post["format"] == "carousel":
         items = [{"type": "image", "url": upload(folder / name)} for name in media["images"]]
     else:
         items = [{"type": "video", "url": upload(folder / media["video"])}]

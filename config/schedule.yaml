@@ -12,9 +12,12 @@ publish_after_days: 1          # (tryb ręczny) domyślna data publikacji = jutr
 generate_plan:
   mon: [1, 2, 3]
   thu: [1, 2, 3, 4]
-daily_apps: [ready72h]   # od 19.10: konto IG skupione na jednej apce (test 3–4 tyg.). Obie: [bikepackpilot, ready72h]
+daily_apps: [ready72h, bikepackpilot]   # KAŻDEGO dnia post każdej z tych apek (każda na swojej platformie)
+platforms:                     # od 19.10: Instagram = tylko Ready72h, TikTok = tylko BikepackPilot
+  ready72h: instagram
+  bikepackpilot: tiktok
 publish_times:                 # godzina publikacji dla każdej apki (czas polski)
-  bikepackpilot: "07:00"
+  bikepackpilot: "18:00"
   ready72h: "12:00"
 # Test otwarć (hook): agent dostaje styl po kolei, raport tygodniowy porównuje zasięg wg stylu.
 hook_styles:

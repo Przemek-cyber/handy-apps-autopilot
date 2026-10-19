@@ -140,7 +140,7 @@ def _end(app_key: str, line: str, big: bool, question: str = "", pill: str = "")
     q = (f'<div class="line" style="color:var(--text);font-weight:700">💬 {html.escape(plain(question))}</div>'
          if question else f'<div class="line">{html.escape(st["tagline"])}</div>')
     kw = apps()[app_key].get("dm_keyword") if apps()[app_key].get("dm_enabled") else ""
-    pill = pill or (f"Comment “{kw}” → link in DM" if kw else "Link in bio")
+    pill = pill or apps()[app_key].get("end_pill") or (f"Comment “{kw}” → link in DM" if kw else "Link in bio")
     return (f'<div class="end">{logo_svg(app_key, full=True)}<div class="name">{name}</div>{first}{q}'
             f'<div class="pill">{html.escape(pill)}</div>'
             f'<div class="line" style="font-size:calc(var(--u) * 2.8)">🔖 Save this for later</div></div>')

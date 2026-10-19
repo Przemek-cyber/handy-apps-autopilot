@@ -1,0 +1,76 @@
+name: Przenieś posty na inną platformę
+
+# Ręcznie: np. stare rolki BikepackPilot z Instagrama → TikTok, po jednej dziennie od podanej daty.
+on:
+  workflow_dispatch:
+    inputs:
+      posts:
+        description: "Foldery z posts/ (spacja), w kolejności publikacji"
+        required: true
+      platform:
+        description: "Platforma docelowa"
+        default: tiktok
+      start:
+        description: "Data pierwszej publikacji RRRR-MM-DD"
+        required: true
+      first_time:
+        description: "Godzina pierwszej publikacji HH:MM (puste = wg harmonogramu)"
+        required: false
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency: generate
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Zależności
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+
+      - name: Przenieś i zaplanuj
+        id: gen
+        env:
+          ZERNIO_API_KEY: ${{ secrets.ZERNIO_API_KEY }}
+          ZERNIO_ACCOUNT_ID: ${{ secrets.ZERNIO_ACCOUNT_ID }}
+          IN_POSTS: ${{ inputs.posts }}
+          IN_PLATFORM: ${{ inputs.platform }}
+          IN_START: ${{ inputs.start }}
+          IN_TIME: ${{ inputs.first_time }}
+        run: |
+          ARGS="--platform $IN_PLATFORM --start $IN_START"
+          [ -n "$IN_TIME" ] && ARGS="$ARGS --first-time $IN_TIME"
+          python src/repost.py $ARGS $IN_POSTS
+
+      - name: Zapisz posty w repo
+        if: always() && steps.gen.outputs.created != ''
+        run: |
+          git config user.name "handy-apps-bot"
+          git config user.email "handy-apps-bot@users.noreply.github.com"
+          for NAME in ${{ steps.gen.outputs.created }}; do git add "posts/$NAME"; git reset -q -- "posts/$NAME/issue_body.md"; done
+          git commit -q -m "Przeniesione posty: ${{ steps.gen.outputs.created }}"
+          for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 5; done
+
+      - name: Zgłoszenia do kontroli
+        if: always() && steps.gen.outputs.created != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create autopost --color E4572E --description "Post zaplanowany przez agentów" --force
+          for NAME in ${{ steps.gen.outputs.created }}; do
+            gh issue create --title "📣 $NAME" --label autopost --assignee "${{ github.repository_owner }}" \
+              --body-file "posts/$NAME/issue_body.md"
+          done
