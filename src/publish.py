@@ -289,16 +289,16 @@ def reschedule() -> None:
             continue
         folder = p["_dir"]
         sched = json.loads((folder / "scheduled.json").read_text())
+        when = sched["scheduled_for"]
+        if os.environ.get("RETIME"):  # nowa godzina z harmonogramu (config/schedule.yaml → publish_times)
+            from common import schedule
+            if dt.datetime.fromisoformat(when) <= dt.datetime.now() + dt.timedelta(hours=3):
+                continue  # dzisiejszy/już wychodzący post zostawiamy w spokoju
+            when = f"{when[:10]}T{schedule()['publish_times'][p['app']]}:00"
         try:
             cancel_post(sched["zernio_post_id"])
         except RuntimeError:
             pass  # post mógł już zniknąć razem z odłączonym kontem
-        when = sched["scheduled_for"]
-        if os.environ.get("RETIME"):  # nowa godzina z harmonogramu (config/schedule.yaml → publish_times)
-            from common import schedule
-            when = f"{when[:10]}T{schedule()['publish_times'][p['app']]}:00"
-            if dt.datetime.fromisoformat(when) <= dt.datetime.now():
-                continue
         new = schedule_post(p, when, sched["timezone"])
         write_json(folder / "scheduled.json", new)
         print(f"::notice title=Zaplanowano ponownie {folder.name}::{new['scheduled_for']} (id {new['zernio_post_id']})")
