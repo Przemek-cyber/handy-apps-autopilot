@@ -1,0 +1,332 @@
+{
+ "TikTokPlatformData": {
+  "type": "object",
+  "description": "Photo carousels up to 35 images. Video titles up to 2200 chars, photo titles truncated to 90 chars.\nprivacyLevel must match creator_info options. Both camelCase and snake_case accepted.\n\nCreator Inbox (draft mode): Set draft: true to send content to the TikTok Creator Inbox\ninstead of publishing immediately. The creator receives an inbox notification and completes\nthe post using TikTok's editing flow. This maps to TikTok's post_mode: \"MEDIA_UPLOAD\" internally.\n\nImportant: The field publish_type is NOT supported. Use draft: true for Creator Inbox flow.\n\nPhoto drafts use the /v2/post/publish/content/init/ endpoint with post_mode: \"MEDIA_UPLOAD\".\nVideo drafts use the dedicated /v2/post/publish/inbox/video/init/ endpoint.\n\nWhen draft: true, the video.upload scope is required. When draft is false or omitted\n(direct post), the video.publish scope is required. For Creator Inbox, TikTok app version\nmust be 31.8 or higher.\n",
+  "properties": {
+   "draft": {
+    "type": "boolean",
+    "description": "When true, sends the post to the TikTok Creator Inbox as a draft instead of publishing\nimmediately. The creator receives an inbox notification to complete posting via TikTok's\nediting flow. Maps to TikTok API post_mode: \"MEDIA_UPLOAD\" (photos) or the dedicated\ninbox endpoint (videos). When false or omitted, publishes directly via post_mode: \"DIRECT_POST\".\nNote: publish_type is not a supported field. Use this field instead.\n"
+   },
+   "privacyLevel": {
+    "type": "string",
+    "description": "One of the values returned by the TikTok creator info API for the account. Accounts connected through the TikTok for Business app publish videos as public only: a non-public value on a video post is rejected at creation unless draft is true (photo posts keep every level)."
+   },
+   "allowComment": {
+    "type": "boolean",
+    "description": "Allow comments on the post"
+   },
+   "allowDuet": {
+    "type": "boolean",
+    "description": "Allow duets (required for video posts)"
+   },
+   "allowStitch": {
+    "type": "boolean",
+    "description": "Allow stitches (required for video posts)"
+   },
+   "commercialContentType": {
+    "type": "string",
+    "enum": [
+     "none",
+     "brand_organic",
+     "brand_content"
+    ],
+    "description": "Type of commercial content disclosure. Sufficient on its own: \"brand_organic\"\n(\"Your Brand\") implies isBrandOrganicPost and \"brand_content\" (\"Branded Content\",\npaid partnership) implies brandPartnerPromote, so you don't need to send the\nboolean flags separately. Branded content cannot be posted with privacyLevel\nSELF_ONLY.\n"
+   },
+   "brandPartnerPromote": {
+    "type": "boolean",
+    "description": "Whether the post promotes a brand partner (branded content / paid partnership).\nOnly needed to disclose BOTH types at once (set it alongside\ncommercialContentType \"brand_organic\"), or to override the value implied by\ncommercialContentType.\n"
+   },
+   "isBrandOrganicPost": {
+    "type": "boolean",
+    "description": "Whether the post promotes the creator's own brand (brand organic). Only needed\nto disclose BOTH types at once (set it alongside commercialContentType\n\"brand_content\"), or to override the value implied by commercialContentType.\n"
+   },
+   "contentPreviewConfirmed": {
+    "type": "boolean",
+    "description": "User has confirmed they previewed the content"
+   },
+   "expressConsentGiven": {
+    "type": "boolean",
+    "description": "User has given express consent for posting"
+   },
+   "mediaType": {
+    "type": "string",
+    "enum": [
+     "video",
+     "photo"
+    ],
+    "description": "Optional override. Defaults based on provided media items."
+   },
+   "videoCoverTimestampMs": {
+    "type": "integer",
+    "description": "Optional for video posts. Timestamp in milliseconds to select which frame to use as thumbnail (defaults to 1000ms/1 second). Ignored when videoCoverImageUrl is provided.",
+    "minimum": 0
+   },
+   "videoCoverImageUrl": {
+    "type": "string",
+    "format": "uri",
+    "description": "Optional for video posts. URL of a custom thumbnail image (JPG, PNG, or WebP, max 20MB). Any downloadable URL works: we rehost it ourselves. The image is stitched as a single frame at the start of the video to serve as the cover. Accounts connected through the TikTok for Business app hand it to TikTok as the cover instead, with no stitching, falling back to videoCoverTimestampMs without it. Overrides videoCoverTimestampMs when provided."
+   },
+   "photoCoverIndex": {
+    "type": "integer",
+    "description": "Optional for photo carousels. Index of image to use as cover, 0-based (defaults to 0/first image).",
+    "minimum": 0
+   },
+   "autoAddMusic": {
+    "type": "boolean",
+    "description": "When true, TikTok may add recommended music (photos only). With the brand-organic or branded-content toggle on, TikTok allows Commercial Music Library tracks only, so this attaches nothing there; use musicSoundInfo instead."
+   },
+   "musicSoundInfo": {
+    "type": "object",
+    "description": "Commercial Music Library track to attach. Accounts connected through the TikTok for Business app only: a developer-app account rejects the post at publish time with a message that says so. Pick musicSoundId from GET /v1/accounts/{accountId}/tiktok/commercial-music. Ignored on drafts, where TikTok ignores every post_info field.",
+    "required": [
+     "musicSoundId"
+    ],
+    "properties": {
+     "musicSoundId": {
+      "type": "string",
+      "description": "The clip.id of a track from GET /v1/accounts/{accountId}/tiktok/commercial-music (its id publishes too, but viewers may see the sound as unavailable in their country; observed from Germany). TikTok fails the publish with a generic 51065 when given the commercial music id instead."
+     },
+     "musicSoundVolume": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 50,
+      "description": "Track volume. TikTok defaults an omitted volume to 0, which publishes the track silently, so we default to the app's 50. Video posts only."
+     },
+     "musicSoundStart": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Start point of the track in milliseconds (default 0). Video posts only."
+     },
+     "musicSoundEnd": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "End point of the track in milliseconds (default: the video length). Must be greater than musicSoundStart. Video posts only."
+     }
+    }
+   },
+   "videoOriginalSoundVolume": {
+    "type": "integer",
+    "minimum": 0,
+    "maximum": 100,
+    "description": "Volume of the video's own sound when a commercial track is attached (0 to 100). Requires musicSoundInfo. Video posts only. Omitted, TikTok keeps its API default of 0 and the video's own audio is muted under the track (the TikTok app uses 50)."
+   },
+   "videoMadeWithAi": {
+    "type": "boolean",
+    "description": "Set true to disclose AI-generated content. Accounts connected through the TikTok for Business app carry the disclosure on video posts only: the business photo endpoint has no AI disclosure field, so true on a direct photo post is rejected at creation rather than published undisclosed. Send draft true to publish such a photo post and set the disclosure in the TikTok app."
+   },
+   "locationId": {
+    "type": "string",
+    "description": "Location tag to attach, as the id of a result from GET /v1/accounts/{accountId}/tiktok/locations. Accounts connected through the TikTok for Business app and video posts only: a developer-app account rejects the post at publish time with a message that says so, and a direct photo post is rejected at creation since the business photo endpoint has no location field. Requires locationName. Ignored on drafts, where TikTok ignores every post_info field."
+   },
+   "locationName": {
+    "type": "string",
+    "description": "Display name of the location tag, as returned next to its id. Required with locationId; a locationId without it is rejected at creation."
+   },
+   "isAdsOnly": {
+    "type": "boolean",
+    "description": "Set true to publish the video as an \"Only show in ads\" post: it is kept off the profile and exists to be used as a Spark Ad. Accounts connected through the TikTok for Business app and video posts only, with the same rejections as locationId. Ignored on drafts."
+   },
+   "description": {
+    "type": "string",
+    "maxLength": 4000,
+    "description": "Optional long-form caption for photo posts (max 4000 chars). Recommended when content exceeds 90 chars, as photo titles are auto-truncated. Falls back to the post content when omitted."
+   }
+  }
+ },
+ "TikTokDryRunVerdict": {
+  "type": "object",
+  "required": [
+   "dryRun",
+   "canPublish",
+   "tiktok"
+  ],
+  "properties": {
+   "dryRun": {
+    "type": "boolean",
+    "description": "Always true on this response"
+   },
+   "canPublish": {
+    "type": "boolean",
+    "description": "True only when every evaluated TikTok account can publish now"
+   },
+   "tiktok": {
+    "type": "array",
+    "description": "One verdict per `tiktok` entry in the request, in request order",
+    "items": {
+     "type": "object",
+     "required": [
+      "accountId",
+      "canPublish",
+      "reason"
+     ],
+     "properties": {
+      "accountId": {
+       "type": "string"
+      },
+      "canPublish": {
+       "type": "boolean"
+      },
+      "alreadyPostedToday": {
+       "type": "boolean",
+       "description": "Whether this account already published a Direct Post today (an account that did can keep publishing). Absent for Creator Inbox drafts and when no per-user limit applies."
+      },
+      "reason": {
+       "type": "string",
+       "description": "Human-readable explanation of the verdict"
+      }
+     }
+    }
+   }
+  }
+ },
+ "posts/post/requestBody/content/application/json/schema/properties/tiktokSettings": {
+  "$ref": "#/components/schemas/TikTokPlatformData",
+  "description": "Root-level TikTok settings applied to the TikTok platforms sent in the same request. Merged into each platform's platformSpecificData, with platform-specific settings taking precedence."
+ },
+ "posts/post/requestBody/content/application/json/examples/tiktokPhotoCarousel": {
+  "summary": "TikTok photo carousel (Creator Inbox draft)",
+  "description": "Sends photos to TikTok Creator Inbox as a draft. The creator receives an inbox\nnotification and completes the post via TikTok's editing flow. Uses draft: true\nwhich maps to TikTok API post_mode MEDIA_UPLOAD. Note: publish_type is not a\nsupported field; use draft instead.\n",
+  "value": {
+   "content": "Check out these photos!",
+   "mediaItems": [
+    {
+     "type": "image",
+     "url": "https://example.com/photo1.jpg"
+    },
+    {
+     "type": "image",
+     "url": "https://example.com/photo2.jpg"
+    }
+   ],
+   "platforms": [
+    {
+     "platform": "tiktok",
+     "accountId": "64e1f0a9e2b5af0012ab34cd"
+    }
+   ],
+   "tiktokSettings": {
+    "draft": true,
+    "privacyLevel": "PUBLIC_TO_EVERYONE",
+    "allowComment": true,
+    "photoCoverIndex": 0,
+    "autoAddMusic": false,
+    "contentPreviewConfirmed": true,
+    "expressConsentGiven": true
+   }
+  }
+ },
+ "posts/post/requestBody/content/application/json/examples/tiktokPhotoCarousel/value/tiktokSettings": {
+  "draft": true,
+  "privacyLevel": "PUBLIC_TO_EVERYONE",
+  "allowComment": true,
+  "photoCoverIndex": 0,
+  "autoAddMusic": false,
+  "contentPreviewConfirmed": true,
+  "expressConsentGiven": true
+ },
+ "posts/post/requestBody/content/application/json/examples/tiktokPhotoDirect": {
+  "summary": "TikTok photo carousel (direct publish)",
+  "description": "Publishes photos directly to TikTok. With draft omitted or false, the post is\npublished immediately via TikTok API post_mode DIRECT_POST.\n",
+  "value": {
+   "content": "Check out these photos!",
+   "mediaItems": [
+    {
+     "type": "image",
+     "url": "https://example.com/photo1.jpg"
+    },
+    {
+     "type": "image",
+     "url": "https://example.com/photo2.jpg"
+    }
+   ],
+   "platforms": [
+    {
+     "platform": "tiktok",
+     "accountId": "64e1f0a9e2b5af0012ab34cd"
+    }
+   ],
+   "tiktokSettings": {
+    "privacyLevel": "PUBLIC_TO_EVERYONE",
+    "allowComment": true,
+    "photoCoverIndex": 0,
+    "autoAddMusic": false,
+    "contentPreviewConfirmed": true,
+    "expressConsentGiven": true
+   }
+  }
+ },
+ "posts/post/requestBody/content/application/json/examples/tiktokPhotoDirect/value/tiktokSettings": {
+  "privacyLevel": "PUBLIC_TO_EVERYONE",
+  "allowComment": true,
+  "photoCoverIndex": 0,
+  "autoAddMusic": false,
+  "contentPreviewConfirmed": true,
+  "expressConsentGiven": true
+ },
+ "posts/post/requestBody/content/application/json/examples/tiktokVideo": {
+  "summary": "TikTok video post (direct publish)",
+  "value": {
+   "content": "New video is live!",
+   "mediaItems": [
+    {
+     "type": "video",
+     "url": "https://example.com/video.mp4"
+    }
+   ],
+   "platforms": [
+    {
+     "platform": "tiktok",
+     "accountId": "64e1f0a9e2b5af0012ab34cd"
+    }
+   ],
+   "tiktokSettings": {
+    "privacyLevel": "PUBLIC_TO_EVERYONE",
+    "allowComment": true,
+    "allowDuet": true,
+    "allowStitch": true,
+    "commercialContentType": "none",
+    "contentPreviewConfirmed": true,
+    "expressConsentGiven": true
+   }
+  }
+ },
+ "posts/post/requestBody/content/application/json/examples/tiktokVideo/value/tiktokSettings": {
+  "privacyLevel": "PUBLIC_TO_EVERYONE",
+  "allowComment": true,
+  "allowDuet": true,
+  "allowStitch": true,
+  "commercialContentType": "none",
+  "contentPreviewConfirmed": true,
+  "expressConsentGiven": true
+ },
+ "posts/post/requestBody/content/application/json/examples/tiktokVideoDraft": {
+  "summary": "TikTok video post (Creator Inbox draft)",
+  "description": "Sends a video to TikTok Creator Inbox as a draft. Video drafts use a dedicated\nTikTok endpoint (/v2/post/publish/inbox/video/init/) that only accepts source_info,\nso post_info fields (privacyLevel, allowComment, etc.) are set by the creator\nduring TikTok's editing flow.\n",
+  "value": {
+   "content": "New video draft!",
+   "mediaItems": [
+    {
+     "type": "video",
+     "url": "https://example.com/video.mp4"
+    }
+   ],
+   "platforms": [
+    {
+     "platform": "tiktok",
+     "accountId": "64e1f0a9e2b5af0012ab34cd"
+    }
+   ],
+   "tiktokSettings": {
+    "draft": true,
+    "contentPreviewConfirmed": true,
+    "expressConsentGiven": true
+   }
+  }
+ },
+ "posts/post/requestBody/content/application/json/examples/tiktokVideoDraft/value/tiktokSettings": {
+  "draft": true,
+  "contentPreviewConfirmed": true,
+  "expressConsentGiven": true
+ }
+}
