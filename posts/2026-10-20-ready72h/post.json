@@ -1,0 +1,75 @@
+{
+  "app": "ready72h",
+  "platform": "instagram",
+  "format": "reel",
+  "style": "slideshow",
+  "hook_style": "question",
+  "topic": "72-hour food that needs no cooking",
+  "pillar": "value",
+  "publish_on": "2026-10-20",
+  "created_at": "2026-10-19T17:28:38+00:00",
+  "content": {
+    "format": "carousel",
+    "hook": "What would you eat for 3 days without power?",
+    "slides": [
+      {
+        "kind": "cover",
+        "title": "What would you eat for *3 days* without power?",
+        "body": "No-cook food that keeps on a shelf."
+      },
+      {
+        "kind": "point",
+        "title": "Start with ready-to-eat *protein*",
+        "body": "Canned fish, beans or meat. Pull-tab lids help. Add a manual can opener."
+      },
+      {
+        "kind": "point",
+        "title": "Add *energy* that keeps",
+        "body": "Crispbread, crackers, nut butter, nuts, dried fruit, muesli bars."
+      },
+      {
+        "kind": "point",
+        "title": "Buy what you *already eat*",
+        "body": "Familiar food is comforting. Remember babies, pets and special diets."
+      },
+      {
+        "kind": "point",
+        "title": "Go easy on *salty* food",
+        "body": "It makes you thirstier. Store your water right next to it.",
+        "clip": "checklist-water-supplies.mp4"
+      },
+      {
+        "kind": "cta",
+        "title": "Your whole 72-hour list, *sorted*",
+        "body": ""
+      }
+    ],
+    "caption": "What would you eat for 3 days without power? Here's a calm, simple no-cook list.\n\nReady-to-eat protein: canned fish, beans or meat. Keep a manual can opener.\nEnergy that keeps: crispbread, crackers, nut butter, nuts, dried fruit.\nFoods your family already likes. Think about babies, pets and special diets.\nGo easy on salty snacks. They make you thirstier, so keep water close.\n\nTip: eat from your stock and replace it. Nothing sits there forgetting its date.\n\nReady72h has a full 72-hour supply checklist (water, food, medicine, cash, communications), based on MSB, BBK and RCB guidance. Pay what you want, from 2 PLN.\n\nWhat's the first no-cook item on your list?\n\nComment \"PLAN\" and I'll send you the link in DM — or tap the link in bio.",
+    "question": "What's the first no-cook item on your list?",
+    "hashtags": [
+      "#72hourkit",
+      "#emergencyfood",
+      "#blackoutprep",
+      "#householdpreparedness",
+      "#nocookmeals"
+    ],
+    "alt_text": "Carousel with no-cook food ideas for a 72-hour power outage: canned protein, shelf-stable energy foods, familiar favourites and a note about salty food and water.",
+    "sources_used": [
+      "MSB (Sweden) — 'In case of crisis or war' guidance",
+      "BBK (Germany) — emergency preparedness guide",
+      "RCB (Poland) — Rządowe Centrum Bezpieczeństwa guidance"
+    ]
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 17.9,
+    "music": "17-sigmamusicart-514564.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}
