@@ -1,0 +1,65 @@
+{
+  "app": "bikepackpilot",
+  "format": "reel",
+  "style": "reel",
+  "topic": "Packing weight: where it should sit on the bike",
+  "pillar": "value",
+  "publish_on": "2026-10-20",
+  "created_at": "2026-10-19T15:10:56+00:00",
+  "content": {
+    "format": "reel",
+    "hook": "Heavy stuff low. Light stuff high.",
+    "scenes": [
+      {
+        "text": "Heavy stuff *low*. Light stuff high.",
+        "seconds": 3,
+        "visual": "card"
+      },
+      {
+        "text": "Saddle bag: light, bulky gear. *Sleeping bag*, clothes.",
+        "seconds": 3,
+        "visual": "card"
+      },
+      {
+        "text": "Frame bag: dense items. *Tools*, food, water.",
+        "seconds": 3,
+        "visual": "card"
+      },
+      {
+        "text": "Front: light and compressible. *Tent*, sleeping mat.",
+        "seconds": 3,
+        "visual": "card"
+      },
+      {
+        "text": "Gear changes with *heat and surface*. Pack to match.",
+        "seconds": 3.5,
+        "visual": "clip",
+        "clip": "gear-adapts-to-conditions.mp4"
+      },
+      {
+        "text": "Pack smarter. Ride *easier*.",
+        "seconds": 3,
+        "visual": "card"
+      }
+    ],
+    "caption": "Bikepacking weight distribution: where should your gear sit on the bike?\n\nA simple rule that works for most setups:\n\nKeep heavy, dense items low and close to the frame. Tools, food, water.\nPut light, bulky items in the saddle bag. Sleeping bag, spare clothes.\nUse the front for light, compressible gear. Tent, sleeping mat.\n\nWhy? A low, centred load keeps the bike steadier on rough surfaces and descents. A heavy saddle bag can make the rear sway.\n\nHot day or rough surface? Your packing list changes too. BikepackPilot adapts its gear recommendations to the conditions you enter.\n\nWhere does your heaviest item live on your bike?\n\nPlan your next trip at bikepackpilot.com (link in bio).",
+    "question": "Where does your heaviest item live on your bike?",
+    "hashtags": [
+      "#bikepacking",
+      "#bikepackingtips",
+      "#bikepackinggear",
+      "#touringcyclist"
+    ],
+    "alt_text": "Text-led reel on bikepacking weight distribution: heavy items low, light bulky gear in the saddle bag, light compressible gear up front, plus the app's adaptive gear checklist.",
+    "sources_used": []
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 18.5,
+    "music": "16-prettyjohn1-487929.mp3"
+  },
+  "platform": "tiktok",
+  "reposted_from": "2026-10-15-bikepackpilot",
+  "qa": []
+}

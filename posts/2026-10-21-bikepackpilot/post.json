@@ -1,0 +1,74 @@
+{
+  "app": "bikepackpilot",
+  "format": "reel",
+  "style": "slideshow",
+  "topic": "5 things to leave at home on your first bikepacking trip",
+  "pillar": "value",
+  "publish_on": "2026-10-21",
+  "created_at": "2026-10-19T15:11:13+00:00",
+  "content": {
+    "format": "carousel",
+    "hook": "5 things to leave home on your first bikepacking trip",
+    "slides": [
+      {
+        "kind": "cover",
+        "title": "5 things to *leave at home*",
+        "body": "Your first bikepacking trip, a little lighter."
+      },
+      {
+        "kind": "point",
+        "title": "The *'just in case'* pile",
+        "body": "Pack for the conditions you expect. Extra outfits mostly add weight.",
+        "clip": "gear-adapts-to-conditions.mp4"
+      },
+      {
+        "kind": "point",
+        "title": "*Cotton* everything",
+        "body": "It stays damp and dries slowly. Pick quick-dry layers instead."
+      },
+      {
+        "kind": "point",
+        "title": "The *backpack*",
+        "body": "Let the bike carry the load. Your back and shoulders will thank you."
+      },
+      {
+        "kind": "point",
+        "title": "Spare *gadgets*",
+        "body": "Bring what you will actually use. Every extra cable adds weight."
+      },
+      {
+        "kind": "point",
+        "title": "Over-ambitious *daily distance*",
+        "body": "Heat, wind and surface slow you down. Plan realistic days, not just kilometres.",
+        "clip": "realistic-riding-days.mp4"
+      },
+      {
+        "kind": "cta",
+        "title": "Plan *realistic days*, pack the right gear",
+        "body": ""
+      }
+    ],
+    "caption": "Your first bikepacking trip doesn't need more stuff. It needs the right stuff.\n\nHere's what to leave at home:\n\n1. The \"just in case\" pile. Pack for the conditions you expect, not every possibility.\n2. Cotton everything. It stays damp and dries slowly. Quick-dry layers are the better pick.\n3. The backpack. Let the bike carry the load, not your shoulders.\n4. Spare gadgets. If you won't use it, it's just weight.\n5. Over-ambitious daily distance. Heat, wind and rough surface slow you down. Plan realistic days.\n\nLighter bags, easier days, more fun. Most of us learn this the slow way, on a hill.\n\nSave this for your packing day.\n\nIf you like planning ahead: BikepackPilot splits your route into 50 km segments. You set surface, heat, wind and rain for each one. It then calculates realistic riding days and adapts its gear recommendations to the conditions you entered.\n\nPlan your next trip at bikepackpilot.com (link in bio).",
+    "hashtags": [
+      "#bikepacking",
+      "#bikepackingtips",
+      "#cyclingtouring",
+      "#bikepackinggear",
+      "#packinglight",
+      "#selfsupported",
+      "#bikepackingforbeginners",
+      "#adventurecycling"
+    ],
+    "alt_text": "Carousel listing five things to leave at home on a first bikepacking trip, from extra clothes and cotton to a backpack, spare gadgets and over-ambitious daily distances.",
+    "sources_used": []
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 20.0,
+    "music": "10-nastelbom-602445.mp3"
+  },
+  "platform": "tiktok",
+  "reposted_from": "2026-10-16-bikepackpilot",
+  "qa": []
+}

@@ -1,0 +1,66 @@
+{
+  "app": "bikepackpilot",
+  "format": "reel",
+  "style": "slideshow",
+  "topic": "Resupply planning: food between towns",
+  "pillar": "value",
+  "publish_on": "2026-10-23",
+  "created_at": "2026-10-19T15:11:45+00:00",
+  "content": {
+    "format": "carousel",
+    "hook": "Never ride hungry between towns again",
+    "slides": [
+      {
+        "kind": "cover",
+        "title": "Food between towns: *plan the gaps*",
+        "body": "A simple way to never run low on a self-supported route."
+      },
+      {
+        "kind": "point",
+        "title": "Find the *longest gap*",
+        "body": "Scan your route for the stretch without shops. That gap decides how much food you carry."
+      },
+      {
+        "kind": "point",
+        "title": "Check *opening hours*",
+        "body": "Small-town shops often close on Sundays and at midday. Resupply before the quiet stretch."
+      },
+      {
+        "kind": "point",
+        "title": "Carry a *buffer meal*",
+        "body": "Add one no-cook meal beyond the gap. Headwinds and detours happen."
+      },
+      {
+        "kind": "point",
+        "title": "Split the route, *spot the shops*",
+        "body": "Shorter segments make gaps obvious. Then look up food stops nearby.",
+        "clip": "find-water-food-repair-nearby.mp4"
+      },
+      {
+        "kind": "cta",
+        "title": "Plan your resupply *before* you ride",
+        "body": ""
+      }
+    ],
+    "caption": "Bikepacking resupply planning: how to handle food between towns.\n\nRunning low on food is rarely about the big picture. It's about one long gap and a closed shop.\n\nQuick checklist:\n1. Find the longest stretch with no shops.\n2. Check opening hours (Sundays and midday closures are common).\n3. Carry one no-cook buffer meal beyond the gap.\n4. Break the route into short segments so gaps are easy to see.\n\nBikepackPilot splits your route into 50 km segments and helps you find food, water, bike repair and lodging nearby. But the checklist works with any map.\n\nWhat's your go-to emergency snack?\n\nPlan your next trip at bikepackpilot.com (link in bio).",
+    "question": "What's your go-to emergency snack?",
+    "hashtags": [
+      "#bikepacking",
+      "#bikepackingfood",
+      "#selfsupportedcycling",
+      "#touringcyclist",
+      "#bikepackingplanning"
+    ],
+    "alt_text": "Carousel on bikepacking resupply: find the longest gap, check shop hours, carry a buffer meal, and split the route into segments to spot food stops.",
+    "sources_used": []
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 19.3,
+    "music": "13-nastelbom-theme-617067.mp3"
+  },
+  "platform": "tiktok",
+  "reposted_from": "2026-10-19-bikepackpilot",
+  "qa": []
+}
