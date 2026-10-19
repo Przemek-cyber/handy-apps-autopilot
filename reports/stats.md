@@ -1,7 +1,8 @@
-# Statystyki Handy Apps · 2026-10-18
+# Statystyki Handy Apps · 2026-10-19
 
 | Data | Apka | Format | Temat | Zasięg | Wyśw. | Polub. | Kom. | Zapis. | Udost. |
 |---|---|---|---|---|---|---|---|---|---|
+| 2026-10-18 | Ready72h | reel | [Why keep some cash at home for a blackout](https://www.instagram.com/reel/Deoa-uqET8t/) | 13 | 14 | 0 | 0 | 0 | 0 |
 | 2026-10-17 | BikepackPilot | reel | [Daily distance: planning realistic stages](https://www.instagram.com/reel/DelT8vQktt0/) | 26 | 27 | 0 | 0 | 0 | 0 |
 | 2026-10-16 | BikepackPilot | reel | [5 things to leave at home on your first bikepacking trip](https://www.instagram.com/reel/DeivO9AiGjC/) | 17 | 18 | 0 | 0 | 0 | 0 |
 | 2026-10-16 | Ready72h | reel | [The 15-minute evacuation bag: what goes in first](https://www.instagram.com/reel/DejReafDVck/) | 11 | 13 | 0 | 0 | 0 | 0 |
@@ -15,4 +16,4 @@
 | Apka | Format | Postów | Śr. zasięg |
 |---|---|---|---|
 | BikepackPilot | reel | 4 | 18 |
-| Ready72h | reel | 3 | 15 |
+| Ready72h | reel | 4 | 14 |
