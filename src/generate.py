@@ -29,12 +29,23 @@ def pick_topic(app_key: str, skip: set[str] | None = None) -> dict:
     return new_topic(app_key, sorted(used))
 
 
-def produce_content(app_key: str, fmt: str, topic: dict) -> tuple[dict, list[dict]]:
+def pick_hook_style() -> tuple[str, str]:
+    """Styl otwarcia do testu: najrzadziej dotąd użyty (wspólnie dla wszystkich postów)."""
+    styles = schedule().get("hook_styles") or {}
+    if not styles:
+        return "", ""
+    used = [p.get("hook_style") for p in existing_posts() if not p["_cancelled"]]
+    name = min(styles, key=lambda k: (used.count(k), list(styles).index(k)))
+    return name, styles[name]
+
+
+def produce_content(app_key: str, fmt: str, topic: dict, hook: str = "") -> tuple[dict, list[dict]]:
     from agents import review_content, write_content
     history = [p for p in existing_posts(app_key) if not p["_cancelled"]]
     recent = [p["topic"] for p in history][-6:]
     content = write_content(app_key, fmt, topic, clip_catalog(app_key), recent,
-                            [("carousel" if p.get("style") == "slideshow" else p["format"]) for p in history][-4:])
+                            [("carousel" if p.get("style") == "slideshow" else p["format"]) for p in history][-4:],
+                            hook_style=hook)
     fmt = content["format"]
     reviews = []
     rounds = 3
@@ -152,6 +163,7 @@ def make_post(app_key: str, publish_on: dt.date, fmt: str, sample: bool) -> dict
     if folder.exists():
         return None  # post na ten dzień już jest (np. przygotowany ręcznie) — nic do zrobienia
     tried: set[str] = set()
+    hook_name, hook_text = pick_hook_style()
     for attempt in range(2):
         topic = pick_topic(app_key, tried) if not sample else {"topic": f"Sample {fmt}", "pillar": "value"}
         try:
@@ -159,7 +171,7 @@ def make_post(app_key: str, publish_on: dt.date, fmt: str, sample: bool) -> dict
                 f = "carousel" if fmt == "auto" else fmt
                 content, reviews = {**sample_content(app_key, f), "format": f}, []
             else:
-                content, reviews = produce_content(app_key, fmt, topic)
+                content, reviews = produce_content(app_key, fmt, topic, hook_text)
             break
         except RuntimeError as e:
             print(f"::warning title={app_key}: temat odrzucony::{topic['topic']} — {str(e)[:300]}")
@@ -173,7 +185,8 @@ def make_post(app_key: str, publish_on: dt.date, fmt: str, sample: bool) -> dict
     track = pick_music(used_music, seed=folder.name)
     r = render_reel(app_key, content, folder, track)
     media = {"video": r["video"].name, "cover": r["cover"].name, "duration": r["duration"], "music": r["music"]}
-    post = {"app": app_key, "format": "reel", "style": style, "topic": topic["topic"], "pillar": topic["pillar"],
+    post = {"app": app_key, "format": "reel", "style": style, "hook_style": hook_name,
+            "topic": topic["topic"], "pillar": topic["pillar"],
             "publish_on": publish_on.isoformat(), "created_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
             "content": content, "media": media, "qa": reviews}
     write_json(folder / "post.json", post)

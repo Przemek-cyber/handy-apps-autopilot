@@ -12,10 +12,16 @@ publish_after_days: 1          # (tryb ręczny) domyślna data publikacji = jutr
 generate_plan:
   mon: [1, 2, 3]
   thu: [1, 2, 3, 4]
-daily_apps: [bikepackpilot, ready72h]   # kolejność rotacji dzień po dniu
+daily_apps: [ready72h]   # od 19.10: konto IG skupione na jednej apce (test 3–4 tyg.). Obie: [bikepackpilot, ready72h]
 publish_times:                 # godzina publikacji dla każdej apki (czas polski)
   bikepackpilot: "07:00"
   ready72h: "12:00"
+# Test otwarć (hook): agent dostaje styl po kolei, raport tygodniowy porównuje zasięg wg stylu.
+hook_styles:
+  question: "Open with a direct, specific question the viewer can't answer instantly (e.g. 'How long would your home last without power?')."
+  number: "Open with one surprising, accurate number or fact stated in under 8 words (e.g. '9 litres. Per person. Minimum.'). Only use numbers supported by the approved facts or general official guidance."
+  pov: "Open with a 'POV:' line that puts the viewer inside a relatable moment (e.g. 'POV: the lights go out and your phone is at 12%')."
+  myth: "Open by stating a common belief and flipping it (e.g. 'You don't need a bunker. You need a list.')."
 review_deadline: "20:00"       # do tej godziny posty mają być gotowe do Twojej kontroli
 formats: [carousel, reel]      # agent wybiera format sam; nigdy 3 razy z rzędu ten sam
 approve_words: [ok, go, "👍", tak, akcept]   # komentarz z tym słowem NIE wstrzymuje posta

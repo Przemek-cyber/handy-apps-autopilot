@@ -37,21 +37,29 @@ def main() -> None:
         return "–" if v is None else f"{v:,}".replace(",", " ")
 
     lines = [f"# Statystyki Handy Apps · {dt.date.today().isoformat()}", "",
-             "| Data | Apka | Format | Temat | Zasięg | Wyśw. | Polub. | Kom. | Zapis. | Udost. |",
+             "| Data | Apka | Styl otwarcia | Temat | Zasięg | Wyśw. | Polub. | Kom. | Zapis. | Udost. |",
              "|---|---|---|---|---|---|---|---|---|---|"]
     for p, pub, s in rows:
         topic = f"[{p['topic']}]({pub.get('permalink', '')})"
-        lines.append(f"| {p['publish_on']} | {apps()[p['app']]['name']} | {p['format']} | {topic} | "
+        lines.append(f"| {p['publish_on']} | {apps()[p['app']]['name']} | {p.get('hook_style') or '–'} | {topic} | "
                      + " | ".join(fmt(s[m]) for m in METRICS) + " |")
 
     # podsumowanie: średni zasięg wg apki i formatu
-    lines += ["", "## Średni zasięg", "", "| Apka | Format | Postów | Śr. zasięg |", "|---|---|---|---|"]
-    groups: dict[tuple, list[int]] = {}
-    for p, _, s in rows:
-        if s["reach"] is not None:
-            groups.setdefault((p["app"], p["format"]), []).append(s["reach"])
-    for (a, f), vals in sorted(groups.items()):
-        lines.append(f"| {apps()[a]['name']} | {f} | {len(vals)} | {round(sum(vals) / len(vals))} |")
+    def summary(title: str, key) -> None:
+        lines.extend(["", f"## Średni zasięg wg: {title}", "", f"| {title} | Postów | Śr. zasięg | Śr. reakcje |",
+                      "|---|---|---|---|"])
+        groups: dict[str, list[tuple[int, int]]] = {}
+        for p, _, s in rows:
+            if s["reach"] is not None:
+                react = sum(s[m] or 0 for m in ("likes", "comments", "saves", "shares"))
+                groups.setdefault(key(p), []).append((s["reach"], react))
+        for g, vals in sorted(groups.items()):
+            lines.append(f"| {g} | {len(vals)} | {round(sum(v[0] for v in vals) / len(vals))} | "
+                         f"{sum(v[1] for v in vals) / len(vals):.1f} |")
+
+    summary("apka", lambda p: apps()[p["app"]]["name"])
+    summary("styl otwarcia", lambda p: p.get("hook_style") or "(przed testem)")
+    summary("forma", lambda p: "pokaz slajdów" if p.get("style") == "slideshow" else "rolka")
 
     report = "\n".join(lines) + "\n"
     (ROOT / "reports").mkdir(exist_ok=True)

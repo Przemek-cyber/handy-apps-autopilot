@@ -151,21 +151,21 @@ def _clips_text(clips: dict[str, str]) -> str:
 CAROUSEL_RULES = (
     "FORMAT: carousel. Return 'slides' (5-6): slide 1 kind=cover (title = the hook, body = a short subtitle), "
     "middle slides kind=point (one idea each), last slide kind=cta (title = short benefit line, the design adds "
-    "the app logo, tagline and a 'Link in bio' button). Give 1-3 point slides a 'clip' whose app screen matches "
+    "the app logo, tagline and a call-to-action button). Give 1-3 point slides a 'clip' whose app screen matches "
     "the slide (product pillar: most point slides). Do not return 'scenes'. NOTE: the slides are published as a "
     "video slideshow with music (each slide is on screen for only 3-6 seconds), so keep slide bodies short — max 18 words."
 )
 REEL_RULES = (
     "FORMAT: reel (vertical video, no voice, text on screen, music bed). Return 'scenes' (5-6, total 14-20 s; short videos get watched to the end). "
     "Scene 1 = hook (visual=card, a bold statement or question). Last scene = CTA (visual=card; short benefit line — "
-    "the design adds app logo, tagline and a 'Link in bio' button). Middle scenes: mostly visual=clip, showing the app "
+    "the design adds app logo, tagline and a call-to-action button). Middle scenes: mostly visual=clip, showing the app "
     "screen that matches the scene text (choose by clip description, avoid repeating a clip); visual=card only for a "
     "standalone fact. Do not return 'slides'."
 )
 
 
 def write_content(app_key: str, fmt: str, topic: dict, clips: dict[str, str], recent: list[str],
-                  recent_formats: list[str] | None = None) -> dict:
+                  recent_formats: list[str] | None = None, hook_style: str = "") -> dict:
     """fmt = 'carousel' | 'reel' | 'auto' (agent wybiera format sam)."""
     if fmt == "auto":
         recent_formats = recent_formats or []
@@ -181,7 +181,9 @@ def write_content(app_key: str, fmt: str, topic: dict, clips: dict[str, str], re
         fmt_rules = CAROUSEL_RULES if fmt == "carousel" else REEL_RULES
     user = (
         f"{_product_brief(app_key)}\n\nTOPIC: {topic['topic']}\nPILLAR: {topic['pillar']}\n\n{fmt_rules}\n\n"
-        f"Available clips (real app screen recordings):\n{_clips_text(clips)}\n"
+        + (f"HOOK STYLE (mandatory for the 'hook', the first scene/cover title and the first caption line): {hook_style}\n\n"
+           if hook_style else "")
+        + f"Available clips (real app screen recordings):\n{_clips_text(clips)}\n"
         f"Recent topics to avoid repeating angles: {'; '.join(recent) if recent else '(none)'}\n\n"
         "Write the post."
     )
