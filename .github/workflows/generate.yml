@@ -5,8 +5,12 @@ name: Generuj posty
 # planują je w Zernio i zakładają zgłoszenia do Twojej kontroli (gotowe przed 20:00).
 on:
   schedule:
-    - cron: "47 15 * * 1,4"
-    - cron: "23 16 * * 1,4"   # zapas: GitHub czasem gubi zaplanowane uruchomienia; istniejące posty są pomijane
+    # GitHub potrafi opóźnić albo zgubić zaplanowane uruchomienia o kilka godzin, więc kilka prób w ciągu dnia;
+    # istniejące posty są pomijane, więc kolejne próby niczego nie dublują.
+    - cron: "17 7 * * 1,4"
+    - cron: "17 11 * * 1,4"
+    - cron: "47 14 * * 1,4"
+    - cron: "23 16 * * 1,4"
   workflow_dispatch:
     inputs:
       app:
