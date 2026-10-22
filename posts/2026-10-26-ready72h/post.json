@@ -1,0 +1,91 @@
+{
+  "app": "ready72h",
+  "platform": "instagram",
+  "format": "reel",
+  "style": "reel",
+  "hook_style": "question",
+  "topic": "Preparing with kids: making the plan feel normal, not scary",
+  "pillar": "value",
+  "publish_on": "2026-10-26",
+  "created_at": "2026-10-22T17:58:01+00:00",
+  "content": {
+    "format": "reel",
+    "hook": "How to explain a power cut plan to kids?",
+    "scenes": [
+      {
+        "text": "How to explain a *power cut plan* to kids?",
+        "seconds": 3.5,
+        "visual": "card"
+      },
+      {
+        "text": "Call it a *family game plan*. Like a fire drill, just calmer.",
+        "seconds": 3,
+        "visual": "card"
+      },
+      {
+        "text": "Let them pick a *meeting point* and learn who to call.",
+        "seconds": 3.5,
+        "visual": "clip",
+        "clip": "family-communication-plan.mp4"
+      },
+      {
+        "text": "Give them a job: tick off the *water* supplies.",
+        "seconds": 3,
+        "visual": "clip",
+        "clip": "checklist-water-supplies.mp4"
+      },
+      {
+        "text": "Let them pack their own *go-bag* item: a toy, a book.",
+        "seconds": 3,
+        "visual": "clip",
+        "clip": "go-bag-15-minutes.mp4"
+      },
+      {
+        "text": "Calm, practical, *no scary stories*. Just a plan.",
+        "seconds": 3,
+        "visual": "card"
+      }
+    ],
+    "caption": "How do you explain a family emergency plan to a child without scaring them?\n\nMake it normal. Treat it like a fire drill or a packing list for a trip.\n\n- Use calm words: \"our family game plan\".\n- Pick a meeting point together.\n- Practise who to call if phones don't work.\n- Give each child a small job, like ticking off water on the list.\n- Let them choose one comfort item for their bag.\n\nKeep it short, keep it light, and repeat it now and then. Kids copy your tone, so a calm plan feels safe.\n\nReady72h is a household planner based on guidance from MSB, BBK and RCB. It has a family communication plan, a 72-hour supply checklist and a \"15 minutes to leave the house\" bag checklist. Pay what you want, from 2 PLN.\n\nWhat would your child pick for their go-bag?\n\nComment \"PLAN\" and I'll send you the link in DM — or tap the link in bio.",
+    "question": "What would your child pick for their go-bag?",
+    "hashtags": [
+      "#familypreparedness",
+      "#emergencypreparedness",
+      "#72hourkit",
+      "#gobag",
+      "#poweroutage"
+    ],
+    "alt_text": "Text-on-screen reel on calmly involving kids in a family preparedness plan, with app screens showing the communication plan, water checklist and go-bag list.",
+    "sources_used": [
+      "MSB (Sweden) — 'In case of crisis or war' guidance",
+      "BBK (Germany) — emergency preparedness guide",
+      "RCB (Poland) — Rządowe Centrum Bezpieczeństwa guidance"
+    ]
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 19.0,
+    "music": "10-nastelbom-602445.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "Hashtags #emergencyplanforfamilies, #preparednesswithkids and #blackoutready are invented or unnatural compounds that nobody really uses on Instagram; #72hourplan is also weak. Replaced them with established niche tags.",
+        "Everything else checks out. Product claims are all in the approved facts, the advice is calm and general, and the structure and timing are valid (6 scenes, 19 s). The clips match the scene text, the caption length is OK, the question sits on its own line and the CTA is last."
+      ]
+    },
+    {
+      "verdict": "fix",
+      "issues": [
+        "Hook is 11 words; the maximum is 10. Shortened it and made scene 1 match.",
+        "Everything else checks out: product claims are all approved facts, the advice is general and calm, the structure is valid (6 scenes, 19 s), the caption is within 300-900 characters and ends with the CTA, and the hashtags are fine."
+      ]
+    },
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}

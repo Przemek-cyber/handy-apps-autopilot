@@ -1,0 +1,81 @@
+{
+  "app": "bikepackpilot",
+  "platform": "tiktok",
+  "format": "reel",
+  "style": "reel",
+  "hook_style": "number",
+  "topic": "Weather backup plans on a multi-day route",
+  "pillar": "value",
+  "publish_on": "2026-10-26",
+  "created_at": "2026-10-22T17:58:43+00:00",
+  "content": {
+    "format": "reel",
+    "hook": "50 km can mean totally different weather.",
+    "scenes": [
+      {
+        "text": "*50 km* can mean totally different weather.",
+        "seconds": 3,
+        "visual": "card"
+      },
+      {
+        "text": "Plan by segment. Set heat, wind and rain for *each one*.",
+        "seconds": 3.5,
+        "visual": "clip",
+        "clip": "set-surface-heat-wind-rain.mp4"
+      },
+      {
+        "text": "Rough day ahead? Check how it changes your *riding days*.",
+        "seconds": 3.5,
+        "visual": "clip",
+        "clip": "realistic-riding-days.mp4"
+      },
+      {
+        "text": "Know your *bail-out spots*: lodging, shops, bike repair.",
+        "seconds": 3.5,
+        "visual": "clip",
+        "clip": "find-water-food-repair-nearby.mp4"
+      },
+      {
+        "text": "Pack for the conditions you *expect*, plus one layer spare.",
+        "seconds": 3,
+        "visual": "clip",
+        "clip": "gear-adapts-to-conditions.mp4"
+      },
+      {
+        "text": "Make your *plan B* before you roll.",
+        "seconds": 2.5,
+        "visual": "card"
+      }
+    ],
+    "question": "Rain or heat: which one ruins your ride more?",
+    "caption": "Bikepacking weather backup plan: 50 km can feel like a different country.\n\nA simple plan B for multi-day routes:\n• Split the route into segments and think about weather for each one.\n• Mark a bail-out spot in every segment: a town, lodging or a shop.\n• Keep a buffer day, so one slow day doesn't wreck the whole trip.\n• Check the forecast each evening, then adjust tomorrow.\n• Pack one dry layer that stays dry no matter what.\n\nCalm plan, flexible ride.\n\nRain or heat: which one ruins your ride more?\n\nPlan your next trip at bikepackpilot.com (link in bio).",
+    "hashtags": [
+      "#bikepacking",
+      "#bikepackingtips",
+      "#bicycletouring",
+      "#bikepackinggear",
+      "#adventurecycling"
+    ],
+    "alt_text": "Text-on-screen video about weather backup plans for multi-day bikepacking, showing app screens for segment weather, riding days, nearby services and gear.",
+    "sources_used": []
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 19.0,
+    "music": "06-mfcc-261601.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "Hashtag #cyclingtouring is a rarely used variant; the common tag in this niche is #bicycletouring. Replaced it.",
+        "Everything else checks out: product claims match approved facts, advice is general and calm, structure is valid (6 scenes, 19 s, clips match text), caption is within length with the question on its own line and the exact CTA last."
+      ]
+    },
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}

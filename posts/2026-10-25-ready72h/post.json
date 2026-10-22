@@ -1,0 +1,83 @@
+{
+  "app": "ready72h",
+  "platform": "instagram",
+  "format": "reel",
+  "style": "slideshow",
+  "hook_style": "pov",
+  "topic": "Light and power during a blackout without panic-buying",
+  "pillar": "value",
+  "publish_on": "2026-10-25",
+  "created_at": "2026-10-22T17:56:16+00:00",
+  "content": {
+    "format": "carousel",
+    "hook": "POV: lights go out, your phone is at 12%",
+    "slides": [
+      {
+        "kind": "cover",
+        "title": "*POV:* lights out, phone at 12%",
+        "body": "Blackout lighting and power, without panic-buying."
+      },
+      {
+        "kind": "point",
+        "title": "Start with what you *already own*",
+        "body": "Torches, headlamps, spare batteries. Gather them in one spot before buying anything."
+      },
+      {
+        "kind": "point",
+        "title": "One *light* per person",
+        "body": "A headlamp keeps your hands free. Keep it where you can find it in the dark."
+      },
+      {
+        "kind": "point",
+        "title": "Go easy on *candles*",
+        "body": "LED torches are safer. If you do use a candle, never leave it unattended."
+      },
+      {
+        "kind": "point",
+        "title": "Save phone *battery* for messages",
+        "body": "Keep a power bank charged. Use low-power mode and send short texts, not long calls.",
+        "clip": "family-communication-plan.mp4"
+      },
+      {
+        "kind": "cta",
+        "title": "A calm plan beats a *panic* cart",
+        "body": ""
+      }
+    ],
+    "caption": "POV: lights go out, your phone is at 12%. Here's blackout lighting and power planning without panic-buying.\n\nYou don't need a car full of gear. Start small:\n• Gather the torches, headlamps and batteries you already own in one place.\n• Aim for one light per person.\n• Pick LED over candles. Fewer fire risks.\n• Keep a power bank charged and save phone battery for short messages.\n\nReady72h is a 72-hour household planner with a supply checklist and a family communication plan, based on MSB, BBK and RCB guidance. Pay what you want, from 2 PLN.\n\nHow many torches do you have at home?\n\nComment \"PLAN\" and I'll send you the link in DM — or tap the link in bio.",
+    "question": "How many torches do you have at home?",
+    "hashtags": [
+      "#blackoutprep",
+      "#72hourplan",
+      "#poweroutagetips",
+      "#householdpreparedness",
+      "#emergencyplanning"
+    ],
+    "alt_text": "Carousel on blackout lighting and power: use what you own, one light per person, go easy on candles, save phone battery for messages.",
+    "sources_used": [
+      "MSB (Sweden) — 'In case of crisis or war' guidance",
+      "BBK (Germany) — emergency preparedness guide",
+      "RCB (Poland) — Rządowe Centrum Bezpieczeństwa guidance"
+    ]
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 19.5,
+    "music": "03-andriig-568209.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "Slide 4 (candles) uses the clip apartment-vs-house-advice.mp4, which shows storage, elevator, backup heating and shutoff valves. It doesn't match the slide text, so I removed it.",
+        "The cover subtitle 'Blackout light and power' read awkwardly. Changed to 'Blackout lighting and power'.",
+        "Everything else checks out. Product claims are all approved facts, the advice is general and calm, the structure and lengths fit, the question is easy to answer, and the CTA is exact."
+      ]
+    },
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "app": "bikepackpilot",
+  "platform": "tiktok",
+  "format": "reel",
+  "style": "reel",
+  "hook_style": "number",
+  "topic": "Pre-trip checklist the night before you roll out",
+  "pillar": "product",
+  "publish_on": "2026-10-24",
+  "created_at": "2026-10-22T17:55:27+00:00",
+  "content": {
+    "format": "reel",
+    "hook": "180 km can mean 2.1 riding days.",
+    "scenes": [
+      {
+        "text": "*180 km* can mean *2.1* riding days",
+        "seconds": 3,
+        "visual": "card"
+      },
+      {
+        "text": "Night before: set surface, heat, wind and rain per segment",
+        "seconds": 3.5,
+        "visual": "clip",
+        "clip": "set-surface-heat-wind-rain.mp4"
+      },
+      {
+        "text": "Then tick the *gear list* that fits those conditions",
+        "seconds": 3,
+        "visual": "clip",
+        "clip": "gear-adapts-to-conditions.mp4"
+      },
+      {
+        "text": "Find *water, food and repair* nearby",
+        "seconds": 3,
+        "visual": "clip",
+        "clip": "find-water-food-repair-nearby.mp4"
+      },
+      {
+        "text": "Set a one-tap *check-in* for peace of mind",
+        "seconds": 3,
+        "visual": "clip",
+        "clip": "safety-location-check-in.mp4"
+      },
+      {
+        "text": "Plan it tonight. *Roll* easy tomorrow.",
+        "seconds": 3,
+        "visual": "card"
+      }
+    ],
+    "caption": "Bikepacking planning tip: 180 km can mean 2.1 riding days. That's why the night-before check matters.\n\nPre-trip checklist, short version:\n1. Re-check surface, heat, wind and rain for each segment.\n2. Match your gear to those conditions.\n3. Note where you can find water, food and bike repair.\n4. Set a check-in so someone knows where you are.\n5. Sleep. Seriously.\n\nBikepackPilot does the planning part: it splits your route into 50 km segments and calculates realistic riding days, not just kilometres.\n\nWhat's the one thing you always forget to pack?\n\nPlan your next trip at bikepackpilot.com (link in bio).",
+    "question": "What's the one thing you always forget to pack?",
+    "hashtags": [
+      "#bikepacking",
+      "#bikepackingtips",
+      "#cycletouring",
+      "#bikepackinggear",
+      "#bikepacker"
+    ],
+    "alt_text": "Text-led video with app screens showing per-segment conditions, an adaptive gear checklist, nearby water, food and repair search, and a one-tap check-in.",
+    "sources_used": []
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 18.5,
+    "music": "05-lnplusmusic-597023.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "Caption first line lacks the searchable keyword (bikepacking); reworded to lead with 'Bikepacking planning tip'.",
+        "Scene 4 said 'near your route', but the approved fact and clip show a search for water, food, repair and lodging nearby. Reworded to 'Find ... nearby'.",
+        "Everything else passes: scene count and timing (18.5 s), text lengths, clips match the text, approved claims only, calm tone, hashtags fine, and the question is on its own line with the exact CTA last."
+      ]
+    },
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}

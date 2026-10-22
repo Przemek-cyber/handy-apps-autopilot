@@ -1,0 +1,78 @@
+{
+  "app": "ready72h",
+  "platform": "instagram",
+  "format": "reel",
+  "style": "reel",
+  "hook_style": "myth",
+  "topic": "What MSB, BBK and RCB agree on: the core of every 72-hour plan",
+  "pillar": "value",
+  "publish_on": "2026-10-23",
+  "created_at": "2026-10-22T17:53:43+00:00",
+  "content": {
+    "format": "reel",
+    "hook": "Experts disagree on prepping? Not on these basics.",
+    "scenes": [
+      {
+        "text": "Experts disagree on prepping? Not on these *basics*.",
+        "seconds": 3.5,
+        "visual": "card"
+      },
+      {
+        "text": "*Water* first, then food that needs no cooking",
+        "seconds": 3,
+        "visual": "clip",
+        "clip": "checklist-water-supplies.mp4"
+      },
+      {
+        "text": "Documents, cash, medicine: *ready to grab*",
+        "seconds": 3,
+        "visual": "clip",
+        "clip": "go-bag-15-minutes.mp4"
+      },
+      {
+        "text": "A *family plan* for when phones go down",
+        "seconds": 3,
+        "visual": "clip",
+        "clip": "family-communication-plan.mp4"
+      },
+      {
+        "text": "Then adapt it to *your home*",
+        "seconds": 3,
+        "visual": "clip",
+        "clip": "apartment-vs-house-advice.mp4"
+      },
+      {
+        "text": "Same core. One calm *plan*.",
+        "seconds": 3,
+        "visual": "card"
+      }
+    ],
+    "caption": "Preparedness basics: what Sweden's MSB, Germany's BBK and Poland's RCB agree on.\n\nYou don't need a bunker. You need the same short core list these agencies keep coming back to:\n\n• Water and food that needs no cooking\n• Medicine and basic first aid\n• Some cash and your key documents\n• A way to get information and stay in touch\n• A family plan for when phones and internet are down\n• A bag you can grab if you must leave\n\nThe goal is simple: manage the first 72 hours calmly, before help arrives. Then adjust it for your home, apartment or house.\n\nWhich is missing at home: water, cash or radio?\n\nComment \"PLAN\" and I'll send you the link in DM — or tap the link in bio.",
+    "question": "Which is missing at home: water, cash or radio?",
+    "hashtags": [
+      "#72hoursprepared",
+      "#householdpreparedness",
+      "#blackoutprep",
+      "#emergencychecklist",
+      "#crisispreparedness"
+    ],
+    "alt_text": "Reel with text on screen and app screens showing a water checklist, a go-bag list, a family communication plan and apartment advice, summarising the shared core of 72-hour plans.",
+    "sources_used": [
+      "MSB (Sweden) — 'In case of crisis or war' guidance",
+      "BBK (Germany) — emergency preparedness guide",
+      "RCB (Poland) — Rządowe Centrum Bezpieczeństwa guidance"
+    ]
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 18.5,
+    "music": "07-nastelbom-463071.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}

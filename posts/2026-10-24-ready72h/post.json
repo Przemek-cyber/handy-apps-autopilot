@@ -1,0 +1,86 @@
+{
+  "app": "ready72h",
+  "platform": "instagram",
+  "format": "reel",
+  "style": "slideshow",
+  "hook_style": "question",
+  "topic": "An offline checklist that still works when the network doesn't",
+  "pillar": "product",
+  "publish_on": "2026-10-24",
+  "created_at": "2026-10-22T17:54:41+00:00",
+  "content": {
+    "format": "carousel",
+    "hook": "Where is your checklist when the network is down?",
+    "slides": [
+      {
+        "kind": "cover",
+        "title": "Where's your *checklist* when the network is down?",
+        "body": "Hint: not in a browser tab that needs Wi-Fi."
+      },
+      {
+        "kind": "point",
+        "title": "Install it *before* you need it",
+        "body": "Add the web app to your home screen while online. It then works fully offline."
+      },
+      {
+        "kind": "point",
+        "title": "Tick it off, *track progress*",
+        "body": "Water, food, medicine, cash, communications. See at a glance what is still missing.",
+        "clip": "checklist-water-supplies.mp4"
+      },
+      {
+        "kind": "point",
+        "title": "Plan for people, not only things",
+        "body": "Meeting point, out-of-area contact, who does what. Also available offline.",
+        "clip": "family-communication-plan.mp4"
+      },
+      {
+        "kind": "point",
+        "title": "Keep a *paper copy* too",
+        "body": "The planner is also a printable PDF. Paper never runs out of battery."
+      },
+      {
+        "kind": "cta",
+        "title": "A calm plan that *works offline*",
+        "body": "Pay what you want, from 2 PLN."
+      }
+    ],
+    "caption": "Offline emergency checklist: where is yours when the network is down?\n\nIf your plan lives on a website that needs a signal, it may not open when you need it most.\n\nReady72h has a free companion web app that installs to your home screen and works fully offline. It has an interactive checklist that tracks your progress, plus a family communication plan and a \"15 minutes to leave the house\" bag list. There's also a printable PDF, because paper is a good backup.\n\nIt's based on official guidance from MSB (Sweden), BBK (Germany) and RCB (Poland). Pay what you want, from 2 PLN (suggested 59 PLN). Even the minimum unlocks the full planner and app. This is a safety topic, not a place to profit off anxiety.\n\nHave you installed an offline app on your phone?\n\nComment \"PLAN\" and I'll send you the link in DM — or tap the link in bio.",
+    "question": "Have you installed an offline app on your phone?",
+    "hashtags": [
+      "#72hourkit",
+      "#emergencypreparedness",
+      "#blackoutprep",
+      "#householdpreparedness",
+      "#familyemergencyplan"
+    ],
+    "alt_text": "Carousel about an offline preparedness checklist: install the web app to your home screen, tick off supplies, plan family contact, keep a printed copy.",
+    "sources_used": [
+      "MSB (Sweden) — 'In case of crisis or war' guidance",
+      "BBK (Germany) — emergency preparedness guide",
+      "RCB (Poland) — Rządowe Centrum Bezpieczeństwa guidance"
+    ]
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 20.3,
+    "music": "11-nastelbom-602456.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "Carousel has 7 slides; must be 5-6. Merged the install and offline slides.",
+        "Cover title was 9 words; limit is 8. Shortened.",
+        "Clip go-bag-15-minutes.mp4 did not match the 'paper copy' slide. Removed it.",
+        "The water checklist clip (progress tracking) fits the 'track progress' slide better, so it was moved there.",
+        "Hashtags #72hourplan and #offlinechecklist are invented compounds that are barely used on Instagram. Replaced with established ones."
+      ]
+    },
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}

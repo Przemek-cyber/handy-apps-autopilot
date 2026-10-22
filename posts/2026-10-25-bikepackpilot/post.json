@@ -1,0 +1,79 @@
+{
+  "app": "bikepackpilot",
+  "platform": "tiktok",
+  "format": "reel",
+  "style": "slideshow",
+  "hook_style": "myth",
+  "topic": "Sleep system basics for bikepacking",
+  "pillar": "value",
+  "publish_on": "2026-10-25",
+  "created_at": "2026-10-22T17:57:02+00:00",
+  "content": {
+    "format": "carousel",
+    "hook": "You don't need pricey gear. You need a system.",
+    "slides": [
+      {
+        "kind": "cover",
+        "title": "Skip *pricey* gear. Build a *system*.",
+        "body": "Sleep system basics for bikepacking."
+      },
+      {
+        "kind": "point",
+        "title": "Start with the *pad*",
+        "body": "The ground steals warmth. Insulation underneath matters as much as the bag on top."
+      },
+      {
+        "kind": "point",
+        "title": "Match the bag to the *night*",
+        "body": "Plan for the coldest night you expect, not the daytime average. Add a little margin."
+      },
+      {
+        "kind": "point",
+        "title": "Keep it *dry*",
+        "body": "Pack sleeping gear in a waterproof bag. Keep one dry sleep layer that you never ride in."
+      },
+      {
+        "kind": "point",
+        "title": "Pack for the *conditions*",
+        "body": "Enter heat, wind and rain per segment. Gear suggestions adapt to what you set.",
+        "clip": "gear-adapts-to-conditions.mp4"
+      },
+      {
+        "kind": "cta",
+        "title": "Plan the route. Then *sleep well*.",
+        "body": ""
+      }
+    ],
+    "caption": "Bikepacking sleep system basics: you don't need the priciest kit, you need pieces that work together.\n\n1. Pad first. The ground steals warmth, so insulation underneath matters as much as the bag.\n2. Choose your bag for the coldest night you expect, with a little margin.\n3. Keep sleeping gear in a waterproof bag, plus one dry layer you never ride in.\n4. Let the conditions guide the rest. In BikepackPilot you set surface, heat, wind and rain for each segment, and gear recommendations adapt.\n\nSave this for your next packing session.\n\nQuilt or sleeping bag?\n\nPlan your next trip at bikepackpilot.com (link in bio).",
+    "question": "Quilt or sleeping bag?",
+    "hashtags": [
+      "#bikepacking",
+      "#bikepackinggear",
+      "#cycletouring",
+      "#bikecamping",
+      "#bikepackingtips"
+    ],
+    "alt_text": "Carousel on bikepacking sleep system basics: pad, bag rating, staying dry, and gear that adapts to conditions in the BikepackPilot app.",
+    "sources_used": []
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 19.4,
+    "music": "08-nastelbom-485904.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "Cover slide title is 9 words; the limit is 8 words.",
+        "#gravelbikepacking is a rarely used compound tag on TikTok; swapped for #bikepackingtips, which is more established in this niche.",
+        "Everything else checks out: product claims match the approved facts, the advice is general and safe, the tone is calm, the caption is within 300-900 characters, the question is on its own line, and the exact CTA is last."
+      ]
+    },
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}
