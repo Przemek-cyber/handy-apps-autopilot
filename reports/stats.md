@@ -2,6 +2,8 @@
 
 | Data | Apka | Styl otwarcia | Temat | Zasięg | Wyśw. | Polub. | Kom. | Zapis. | Udost. |
 |---|---|---|---|---|---|---|---|---|---|
+| 2026-10-25 | BikepackPilot | myth | [Sleep system basics for bikepacking](https://www.tiktok.com/@handy_apps82/video/7700481713939483937) | 0 | 0 | 0 | 0 | 0 | 0 |
+| 2026-10-25 | Ready72h | pov | [Light and power during a blackout without panic-buying](https://www.instagram.com/reel/De6BK2Tkqn8/) | 67 | 74 | 0 | 0 | 0 | 0 |
 | 2026-10-24 | BikepackPilot | number | [Pre-trip checklist the night before you roll out](https://www.tiktok.com/@handy_apps82/video/7700095499424091425) | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2026-10-24 | Ready72h | question | [An offline checklist that still works when the network doesn't](https://www.instagram.com/reel/De3VlfLgis-/) | 4 | 4 | 0 | 0 | 0 | 0 |
 | 2026-10-23 | BikepackPilot | – | [Resupply planning: food between towns](https://www.tiktok.com/@handy_apps82/video/7699724607191797024) | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -27,22 +29,22 @@
 
 | apka | Postów | Śr. zasięg | Śr. reakcje |
 |---|---|---|---|
-| BikepackPilot | 11 | 2 | 0.1 |
-| Ready72h | 9 | 10 | 0.2 |
+| BikepackPilot | 12 | 2 | 0.1 |
+| Ready72h | 10 | 15 | 0.2 |
 
 ## Średni zasięg wg: styl otwarcia
 
 | styl otwarcia | Postów | Śr. zasięg | Śr. reakcje |
 |---|---|---|---|
 | (przed testem) | 14 | 6 | 0.2 |
-| myth | 1 | 4 | 0.0 |
+| myth | 2 | 2 | 0.0 |
 | number | 2 | 3 | 0.0 |
-| pov | 1 | 9 | 0.0 |
+| pov | 2 | 38 | 0.0 |
 | question | 2 | 5 | 0.0 |
 
 ## Średni zasięg wg: forma
 
 | forma | Postów | Śr. zasięg | Śr. reakcje |
 |---|---|---|---|
-| pokaz slajdów | 11 | 7 | 0.2 |
+| pokaz slajdów | 13 | 11 | 0.2 |
 | rolka | 9 | 3 | 0.1 |
