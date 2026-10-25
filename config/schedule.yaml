@@ -22,7 +22,7 @@ publish_times:                 # godzina publikacji dla każdej apki (czas polsk
 # Test otwarć (hook): agent dostaje styl po kolei, raport tygodniowy porównuje zasięg wg stylu.
 hook_styles:
   question: "Open with a direct, specific question the viewer can't answer instantly (e.g. 'How long would your home last without power?')."
-  number: "Open with one surprising, accurate number or fact stated in under 8 words (e.g. '9 litres. Per person. Minimum.'). Only use numbers supported by the approved facts or general official guidance."
+  number: "Open with one surprising, accurate number or fact stated in under 8 words (e.g. '6 litres. Per person. Minimum.'). Only use numbers supported by the approved facts or general official guidance."
   pov: "Open with a 'POV:' line that puts the viewer inside a relatable moment (e.g. 'POV: the lights go out and your phone is at 12%')."
   myth: "Open by stating a common belief and flipping it (e.g. 'You don't need a bunker. You need a list.')."
 review_deadline: "20:00"       # do tej godziny posty mają być gotowe do Twojej kontroli
