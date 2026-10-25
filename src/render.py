@@ -239,12 +239,16 @@ def pick_music(recently_used: list[str], seed: str) -> Path:
     return random.Random(seed).choice(pool)
 
 
+MAX_SCENES = 4          # od 25.10: krótkie filmy 8–12 s (80% widzów przewijało po ~2 s)
+HOOK_SECS = 2.0
+
+
 def slides_to_scenes(content: dict) -> list[dict]:
     """Treść karuzelowa -> sceny pokazu slajdów (rolka z muzyką; API nie dodaje muzyki do karuzel)."""
     scenes = []
     for sl in content["slides"]:
         words = len((sl.get("title", "") + " " + sl.get("body", "")).split())
-        secs = round(min(4.2, max(2.2, 1.0 + words * 0.14)), 1)  # krótko: 15–20 s na całość
+        secs = round(min(3.2, max(2.2, 0.8 + words * 0.12)), 1)
         sc = {"text": sl["title"], "body": sl.get("body", ""), "seconds": secs, "visual": "card"}
         if sl["kind"] == "point" and sl.get("clip"):
             sc.update(visual="clip", clip=sl["clip"])
@@ -252,17 +256,28 @@ def slides_to_scenes(content: dict) -> list[dict]:
     return scenes
 
 
+def trim_scenes(scenes: list[dict]) -> list[dict]:
+    """Hak + najlepsze sceny środkowe (najpierw z nagraniem apki) + karta końcowa; razem maks. MAX_SCENES."""
+    if len(scenes) <= MAX_SCENES:
+        return scenes
+    middle = scenes[1:-1]
+    keep = sorted(range(len(middle)), key=lambda i: (middle[i].get("visual") != "clip", i))[:MAX_SCENES - 2]
+    return [scenes[0]] + [middle[i] for i in sorted(keep)] + [scenes[-1]]
+
+
 def _motion(secs: float, first: bool) -> str:
-    """Ruch od pierwszej klatki (bez wejścia z czerni): delikatne przybliżanie, na pierwszej scenie nieco szybsze."""
-    rate = 0.035 if first else 0.025
-    z = f"(1+{rate}*t/{secs:.2f})"
+    """Ruch od pierwszej klatki: na haku szybkie „uderzenie” (oddalenie 1.12 → 1.0 w 0.3 s), dalej delikatne przybliżanie."""
+    if first:
+        z = f"(if(lt(t,0.3),1.12-0.12*t/0.3,1+0.03*(t-0.3)/{secs:.2f}))"
+    else:
+        z = f"(1+0.025*t/{secs:.2f})"
     return (f"scale=w='trunc({REEL_W}*{z}/2)*2':h='trunc({REEL_H}*{z}/2)*2':eval=frame,"
             f"crop={REEL_W}:{REEL_H}")
 
 
 def render_reel(app_key: str, content: dict, out_dir: Path, track: Path) -> dict:
     use_slides = content.get("format") == "carousel" or not content.get("scenes")
-    scenes = slides_to_scenes(content) if use_slides else content["scenes"]
+    scenes = trim_scenes(slides_to_scenes(content) if use_slides else content["scenes"])
     W, H, total = REEL_W, REEL_H, len(scenes)
     work = out_dir / "_work"
     work.mkdir(parents=True, exist_ok=True)
@@ -283,10 +298,15 @@ def render_reel(app_key: str, content: dict, out_dir: Path, track: Path) -> dict
                      f'<div class="headline" style="font-size:1.76em">{rich(sc["text"])}</div>{body_p}</div>')
             body = f"{_bg(app_key, W, H, holed=True)}{_header(app_key)}{frame}{panel}"
             pages_holed.append((_page(app_key, W, H, body, hole=REEL_PHONE), png))
-        elif i == 1:  # hak
-            sub = f'<p>{html.escape(plain(sc["body"]))}</p>' if sc.get("body") else ""
-            body = f'{_bg(app_key, W, H)}{_header(app_key)}<div class="hero"><div class="headline" data-fit="900">{rich(sc["text"])}</div>{sub}</div>'
-            pages_opaque.append((_page(app_key, W, H, body, hero_size=7.4), png))
+        elif i == 1:  # hak: duży tekst; podtytuł „wskakuje” po 0.7 s (zmiana w 1. sekundzie zatrzymuje przewijanie)
+            sub = f'<p style="font-size:calc(var(--u) * 4.4)">{html.escape(plain(sc["body"]))}</p>' if sc.get("body") else ""
+            hero = '<div class="hero"><div class="headline" data-fit="1100">' + rich(sc["text"]) + '</div>{sub}</div>'
+            pages_opaque.append((_page(app_key, W, H, f'{_bg(app_key, W, H)}{_header(app_key)}' + hero.format(sub=sub), hero_size=11), png))
+            if sub:
+                pre = work / "scene-01a.png"
+                pages_opaque.append((_page(app_key, W, H, f'{_bg(app_key, W, H)}{_header(app_key)}'
+                                           + hero.format(sub=f'<p style="font-size:calc(var(--u) * 4.4);visibility:hidden">{html.escape(plain(sc["body"]))}</p>'),
+                                           hero_size=11), pre))
         else:
             panel = (f'<div class="panel" data-fit="760" style="left:70px;right:70px;top:46%;transform:translateY(-50%);'
                      f'min-height:300px"><div class="kicker">{i - 1:02d}</div>'
@@ -295,7 +315,8 @@ def render_reel(app_key: str, content: dict, out_dir: Path, track: Path) -> dict
                      + '</div>')
             body = f"{_bg(app_key, W, H)}{_header(app_key)}{panel}"
             pages_opaque.append((_page(app_key, W, H, body), png))
-        plan.append((png, clip, max(2.0, min(5.0, float(sc.get("seconds", 3.0))))))
+        secs = HOOK_SECS if i == 1 else max(2.2, min(3.2, float(sc.get("seconds", 2.8))))
+        plan.append((png, clip, secs))
     if pages_opaque:
         _screenshot(pages_opaque, W, H)
     if pages_holed:
@@ -311,6 +332,12 @@ def render_reel(app_key: str, content: dict, out_dir: Path, track: Path) -> dict
                   f"[base][clip]overlay={x}:{y}:shortest=1[v1];[v1][1:v]overlay=0:0,format=yuv420p")
             _ffmpeg("-stream_loop", "-1", "-i", str(clip), "-loop", "1", "-i", str(png), "-t", f"{secs:.2f}",
                     "-filter_complex", fc, "-r", str(FPS), "-c:v", "libx264", "-preset", "veryfast", "-crf", "19", "-an", str(seg))
+        elif i == 1 and (work / "scene-01a.png").exists():
+            # hak w dwóch krokach: sam nagłówek (0.7 s), potem z podtytułem — jeden ciągły ruch kamery
+            fc = (f"[0:v]fps={FPS},trim=duration=0.7,setpts=PTS-STARTPTS[a];[1:v]fps={FPS},trim=duration={secs - 0.7:.2f},setpts=PTS-STARTPTS[b];"
+                  f"[a][b]concat=n=2:v=1,{_motion(secs, True)},format=yuv420p")
+            _ffmpeg("-loop", "1", "-t", "0.7", "-i", str(work / "scene-01a.png"), "-loop", "1", "-t", f"{secs - 0.7:.2f}", "-i", str(png),
+                    "-filter_complex", fc, "-c:v", "libx264", "-preset", "veryfast", "-crf", "19", "-an", str(seg))
         else:
             _ffmpeg("-loop", "1", "-i", str(png), "-t", f"{secs:.2f}", "-vf", f"fps={FPS},{_motion(secs, i == 1)},format=yuv420p",
                     "-c:v", "libx264", "-preset", "veryfast", "-crf", "19", "-an", str(seg))

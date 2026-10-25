@@ -35,7 +35,13 @@ def pick_hook_style() -> tuple[str, str]:
     if not styles:
         return "", ""
     used = [p.get("hook_style") for p in existing_posts() if not p["_cancelled"]]
-    name = min(styles, key=lambda k: (used.count(k), list(styles).index(k)))
+    # od 25.10: POV ma najlepszy wynik (zasięg 68 vs 4–15) — co drugi post POV, pozostałe style na zmianę
+    fav = schedule().get("hook_favorite")
+    recent = [u for u in used if u][-1:]
+    if fav in styles and recent != [fav]:
+        return fav, styles[fav]
+    others = [k for k in styles if k != fav] or list(styles)
+    name = min(others, key=lambda k: (used.count(k), others.index(k)))
     return name, styles[name]
 
 

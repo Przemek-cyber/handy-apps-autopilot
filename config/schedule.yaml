@@ -20,6 +20,7 @@ publish_times:                 # godzina publikacji dla każdej apki (czas polsk
   bikepackpilot: "07:00"       # TikTok
   ready72h: "07:00"            # Instagram
 # Test otwarć (hook): agent dostaje styl po kolei, raport tygodniowy porównuje zasięg wg stylu.
+hook_favorite: pov            # najlepszy styl otwarcia — używany w co drugim poście
 hook_styles:
   question: "Open with a direct, specific question the viewer can't answer instantly (e.g. 'How long would your home last without power?')."
   number: "Open with one surprising, accurate number or fact stated in under 8 words (e.g. '6 litres. Per person. Minimum.'). Only use numbers supported by the approved facts or general official guidance."

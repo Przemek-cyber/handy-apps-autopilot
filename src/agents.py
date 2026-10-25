@@ -25,7 +25,7 @@ SCENE_SCHEMA = {
     "type": "object",
     "properties": {
         "text": {"type": "string", "description": "On-screen text, max 12 words. Wrap 1-3 key words in *asterisks* to highlight them in orange."},
-        "seconds": {"type": "number", "description": "2.5 to 5 seconds."},
+        "seconds": {"type": "number", "description": "Hook 1.8-2.2 s, other scenes 2.2-3.2 s."},
         "visual": {"type": "string", "enum": ["card", "clip"]},
         "clip": {"type": "string", "description": "File name from the available clips list, only when visual=clip."},
     },
@@ -38,9 +38,9 @@ CONTENT_SCHEMA = {
         "format": {"type": "string", "enum": ["carousel", "reel"], "description": "The format you chose for this post."},
         "hook": {"type": "string", "description": "First line that stops the scroll, max 10 words."},
         "slides": {"type": "array", "items": SLIDE_SCHEMA,
-                   "description": "Carousel only: 5-6 slides, first 'cover', last 'cta'."},
+                   "description": "Carousel only: 4 slides, first 'cover', last 'cta'."},
         "scenes": {"type": "array", "items": SCENE_SCHEMA,
-                   "description": "Reel only: 5-6 scenes, total 14-20 s, first scene is the hook, last is the CTA."},
+                   "description": "Reel only: 4 scenes, total 8-12 s, first scene is the hook, last is the CTA."},
         "caption": {"type": "string", "description": "Caption, 300-900 characters. Line 1 = keyword-rich hook "
                     "(the words people search for, e.g. 'bikepacking water planning'). Then short value. Then the QUESTION "
                     "on its own line. Last line = the call to action."},
@@ -159,14 +159,14 @@ def _clips_text(clips: dict[str, str]) -> str:
 
 
 CAROUSEL_RULES = (
-    "FORMAT: carousel. Return 'slides' (5-6): slide 1 kind=cover (title = the hook, body = a short subtitle), "
+    "FORMAT: carousel. Return 'slides' (exactly 4): slide 1 kind=cover (title = the hook, body = a short subtitle), "
     "middle slides kind=point (one idea each), last slide kind=cta (title = short benefit line, the design adds "
     "the app logo, tagline and a call-to-action button). Give 1-3 point slides a 'clip' whose app screen matches "
     "the slide (product pillar: most point slides). Do not return 'scenes'. NOTE: the slides are published as a "
-    "video slideshow with music (each slide is on screen for only 3-6 seconds), so keep slide bodies short — max 18 words."
+    "video slideshow with music (each slide is on screen for only 2-3 seconds; the whole video is 8-12 s), so keep slide bodies short — max 18 words."
 )
 REEL_RULES = (
-    "FORMAT: reel (vertical video, no voice, text on screen, music bed). Return 'scenes' (5-6, total 14-20 s; short videos get watched to the end). "
+    "FORMAT: reel (vertical video, no voice, text on screen, music bed). Return 'scenes' (exactly 4, total 8-12 s; short videos get watched to the end). The hook must be understood in under 1 second: max 7 words. "
     "Scene 1 = hook (visual=card, a bold statement or question). Last scene = CTA (visual=card; short benefit line — "
     "the design adds app logo, tagline and a call-to-action button). Middle scenes: mostly visual=clip, showing the app "
     "screen that matches the scene text (choose by clip description, avoid repeating a clip); visual=card only for a "
@@ -211,7 +211,7 @@ def review_content(app_key: str, fmt: str, content: dict, clips: dict[str, str] 
         + _rules()
         + "\nCheck: (1) every product claim is in the approved facts; (2) advice is accurate, general and safe; "
         "(3) no fear-mongering; (4) English, clear, no typos; (5) structure matches the format "
-        "(carousel 5-6 slides cover..cta, slide titles <= 8 words, bodies <= 18 words; reel 5-6 scenes, 14-20 s, "
+        "(carousel 4 slides cover..cta, slide titles <= 8 words, bodies <= 18 words; reel 4 scenes, 8-12 s, "
         "scene text <= 12 words, clips only from the list and matching the text); highlight markup with *asterisks* "
         "only in slide titles / scene texts, never in caption; (6) caption 300-900 characters: keyword-rich first line, "
         "the question on its own line, ends with the exact call to action from the brief; (7) 'question' is easy to answer "
