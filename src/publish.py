@@ -350,6 +350,34 @@ def _safe(e: Exception) -> str:
     return str(e).replace(os.environ.get("ZERNIO_API_KEY", "") or "\0", "***").replace("\n", " ")[:900]
 
 
+def debug_post(post_id: str) -> None:
+    """Diagnostyka: szczegóły posta w Zernio i konta TikTok (bez tokenów)."""
+    import json
+    def clean(o):
+        if isinstance(o, dict):
+            return {k: clean(v) for k, v in o.items() if not any(w in k.lower() for w in ("token", "secret"))}
+        if isinstance(o, list):
+            return [clean(x) for x in o]
+        return o
+    post = clean(get_post(post_id))
+    for pl in post.get("platforms", []):
+        print(f"::notice title=Platforma posta {post_id}::{json.dumps(pl)[:3500]}")
+    print(f"::notice title=Post (bez platform)::{json.dumps({k: v for k, v in post.items() if k not in ('platforms', 'content')})[:3500]}")
+    for a in platform_accounts("tiktok"):
+        print(f"::notice title=Konto TikTok @{a.get('username')}::{json.dumps(clean(a))[:3500]}")
+        for path in (f"accounts/{a['_id']}/tiktok/creator-info", f"accounts/{a['_id']}/tiktok/creator_info"):
+            try:
+                print(f"::notice title={path}::{json.dumps(api('GET', path).json())[:3500]}")
+                break
+            except RuntimeError as e:
+                print(f"::warning title={path}::{str(e)[:300]}")
+        try:
+            r = api("GET", "analytics", params={"postId": post_id}).json()
+            print(f"::notice title=Analytics {post_id}::{json.dumps(r)[:3500]}")
+        except RuntimeError as e:
+            print(f"::warning title=Analytics::{str(e)[:300]}")
+
+
 def main() -> None:
     """Narzędzia ręczne. Zwykła publikacja odbywa się przez planowanie w Zernio (generate.py)."""
     ap = argparse.ArgumentParser()
@@ -359,7 +387,10 @@ def main() -> None:
     ap.add_argument("--reschedule", action="store_true", help="zaplanuj ponownie wszystkie zaplanowane posty")
     ap.add_argument("--automations", action="store_true", help="utwórz / zaktualizuj automaty komentarz → DM")
     ap.add_argument("--automation-logs", action="store_true", help="pokaż ostatnie zdarzenia automatów DM")
+    ap.add_argument("--debug-post", help="diagnostyka posta Zernio (id)")
     args = ap.parse_args()
+    if args.debug_post:
+        return debug_post(args.debug_post)
     try:
         if args.automations:
             ensure_automations()
