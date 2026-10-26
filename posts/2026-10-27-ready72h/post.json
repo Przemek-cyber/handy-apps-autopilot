@@ -1,0 +1,85 @@
+{
+  "app": "ready72h",
+  "platform": "instagram",
+  "format": "reel",
+  "style": "slideshow",
+  "hook_style": "pov",
+  "topic": "Pay what you want: why the planner starts at 2 PLN",
+  "pillar": "product",
+  "publish_on": "2026-10-27",
+  "created_at": "2026-10-26T14:21:58+00:00",
+  "content": {
+    "format": "carousel",
+    "hook": "POV: you need a safety plan, not a sales pitch",
+    "slides": [
+      {
+        "kind": "cover",
+        "title": "You need a *safety plan*, not a pitch",
+        "body": "Why the Ready72h planner starts at 2 PLN."
+      },
+      {
+        "kind": "point",
+        "title": "You choose the *price*",
+        "body": "Pay what you want, from 2 PLN. Suggested price is 59 PLN."
+      },
+      {
+        "kind": "point",
+        "title": "Even 2 PLN unlocks *everything*",
+        "body": "Full planner, printable PDF and the offline web app. Same for every price."
+      },
+      {
+        "kind": "cta",
+        "title": "Safety first. *Profit* second.",
+        "body": ""
+      }
+    ],
+    "caption": "72-hour household preparedness plan: pay what you want, starting at 2 PLN.\n\nHere's why Ready72h works this way:\n\nSafety is not a place to profit off people's anxiety.\n\nSo the minimum price unlocks the full planner and the free companion web app. That includes the 72-hour supply checklist, the family communication plan and the \"15 minutes to leave the house\" bag checklist.\n\nThe suggested price is 59 PLN. If you can pay it, great. If not, 2 PLN gets you the same thing.\n\nIt's based on guidance from Sweden's MSB, Germany's BBK and Poland's RCB. There are two editions, apartment and house with garden.\n\nWhich edition do you need: apartment or house?\n\nComment \"PLAN\" and I'll send you the link in DM — or tap the link in bio.",
+    "question": "Which edition do you need: apartment or house?",
+    "hashtags": [
+      "#emergencypreparedness",
+      "#householdpreparedness",
+      "#blackoutprep",
+      "#emergencychecklist",
+      "#preparednessplan"
+    ],
+    "alt_text": "Carousel about the Ready72h household preparedness planner: pay what you want from 2 PLN, the minimum unlocks the full planner and offline app.",
+    "sources_used": [
+      "MSB (Sweden) — 'In case of crisis or war' guidance",
+      "BBK (Germany) — emergency preparedness guide",
+      "RCB (Poland) — Rządowe Centrum Bezpieczeństwa guidance"
+    ]
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 9.9,
+    "music": "16-prettyjohn1-487929.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "Cover slide title is 10 words; the limit is 8 words.",
+        "Slide 2 clip (water checklist) doesn't match the slide text, which is about price. Removed it.",
+        "Caption's first line should lead with searchable keywords. Rewrote it as a 72-hour household preparedness plan hook.",
+        "#payWhatYouWant is a weak, generic hashtag. Replaced it with #preparednessplan.",
+        "Product claims, safety and tone are fine. Everything stays within the approved facts."
+      ]
+    },
+    {
+      "verdict": "fix",
+      "issues": [
+        "Product claims all match approved facts; advice safe, calm, no fear; structure and caption length OK; CTA correct and not in final slide.",
+        "Hashtag #72hourplan is a low-use, near-invented compound; replaced with the widely used #emergencypreparedness."
+      ]
+    },
+    {
+      "verdict": "fix",
+      "issues": [
+        "Slide 3 clip (family-communication-plan.mp4) doesn't match the slide text, which is about price and what the minimum unlocks. I removed the clip.",
+        "All product claims, the caption structure, the question, the CTA and the hashtags are acceptable, so I left them unchanged.",
+        "The post is almost entirely product and pricing, with little standalone preparedness advice. I accept it only as a product-pillar post."
+      ]
+    }
+  ]
+}

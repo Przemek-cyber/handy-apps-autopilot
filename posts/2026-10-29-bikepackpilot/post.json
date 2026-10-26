@@ -1,0 +1,75 @@
+{
+  "app": "bikepackpilot",
+  "platform": "tiktok",
+  "format": "reel",
+  "style": "slideshow",
+  "hook_style": "number",
+  "topic": "Repair kit essentials for remote routes",
+  "pillar": "value",
+  "publish_on": "2026-10-29",
+  "created_at": "2026-10-26T14:25:25+00:00",
+  "content": {
+    "format": "carousel",
+    "hook": "3 fixes your repair kit must cover",
+    "slides": [
+      {
+        "kind": "cover",
+        "title": "*3 fixes* your repair kit must cover",
+        "body": "Flats, chain, loose bolts. Pack for all three."
+      },
+      {
+        "kind": "point",
+        "title": "Pack the *basics*",
+        "body": "Spare tube, patches, tyre levers, pump, quick link, multi-tool. Test them at home."
+      },
+      {
+        "kind": "point",
+        "title": "Know the *nearest* repair",
+        "body": "Check where bike repair is nearby before you leave.",
+        "clip": "find-water-food-repair-nearby.mp4"
+      },
+      {
+        "kind": "cta",
+        "title": "Find *bike repair* nearby",
+        "body": ""
+      }
+    ],
+    "caption": "Bikepacking repair kit essentials for remote routes: 3 fixes to cover.\n\nFlats. Chain trouble. Loose bolts.\n\nPack a spare tube, patches, tyre levers, a pump, a quick link and a multi-tool. Then practise with them at home. A repair is much easier in your living room than on a gravel track.\n\nA kit only gets you so far. Know where the nearest bike repair is before you roll out.\n\nWhat's the one repair item you never leave without?\n\nPlan your next trip at bikepackpilot.com (link in bio).",
+    "question": "What's the one repair item you never leave without?",
+    "hashtags": [
+      "#bikepacking",
+      "#bikepackingtips",
+      "#bicycletouring",
+      "#bikerepair",
+      "#gravelbike"
+    ],
+    "alt_text": "Carousel on bikepacking repair kit essentials: pack for flats, chain and bolts, then check where the nearest bike repair is.",
+    "sources_used": []
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 9.3,
+    "music": "11-nastelbom-602456.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "CTA slide title 'Plan your repair stops in minutes' blends two approved claims. The 'in minutes' claim is about planning a route, not repair stops. Reworded to match the approved fact 'Find water, food, bike repair and lodging nearby'.",
+        "Everything else checks out: structure, word limits, caption length, question on its own line, exact CTA, hashtags, clip match, safe general advice."
+      ]
+    },
+    {
+      "verdict": "fix",
+      "issues": [
+        "Slide 3 body and CTA title imply the app searches 'along/near your route'; approved fact is only 'find bike repair nearby'. Reworded to stay within approved claims.",
+        "#cyclingtouring is a weak/rarely used tag; replaced with #bicycletouring, which is more commonly used in this niche."
+      ]
+    },
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}

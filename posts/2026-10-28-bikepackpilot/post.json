@@ -1,0 +1,62 @@
+{
+  "app": "bikepackpilot",
+  "platform": "tiktok",
+  "format": "reel",
+  "style": "reel",
+  "hook_style": "pov",
+  "topic": "From idea to route: a planning framework in 4 steps",
+  "pillar": "product",
+  "publish_on": "2026-10-28",
+  "created_at": "2026-10-26T14:23:44+00:00",
+  "content": {
+    "format": "reel",
+    "hook": "POV: you have a route, no plan",
+    "scenes": [
+      {
+        "text": "POV: you have a route, *no plan*",
+        "seconds": 2.0,
+        "visual": "card"
+      },
+      {
+        "text": "*Steps 1-2:* enter distance, get 50 km segments",
+        "seconds": 3.0,
+        "visual": "clip",
+        "clip": "route-splits-50km-segments.mp4"
+      },
+      {
+        "text": "*Steps 3-4:* set conditions, see realistic riding days",
+        "seconds": 3.0,
+        "visual": "clip",
+        "clip": "set-surface-heat-wind-rain.mp4"
+      },
+      {
+        "text": "From idea to *realistic days* in minutes",
+        "seconds": 2.8,
+        "visual": "card"
+      }
+    ],
+    "caption": "POV: you have a bikepacking route, but no plan yet. Here is a simple 4-step bikepacking route planning framework.\n\n1. Enter your real route distance from a map or GPX file.\n2. Split it into 50 km segments, so one big number becomes small, manageable chunks.\n3. Set surface, heat, wind and rain for each segment.\n4. Check the riding days it gives you. Realistic days, not just kilometres.\n\nGravel and a headwind are not the same as flat tarmac. Your plan should know that.\n\nHow many km is your next route?\n\nPlan your next trip at bikepackpilot.com (link in bio).",
+    "question": "How many km is your next route?",
+    "hashtags": [
+      "#bikepacking",
+      "#bikepackingtips",
+      "#cycletouring",
+      "#routeplanning",
+      "#gravelbike"
+    ],
+    "alt_text": "App screens showing a route split into 50 km segments and conditions set per segment, with text outlining a 4-step bikepacking planning framework.",
+    "sources_used": []
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 10.8,
+    "music": "01-alex-morgan-578487.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}

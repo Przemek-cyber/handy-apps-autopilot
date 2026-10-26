@@ -1,0 +1,66 @@
+{
+  "app": "ready72h",
+  "platform": "instagram",
+  "format": "reel",
+  "style": "reel",
+  "hook_style": "question",
+  "topic": "Where to store your 72-hour supplies in a small apartment",
+  "pillar": "value",
+  "publish_on": "2026-10-28",
+  "created_at": "2026-10-26T14:23:14+00:00",
+  "content": {
+    "format": "reel",
+    "hook": "Where would 72 hours of supplies fit?",
+    "scenes": [
+      {
+        "text": "Where would *72 hours* of supplies fit?",
+        "seconds": 2.0,
+        "visual": "card"
+      },
+      {
+        "text": "Use dead space: *under the bed*, top of the wardrobe, behind the sofa",
+        "seconds": 3.0,
+        "visual": "clip",
+        "clip": "apartment-vs-house-advice.mp4"
+      },
+      {
+        "text": "Water is the bulky part. Store it *low*, cool and dark.",
+        "seconds": 3.0,
+        "visual": "clip",
+        "clip": "checklist-water-supplies.mp4"
+      },
+      {
+        "text": "A calm plan that *fits your flat*",
+        "seconds": 2.4,
+        "visual": "card"
+      }
+    ],
+    "caption": "Where to store 72-hour supplies in a small apartment? You don't need a pantry. You need a few smart spots.\n\nTry this:\n• Use dead space: under the bed, on top of the wardrobe, behind the sofa.\n• Keep water low, cool and out of direct sun. It's the heaviest part.\n• Split supplies between two or three places, so one closed door doesn't block everything.\n• Keep your grab-and-go bag near the front door.\n• Note the spots on one list, so everyone at home knows.\n\nReady72h is based on official guidance from MSB, BBK and RCB. The apartment edition covers storing supplies in a small space.\n\nWhere's your spare space: under bed, wardrobe or hall?\n\nComment \"PLAN\" and I'll send you the link in DM — or tap the link in bio.",
+    "question": "Where's your spare space: under bed, wardrobe or hall?",
+    "hashtags": [
+      "#72hourkit",
+      "#apartmentpreparedness",
+      "#householdpreparedness",
+      "#emergencyplanning",
+      "#smallspaceorganizing"
+    ],
+    "alt_text": "Text reel on small-apartment storage for 72-hour supplies: use space under the bed and on wardrobes, and keep water low and cool. Includes app screens.",
+    "sources_used": [
+      "MSB (Sweden) — 'In case of crisis or war' guidance",
+      "BBK (Germany) — emergency preparedness guide",
+      "RCB (Poland) — Rządowe Centrum Bezpieczeństwa guidance"
+    ]
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 10.4,
+    "music": "15-paulyudin-482400.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}

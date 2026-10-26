@@ -1,0 +1,74 @@
+{
+  "app": "ready72h",
+  "platform": "instagram",
+  "format": "reel",
+  "style": "slideshow",
+  "hook_style": "pov",
+  "topic": "Quick self-check: how ready is your home today?",
+  "pillar": "community",
+  "publish_on": "2026-10-29",
+  "created_at": "2026-10-26T14:24:28+00:00",
+  "content": {
+    "format": "carousel",
+    "hook": "POV: the power cuts out. Is your home ready?",
+    "slides": [
+      {
+        "kind": "cover",
+        "title": "*POV:* power cuts out. Is your home ready?",
+        "body": "A 60-second self-check. No stress, just honest answers."
+      },
+      {
+        "kind": "point",
+        "title": "Can you cover *3 days* of water?",
+        "body": "Think about 3 litres per person per day. Count what you have right now.",
+        "clip": "checklist-water-supplies.mp4"
+      },
+      {
+        "kind": "point",
+        "title": "Phones down: where do you *meet*?",
+        "body": "Agree a meeting point and one out-of-area contact. Make sure everyone knows both.",
+        "clip": "family-communication-plan.mp4"
+      },
+      {
+        "kind": "cta",
+        "title": "Your *72-hour* plan, calm and simple",
+        "body": ""
+      }
+    ],
+    "caption": "POV: the power cuts out and you realise you've never checked your home preparedness. Good news: a quick self-check takes a minute.\n\n1. Water. Official guidance points to about 3 litres per person per day. Count what you have at home right now.\n2. Contact. If phones and internet go down, does your family know where to meet and who to call outside your area?\n3. Bag. Could you leave the house in 15 minutes with documents, cash and essentials?\n\nAny gap is fine. It just tells you where to start. Save this and run through it with your household.\n\nWater, contact plan or go bag — which is weakest?\n\nComment \"PLAN\" and I'll send you the link in DM — or tap the link in bio.",
+    "question": "Water, contact plan or go bag — which is weakest?",
+    "hashtags": [
+      "#72hours",
+      "#emergencypreparedness",
+      "#emergencyplan",
+      "#blackoutprep",
+      "#familypreparedness"
+    ],
+    "alt_text": "Carousel: a quick home readiness self-check covering three days of water, a family meeting point if phones go down, and a calm 72-hour plan.",
+    "sources_used": [
+      "MSB (Sweden) — 'In case of crisis or war' guidance",
+      "BBK (Germany) — emergency preparedness guide",
+      "RCB (Poland) — Rządowe Centrum Bezpieczeństwa guidance"
+    ]
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 10.5,
+    "music": "04-apalonbeats-2-576256.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "Cover slide title is 9 words; the limit is 8. Shortened it.",
+        "#householdpreparedness is a low-use compound hashtag. Swapped it for the widely used #emergencypreparedness.",
+        "The rest is fine. Product claims stay within the approved facts, the advice is general and calm, and the caption length, question line and CTA are correct."
+      ]
+    },
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}
