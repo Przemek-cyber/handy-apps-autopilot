@@ -1,6 +1,8 @@
 # Bank tematów. Agent bierze najdawniej nieużyty temat; gdy wszystkie są zużyte, wymyśla nowy w tych samych filarach.
 # Filary: value (wartość dla niszy), product (use case apki), community (pytanie/ankieta)
 ready72h:
+  - {topic: "Go-bag when you can't carry 10 kg: wheelchair users, people with disabilities and older adults", pillar: value}
+  - {topic: "A support network of 3 neighbours: preparedness for someone who needs help", pillar: value}
   - {topic: "How much water a household really needs for 72 hours", pillar: value}
   - {topic: "The 15-minute evacuation bag: what goes in first", pillar: value}
   - {topic: "Family communication plan when phones and internet are down", pillar: value}
