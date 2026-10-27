@@ -143,7 +143,9 @@ def _end(app_key: str, line: str, big: bool, question: str = "", pill: str = "")
     pill = pill or apps()[app_key].get("end_pill") or (f"Comment “{kw}” → link in DM" if kw else "Link in bio")
     return (f'<div class="end">{logo_svg(app_key, full=True)}<div class="name">{name}</div>{first}{q}'
             f'<div class="pill">{html.escape(pill)}</div>'
-            f'<div class="line" style="font-size:calc(var(--u) * 2.8)">🔖 Save this for later</div></div>')
+            + (f'<div class="line" style="color:var(--text);font-weight:700;font-size:calc(var(--u) * 3.4)">🌐 {html.escape(apps()[app_key]["site_line"])}</div>'
+               if apps()[app_key].get("site_line") else "")
+            + f'<div class="line" style="font-size:calc(var(--u) * 2.8)">🔖 Save this for later</div></div>')
 
 
 def _px(v: float) -> str:

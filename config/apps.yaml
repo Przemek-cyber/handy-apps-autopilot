@@ -15,6 +15,7 @@ ready72h:
     - Available in Polish, English, German and Spanish.
     - Pay what you want, starting at 2 PLN; suggested price 59 PLN; even the minimum unlocks the full planner and app.
     - The creator's stance - this is a safety topic, not a place to profit off people's anxiety.
+    - The website ready72h.com has free emergency water and cash calculators and free preparedness guides (English and Polish).
   sources:
     - "MSB (Sweden) — 'In case of crisis or war' guidance"
     - "BBK (Germany) — emergency preparedness guide"
@@ -23,6 +24,8 @@ ready72h:
   dm_keyword: PLAN       # słowo-klucz: komentarz → DM z linkiem
   dm_enabled: true       # automat komentarz → DM działa w Zernio (src/publish.py --automations)
   link: "https://przemek.lemonsqueezy.com/checkout/buy/4ebf56da-3b44-4d2f-9928-e9aaaa581d5b"
+  site_line: "Free water & cash calculators → ready72h.com"   # na końcu filmu (od 28.10)
+  site_caption: "Free calculators and guides: ready72h.com"
   dm_message: "Here's your Ready72h planner (pay what you want, from 2 PLN): {link} — PDF + offline app, based on MSB, BBK and RCB guidance. Stay calm and ready 🧡"
 
 bikepackpilot:
@@ -40,11 +43,14 @@ bikepackpilot:
     - One-tap location check-in for peace of mind; your data stays on your device.
     - Available in English, Polish, German and Spanish.
     - Web app at bikepackpilot.com that works offline and installs like an app.
+    - The website bikepackpilot.com/routes has free route plans with maps for famous routes (e.g. Tour Divide, EuroVelo 6 and 9, Green Velo, Hebridean Way, Camino Francés).
     # TODO: cena i forma zakupu — bez tego agent nie wspomina o cenie
   sources: []
   # od 19.10 BikepackPilot publikujemy na TikToku: brak automatu DM i klikalnego linku → adres strony
   cta: "Plan your next trip at bikepackpilot.com (link in bio)."
   end_pill: "bikepackpilot.com"
+  site_line: "Free route plans with maps on the site"          # na końcu filmu (od 28.10)
+  site_caption: "Free route plans with maps (Tour Divide, EuroVelo, Green Velo…): bikepackpilot.com/routes"
   dm_keyword: ROUTE      # automat na Instagramie zostaje (stare posty), ale treści go nie obiecują
   dm_enabled: false
   link: "https://przemek.lemonsqueezy.com/checkout/buy/0c0586a4-a00a-45ca-9407-99d445aee50e"

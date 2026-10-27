@@ -125,6 +125,7 @@ def _product_brief(app_key: str) -> str:
            if a.get("dm_enabled") and a.get("dm_keyword") else
            f"Call to action (last line of the caption): {a['cta']}\n"
            "Do NOT ask people to comment a keyword or promise to send DMs — there is no DM automation here.")
+        + (f"\nAlso add this line right before the call to action in the caption: {a['site_caption']}" if a.get("site_caption") else "")
         + _platform_note(app_key)
     )
 
