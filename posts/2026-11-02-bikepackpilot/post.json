@@ -1,0 +1,68 @@
+{
+  "app": "bikepackpilot",
+  "platform": "tiktok",
+  "format": "reel",
+  "style": "slideshow",
+  "hook_style": "number",
+  "topic": "Navigation without signal: offline maps and backups",
+  "pillar": "value",
+  "publish_on": "2026-11-02",
+  "created_at": "2026-10-29T14:30:15+00:00",
+  "content": {
+    "format": "carousel",
+    "hook": "2 backups beat one signal bar",
+    "slides": [
+      {
+        "kind": "cover",
+        "title": "*2 backups* beat one signal bar",
+        "body": "Offline navigation for bikepacking, in 3 swipes."
+      },
+      {
+        "kind": "point",
+        "title": "Go *offline* before you leave",
+        "body": "Save maps and your GPX file on Wi-Fi. Test in airplane mode.",
+        "clip": "works-offline-installs-like-app.mp4"
+      },
+      {
+        "kind": "point",
+        "title": "Carry a *backup*",
+        "body": "Paper map or second device, plus a power bank. Note towns along the route."
+      },
+      {
+        "kind": "cta",
+        "title": "Your trip plan, *offline* too",
+        "body": "Web app works offline."
+      }
+    ],
+    "caption": "Bikepacking offline maps: 2 backups beat one signal bar.\n\nSignal drops in valleys, forests and big empty stretches. A calm plan fixes that.\n\n1. Download maps and your GPX file on Wi-Fi. Then test them in airplane mode before you leave.\n2. Carry a backup: a paper map or a second device, plus a power bank. Jot down town names along the route.\n\nBoring? Yes. Very handy at 6 pm with 0 bars? Also yes.\n\nPhone, GPS or paper map: what's your main?\n\nFree route plans with maps (Tour Divide, EuroVelo, Green Velo…): bikepackpilot.com/routes\nPlan your next trip at bikepackpilot.com (link in bio).",
+    "question": "Phone, GPS or paper map: what's your main?",
+    "hashtags": [
+      "#bikepacking",
+      "#bikepackingtips",
+      "#bicycletouring",
+      "#gravelbike",
+      "#offlinemaps"
+    ],
+    "alt_text": "Carousel on bikepacking navigation without signal: download offline maps and GPX, test in airplane mode, carry a paper map or second device as backup.",
+    "sources_used": []
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 9.8,
+    "music": "12-nastelbom-617081.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "Content, structure, caption length, CTA and product claims all check out.",
+        "Hashtag #cyclingtouring is a weak, rarely used tag on TikTok. Replaced with #bicycletouring, which is more established in this niche."
+      ]
+    },
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}

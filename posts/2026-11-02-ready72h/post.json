@@ -1,0 +1,65 @@
+{
+  "app": "ready72h",
+  "platform": "instagram",
+  "format": "reel",
+  "style": "reel",
+  "hook_style": "pov",
+  "topic": "Radio, power bank, paper map: communications kit basics",
+  "pillar": "value",
+  "publish_on": "2026-11-02",
+  "created_at": "2026-10-29T14:29:30+00:00",
+  "content": {
+    "format": "reel",
+    "hook": "POV: power's out. Phone at 12%.",
+    "scenes": [
+      {
+        "text": "POV: power's out. Phone at *12%*.",
+        "seconds": 2,
+        "visual": "card"
+      },
+      {
+        "text": "Basic comms kit: *radio*, *power bank*, *paper map*",
+        "seconds": 3,
+        "visual": "card"
+      },
+      {
+        "text": "Add numbers and a *meeting point* on paper",
+        "seconds": 3,
+        "visual": "clip",
+        "clip": "family-communication-plan.mp4"
+      },
+      {
+        "text": "Calm, simple prep for the first *72 hours*",
+        "seconds": 2.5,
+        "visual": "card"
+      }
+    ],
+    "caption": "POV: the power's out and your phone is at 12%. Here's a simple emergency communications kit for home.\n\n3 basics:\n📻 A battery or hand-crank radio, so you can hear official updates even if the internet is down.\n🔋 A power bank. Keep it charged and stored with your supplies.\n🗺️ A paper map of your area. No signal needed.\n\nBonus: write key phone numbers and a family meeting point on paper. Phones fail. Paper doesn't.\n\nThis follows the general guidance from MSB, BBK and RCB.\n\nWhat's your phone battery at right now?\n\nFree calculators and guides: ready72h.com\nComment \"PLAN\" and I'll send you the link in DM — or tap the link in bio.",
+    "question": "What's your phone battery at right now?",
+    "hashtags": [
+      "#72hourkit",
+      "#emergencyradio",
+      "#powerbank",
+      "#householdpreparedness",
+      "#blackoutprep"
+    ],
+    "alt_text": "Text reel: a basic home communications kit of radio, power bank and paper map, plus a family communication plan screen from the Ready72h app.",
+    "sources_used": [
+      "MSB (Sweden) — 'In case of crisis or war' guidance",
+      "BBK (Germany) — emergency preparedness guide",
+      "RCB (Poland) — Rządowe Centrum Bezpieczeństwa guidance"
+    ]
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 10.5,
+    "music": "10-nastelbom-602445.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}

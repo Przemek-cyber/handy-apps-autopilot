@@ -1,0 +1,69 @@
+{
+  "app": "bikepackpilot",
+  "platform": "tiktok",
+  "format": "reel",
+  "style": "reel",
+  "hook_style": "pov",
+  "topic": "Budgeting a bikepacking trip",
+  "pillar": "value",
+  "publish_on": "2026-10-30",
+  "created_at": "2026-10-29T14:27:10+00:00",
+  "content": {
+    "format": "reel",
+    "hook": "POV: you budgeted by kilometres, not days",
+    "scenes": [
+      {
+        "text": "POV: you budgeted by *kilometres*, not days",
+        "seconds": 2.0,
+        "visual": "card"
+      },
+      {
+        "text": "Riding *days* set most of your costs: food, beds, resupply",
+        "seconds": 2.9,
+        "visual": "clip",
+        "clip": "realistic-riding-days.mp4"
+      },
+      {
+        "text": "Mark food stops and keep a *repair buffer*",
+        "seconds": 2.9,
+        "visual": "clip",
+        "clip": "find-water-food-repair-nearby.mp4"
+      },
+      {
+        "text": "Know your *real days*, know your real budget",
+        "seconds": 2.4,
+        "visual": "card"
+      }
+    ],
+    "caption": "POV: your bikepacking budget is built on kilometres, not days.\n\nSimple way to fix it:\n1. Work out realistic riding days first. Surface, heat and wind change the number.\n2. Multiply days by a daily spend for food, water and lodging.\n3. Add transport to the start and home from the finish.\n4. Keep a repair and \"something went wrong\" buffer.\n5. Decide where you'll camp and where you'll take a bed.\n\nMore days on the road means more meals and more nights. Get the days right and the budget follows.\n\nBiggest trip cost: food, lodging or transport?\n\nFree route plans with maps (Tour Divide, EuroVelo, Green Velo…): bikepackpilot.com/routes\nPlan your next trip at bikepackpilot.com (link in bio).",
+    "question": "Biggest trip cost: food, lodging or transport?",
+    "hashtags": [
+      "#bikepacking",
+      "#bikepackingtips",
+      "#cycletouring",
+      "#adventurecycling"
+    ],
+    "alt_text": "Text-on-screen video about budgeting a bikepacking trip by riding days, with app screens showing calculated riding days and nearby food and repair search.",
+    "sources_used": []
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 10.2,
+    "music": "17-sigmamusicart-514564.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "Hashtag #bikepackingbudget is a niche/invented compound with little real TikTok use; #cyclingtouring is less used than #cycletouring. Replaced with established tags.",
+        "Caption question differed from the 'question' field; aligned so the on-screen and caption question match.",
+        "Everything else checks out: structure, timings, clips, product claims, tone, caption length, CTA."
+      ]
+    },
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}

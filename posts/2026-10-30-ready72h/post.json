@@ -1,0 +1,70 @@
+{
+  "app": "ready72h",
+  "platform": "instagram",
+  "format": "reel",
+  "style": "reel",
+  "hook_style": "myth",
+  "topic": "Go-bag when you can't carry 10 kg: wheelchair users, people with disabilities and older adults",
+  "pillar": "value",
+  "publish_on": "2026-10-30",
+  "created_at": "2026-10-29T14:26:30+00:00",
+  "content": {
+    "format": "reel",
+    "hook": "Go-bags are heavy. Yours needn't be.",
+    "scenes": [
+      {
+        "text": "Go-bags are heavy. *Yours needn't be.*",
+        "seconds": 2,
+        "visual": "card"
+      },
+      {
+        "text": "Pack *light*: documents, money, key medicines first",
+        "seconds": 2.8,
+        "visual": "clip",
+        "clip": "go-bag-15-minutes.mp4"
+      },
+      {
+        "text": "Add a *support network* who can reach you",
+        "seconds": 2.8,
+        "visual": "clip",
+        "clip": "family-communication-plan.mp4"
+      },
+      {
+        "text": "A plan that fits *your* body and home",
+        "seconds": 2.4,
+        "visual": "card"
+      }
+    ],
+    "caption": "Go-bag for wheelchair users, people with disabilities and older adults: keep it light. A bag you can actually carry works better than a perfect one you can't.\n\nWhere to start:\n• Keep the bag light. Essentials only: documents, some cash, a list of your medicines, a phone charger.\n• Keep bulkier supplies at home, in a spot you can reach easily.\n• If you use a wheelchair, think about a small repair and power kit.\n• Agree on a support network: neighbours, family or friends who know how to reach you.\n\nReady72h has a section for this, based on Canadian Red Cross and Christopher & Dana Reeve Foundation guidance.\n\nWhat's the one item you'd never leave without?\n\nFree calculators and guides: ready72h.com\nComment \"PLAN\" and I'll send you the link in DM — or tap the link in bio.",
+    "question": "What's the one item you'd never leave without?",
+    "hashtags": [
+      "#gobag",
+      "#emergencypreparedness",
+      "#72hourkit",
+      "#wheelchairlife",
+      "#disabilityawareness"
+    ],
+    "alt_text": "Text reel on packing a light go-bag, showing an evacuation bag checklist and a family communication plan screen.",
+    "sources_used": []
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 10.0,
+    "music": "02-alex-morgan-nostalgia-591320.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "Caption first line is redundant and introduces an unsupported '10 kg' figure; alt text repeats it, though the video never shows it.",
+        "Hashtags #wheelchairpreparedness, #disabilitypreparedness and #72hours are invented compounds or too vague and are barely used on Instagram. Replaced with established tags.",
+        "Structure, scene timings, clips, product claims, safety and CTA order are otherwise fine."
+      ]
+    },
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}

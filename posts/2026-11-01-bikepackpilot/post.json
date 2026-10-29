@@ -1,0 +1,62 @@
+{
+  "app": "bikepackpilot",
+  "platform": "tiktok",
+  "format": "reel",
+  "style": "reel",
+  "hook_style": "pov",
+  "topic": "Overnighter vs multi-week trip: what changes in planning",
+  "pillar": "value",
+  "publish_on": "2026-11-01",
+  "created_at": "2026-10-29T14:29:02+00:00",
+  "content": {
+    "format": "reel",
+    "hook": "POV: your overnighter plan meets week three",
+    "scenes": [
+      {
+        "text": "POV: your *overnighter* plan meets week three",
+        "seconds": 2.0,
+        "visual": "card"
+      },
+      {
+        "text": "Overnighter: distance is enough. Longer trips need *realistic riding days*",
+        "seconds": 3.0,
+        "visual": "clip",
+        "clip": "realistic-riding-days.mp4"
+      },
+      {
+        "text": "Multi-week: plan *water, food and repair* along the way",
+        "seconds": 3.0,
+        "visual": "clip",
+        "clip": "find-water-food-repair-nearby.mp4"
+      },
+      {
+        "text": "Plan any trip length in *minutes*",
+        "seconds": 2.6,
+        "visual": "card"
+      }
+    ],
+    "caption": "POV: your overnighter plan meets week three. Bikepacking trip planning changes with trip length.\n\nOvernighter: one forecast, an easy way home, and you carry what you already know works.\n\nMulti-week: conditions change along the way, so plan in segments. Think realistic riding days (not just kilometres), rest days, and where you can resupply water, food and bike repair.\n\nShort trip = pack and go. Long trip = plan the stretches in between.\n\nOvernighter or multi-week: which are you planning?\n\nFree route plans with maps (Tour Divide, EuroVelo, Green Velo…): bikepackpilot.com/routes\nPlan your next trip at bikepackpilot.com (link in bio).",
+    "question": "Overnighter or multi-week: which are you planning?",
+    "hashtags": [
+      "#bikepacking",
+      "#bikepackingtips",
+      "#cycletouring",
+      "#bikepackingroute",
+      "#bikepacker"
+    ],
+    "alt_text": "Text-led video: an overnighter plan versus a multi-week trip, with app screens showing riding days and nearby water, food and repair search.",
+    "sources_used": []
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 10.6,
+    "music": "08-nastelbom-485904.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}

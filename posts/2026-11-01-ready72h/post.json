@@ -1,0 +1,72 @@
+{
+  "app": "ready72h",
+  "platform": "instagram",
+  "format": "reel",
+  "style": "slideshow",
+  "hook_style": "question",
+  "topic": "A support network of 3 neighbours: preparedness for someone who needs help",
+  "pillar": "value",
+  "publish_on": "2026-11-01",
+  "created_at": "2026-10-29T14:28:35+00:00",
+  "content": {
+    "format": "carousel",
+    "hook": "Who would check on you in a blackout?",
+    "slides": [
+      {
+        "kind": "cover",
+        "title": "Who would *check on you* in a blackout?",
+        "body": "Build a support network of 3 neighbours. One evening is enough."
+      },
+      {
+        "kind": "point",
+        "title": "Pick *3 neighbours*",
+        "body": "One next door, one nearby, one who is often home. Swap names and numbers on paper."
+      },
+      {
+        "kind": "point",
+        "title": "Agree what *help* means",
+        "body": "A knock, a check-in, shared water or charging. Pick a simple door signal."
+      },
+      {
+        "kind": "cta",
+        "title": "Calm plans work *better together*",
+        "body": ""
+      }
+    ],
+    "caption": "Neighbour support network for a power outage: who would check on you, and who would you check on?\n\nOfficial guidance often points to the same idea. In the first hours of a crisis, the people closest to you are the first help available.\n\nA simple start:\n• Pick 3 neighbours: next door, nearby, and one who is often home.\n• Swap names and phone numbers on paper, not just in your phone.\n• Agree what help looks like: a knock on the door, a check-in, sharing water or a charger.\n• Choose a simple signal, like a note on the door.\n• Share only what you're comfortable with.\n\nThis matters most for older adults, wheelchair users and anyone who may need a hand.\n\nHow many neighbours do you know by name?\n\nFree calculators and guides: ready72h.com\nComment \"PLAN\" and I'll send you the link in DM — or tap the link in bio.",
+    "question": "How many neighbours do you know by name?",
+    "hashtags": [
+      "#emergencypreparedness",
+      "#72hourkit",
+      "#blackoutprep",
+      "#poweroutage",
+      "#familypreparedness"
+    ],
+    "alt_text": "Carousel about building a support network of three neighbours for a blackout: pick three neighbours, agree what help means, and plan together.",
+    "sources_used": [
+      "MSB (Sweden) — 'In case of crisis or war' guidance",
+      "BBK (Germany) — emergency preparedness guide",
+      "RCB (Poland) — Rządowe Centrum Bezpieczeństwa guidance"
+    ]
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 10.1,
+    "music": "05-lnplusmusic-597023.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "Hashtags: #neighbourhoodpreparedness is an invented compound hardly used on Instagram; #communitysupport and #householdemergencyplan are generic or rarely used. Replaced with commonly used preparedness tags.",
+        "Slide 3 clip (family-communication-plan.mp4) shows a family plan screen (meeting point, out-of-area contact), not a neighbour agreement. It doesn't match the slide text, so it was removed.",
+        "Everything else passes: structure, title and body lengths, caption length (about 840 characters), question on its own line, free-site line before the CTA, exact CTA last, no unapproved product claims, calm tone."
+      ]
+    },
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}
