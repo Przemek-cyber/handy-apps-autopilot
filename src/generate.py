@@ -222,6 +222,9 @@ def main() -> None:
         offsets = sched.get("generate_plan", {}).get(today.strftime("%a").lower(), [sched["publish_after_days"]])
         days = [today + dt.timedelta(days=o) for o in offsets]
         targets = [(a, d) for d in days for a in ([args.app] if args.app and args.app != "all" else daily)]
+        # dni publikacji per apka (np. Instagram 4x w tygodniu); brak wpisu = codziennie
+        allowed = sched.get("publish_days") or {}
+        targets = [(a, d) for a, d in targets if a not in allowed or d.strftime("%a").lower() in allowed[a]]
 
     created, failed = [], []
     for app_key, day in targets:
