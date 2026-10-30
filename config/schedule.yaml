@@ -16,8 +16,8 @@ daily_apps: [ready72h]   # 30.10: TikTok zablokowany (odwołanie złożone) — 
 platforms:                     # od 19.10: Instagram = tylko Ready72h, TikTok = tylko BikepackPilot
   ready72h: instagram
   bikepackpilot: tiktok
-publish_days:                  # od 29.10: Instagram (Ready72h) 4x w tygodniu; TikTok (BikepackPilot) codziennie
-  ready72h: [mon, wed, fri, sun]
+publish_days:                  # Instagram (Ready72h) 2x w tygodniu; TikTok wstrzymany (po odblokowaniu też 2x w tygodniu)
+  ready72h: [wed, sun]          # od 30.10: 2 filmy w tygodniu
 publish_times:                 # godzina publikacji dla każdej apki (czas polski)
   bikepackpilot: "07:00"       # TikTok
   ready72h: "07:00"            # Instagram
