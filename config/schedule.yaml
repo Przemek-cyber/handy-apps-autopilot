@@ -12,7 +12,7 @@ publish_after_days: 1          # (tryb ręczny) domyślna data publikacji = jutr
 generate_plan:
   mon: [1, 2, 3]
   thu: [1, 2, 3, 4]
-daily_apps: [ready72h, bikepackpilot]   # KAŻDEGO dnia post każdej z tych apek (każda na swojej platformie)
+daily_apps: [ready72h]   # 30.10: TikTok zablokowany (odwołanie złożone) — BikepackPilot wstrzymany; było: [ready72h, bikepackpilot]   # KAŻDEGO dnia post każdej z tych apek (każda na swojej platformie)
 platforms:                     # od 19.10: Instagram = tylko Ready72h, TikTok = tylko BikepackPilot
   ready72h: instagram
   bikepackpilot: tiktok

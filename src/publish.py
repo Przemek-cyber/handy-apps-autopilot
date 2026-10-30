@@ -350,6 +350,21 @@ def _safe(e: Exception) -> str:
     return str(e).replace(os.environ.get("ZERNIO_API_KEY", "") or "\0", "***").replace("\n", " ")[:900]
 
 
+def cancel_app(app: str) -> None:
+    """Zdejmuje z kolejki Zernio wszystkie zaplanowane (nieopublikowane) posty danej apki i oznacza je jako wstrzymane."""
+    import json
+    for p in existing_posts():
+        if p.get("app") != app or not p["_scheduled"] or p["_published"] or p["_cancelled"]:
+            continue
+        sched = json.loads((p["_dir"] / "scheduled.json").read_text())
+        try:
+            cancel_post(sched["zernio_post_id"])
+        except RuntimeError as e:
+            print(f"::warning title={p['_dir'].name}::{_safe(e)[:200]}")
+        write_json(p["_dir"] / "cancelled.json", {"reason": f"{app} paused", "at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")})
+        print(f"::notice title=Wstrzymano {p['_dir'].name}::zdjęto z kolejki Zernio")
+
+
 def debug_post(post_id: str) -> None:
     """Diagnostyka: szczegóły posta w Zernio i konta TikTok (bez tokenów)."""
     import json
@@ -388,7 +403,10 @@ def main() -> None:
     ap.add_argument("--automations", action="store_true", help="utwórz / zaktualizuj automaty komentarz → DM")
     ap.add_argument("--automation-logs", action="store_true", help="pokaż ostatnie zdarzenia automatów DM")
     ap.add_argument("--debug-post", help="diagnostyka posta Zernio (id)")
+    ap.add_argument("--cancel-app", help="zdejmij z kolejki wszystkie zaplanowane posty apki")
     args = ap.parse_args()
+    if args.cancel_app:
+        return cancel_app(args.cancel_app)
     if args.debug_post:
         return debug_post(args.debug_post)
     try:
