@@ -1,0 +1,64 @@
+{
+  "app": "ready72h",
+  "platform": "instagram",
+  "format": "reel",
+  "style": "slideshow",
+  "hook_style": "number",
+  "topic": "Pets in your 72-hour plan: a simple checklist for the four-legged family members (food, water, carrier, ID, a calm routine)",
+  "pillar": "value",
+  "publish_on": "2026-11-04",
+  "created_at": "2026-11-02T17:09:50+00:00",
+  "content": {
+    "format": "carousel",
+    "hook": "3 days of food. For every pet.",
+    "slides": [
+      {
+        "kind": "cover",
+        "title": "*3 days* of food. For every pet.",
+        "body": "A simple 72-hour checklist for your four-legged family."
+      },
+      {
+        "kind": "point",
+        "title": "Food, water, *bowls*",
+        "body": "Three days of their usual food, water for them, a bowl, and any regular medication."
+      },
+      {
+        "kind": "point",
+        "title": "Carrier, ID, *calm routine*",
+        "body": "Carrier, tagged collar, leash, recent photo. Keep feeding times steady. Routine calms pets."
+      },
+      {
+        "kind": "cta",
+        "title": "Plan for *everyone* at home",
+        "body": ""
+      }
+    ],
+    "caption": "Pet emergency kit: 3 days of food for every pet.\n\nYour 72-hour plan should include the four-legged ones. Keep it simple:\n\n• Food: three days of their usual food, plus a bowl\n• Water: enough for them, not only for you\n• Medication: whatever they take regularly\n• Carrier, leash and a collar with a tag\n• A recent photo and vet contact details, on paper\n• A calm routine: same feeding times, a familiar blanket\n\nPack it once. Check it twice a year. Done.\n\nDog, cat or something else at home?\n\nFree calculators and guides: ready72h.com\nComment \"PLAN\" and I'll send you the link in DM — or tap the link in bio.",
+    "question": "Dog, cat or something else at home?",
+    "hashtags": [
+      "#petemergencykit",
+      "#72hourkit",
+      "#emergencypreparedness",
+      "#petpreparedness",
+      "#householdpreparedness"
+    ],
+    "alt_text": "Carousel with a 72-hour pet checklist: three days of food, water and bowls, carrier, ID tag, leash, photo and a calm routine.",
+    "sources_used": [
+      "MSB (Sweden) — 'In case of crisis or war' guidance",
+      "BBK (Germany) — emergency preparedness guide",
+      "RCB (Poland) — Rządowe Centrum Bezpieczeństwa guidance"
+    ]
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 10.0,
+    "music": "18-sub_clair-luxury-550484.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}

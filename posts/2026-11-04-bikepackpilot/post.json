@@ -1,0 +1,77 @@
+{
+  "app": "bikepackpilot",
+  "platform": "tiktok",
+  "format": "reel",
+  "style": "reel",
+  "hook_style": "pov",
+  "topic": "Budgeting a bikepacking trip",
+  "pillar": "value",
+  "publish_on": "2026-11-04",
+  "created_at": "2026-11-02T17:10:46+00:00",
+  "content": {
+    "format": "reel",
+    "hook": "POV: you budgeted km, not days",
+    "scenes": [
+      {
+        "text": "POV: you budgeted *km*, not days",
+        "seconds": 2.0,
+        "visual": "card"
+      },
+      {
+        "text": "Food and lodging are paid *per day*. Count riding days first.",
+        "seconds": 3.0,
+        "visual": "clip",
+        "clip": "realistic-riding-days.mp4"
+      },
+      {
+        "text": "Know where *shops and water* are. Carry less, buy smarter.",
+        "seconds": 3.0,
+        "visual": "clip",
+        "clip": "find-water-food-repair-nearby.mp4"
+      },
+      {
+        "text": "Plan the *days*, then the budget. Camping, rooms or a mix?",
+        "seconds": 2.5,
+        "visual": "card"
+      }
+    ],
+    "caption": "Bikepacking trip budget basics: you budgeted kilometres, not days?\n\nCosts follow days, not distance. Work out realistic riding days first, then multiply.\n\n1. Daily food: shops, cafés, the odd treat.\n2. Lodging mix: camping, hostels, a room after a rough stretch.\n3. Repairs: keep a small buffer for tyres, chain and brake pads.\n4. Getting there and back: trains, bike boxes, transfers.\n5. Add a cushion for the unplanned.\n\nBikepackPilot calculates riding days from your route and conditions, and shows food, water, repair and lodging nearby.\n\nCamping, rooms or a mix?\n\nFree route plans with maps (Tour Divide, EuroVelo, Green Velo…): bikepackpilot.com/routes\nPlan your next trip at bikepackpilot.com (link in bio).",
+    "question": "Camping, rooms or a mix?",
+    "hashtags": [
+      "#bikepacking",
+      "#bikepackingtips",
+      "#cyclingtok",
+      "#cycletouring",
+      "#cyclingtips"
+    ],
+    "alt_text": "Text-led video on budgeting a bikepacking trip by riding days, with app screens showing calculated riding days and nearby food, water, repair and lodging.",
+    "sources_used": []
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 10.5,
+    "music": "11-nastelbom-602456.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "Hashtag #bikepackingbudget is an invented compound with little real usage on TikTok; replaced with #cyclingtips.",
+        "Caption question ('What's your usual lodging split?') did not match the 'question' field; aligned to 'Camping, rooms or a mix?'.",
+        "Caption first line should lead with the searchable keyword (bikepacking trip budget); reordered."
+      ]
+    },
+    {
+      "verdict": "fix",
+      "issues": [
+        "The question must appear on the final video frame, but the last scene only said 'Plan the days. Then the budget.' I replaced that text with the question.",
+        "Everything else checks out: product claims are within the approved facts, the advice is general and safe, the tone is calm, the structure and timing are valid, the caption length and order are correct, and the clips match their scene text."
+      ]
+    },
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}
