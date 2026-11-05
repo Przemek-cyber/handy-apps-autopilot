@@ -1,0 +1,62 @@
+{
+  "app": "bikepackpilot",
+  "platform": "tiktok",
+  "format": "reel",
+  "style": "reel",
+  "hook_style": "myth",
+  "topic": "Your dream route: where would you ride for a week?",
+  "pillar": "community",
+  "publish_on": "2026-11-08",
+  "created_at": "2026-11-05T15:34:14+00:00",
+  "content": {
+    "format": "reel",
+    "hook": "You don't need months. A week works.",
+    "scenes": [
+      {
+        "text": "You don't need months. *A week* works.",
+        "seconds": 2,
+        "visual": "card"
+      },
+      {
+        "text": "Pick your dream route. Enter the *real distance*.",
+        "seconds": 2.8,
+        "visual": "clip",
+        "clip": "enter-route-distance.mp4"
+      },
+      {
+        "text": "See *realistic riding days*, not just kilometres",
+        "seconds": 3,
+        "visual": "clip",
+        "clip": "realistic-riding-days.mp4"
+      },
+      {
+        "text": "Plan your dream week in *minutes*",
+        "seconds": 2.6,
+        "visual": "card"
+      }
+    ],
+    "caption": "You don't need months off for bikepacking. One week is plenty for a great self-supported trip.\n\nHere's a simple way to choose your route:\n- Pick a route that fits the days you actually have.\n- Plan in riding days, not just kilometres.\n- Think about surface, heat, wind and rain before you commit.\n\nA short trip on a route you love beats a long one that never leaves the notes app.\n\nWhich route is your dream week ride?\n\nFree route plans with maps (Tour Divide, EuroVelo, Green Velo…): bikepackpilot.com/routes\nPlan your next trip at bikepackpilot.com (link in bio).",
+    "question": "Which route is your dream week ride?",
+    "hashtags": [
+      "#bikepacking",
+      "#bikepackingroute",
+      "#cycletouring",
+      "#bikepackingtrip",
+      "#gravelbiking"
+    ],
+    "alt_text": "Text-on-screen video: a week is enough for a bikepacking trip, with app screens for entering route distance and realistic riding days.",
+    "sources_used": []
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 10.4,
+    "music": "09-nastelbom-507938.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}

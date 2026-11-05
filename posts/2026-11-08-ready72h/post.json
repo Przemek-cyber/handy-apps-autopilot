@@ -1,0 +1,73 @@
+{
+  "app": "ready72h",
+  "platform": "instagram",
+  "format": "reel",
+  "style": "slideshow",
+  "hook_style": "pov",
+  "topic": "Your 10-minute documents folder: what to copy and keep together (ID, insurance, contacts, medical info) in one waterproof pouch, so it's ready if you ever need to leave or stay put. Calm checklist, on-screen text only.",
+  "pillar": "value",
+  "publish_on": "2026-11-08",
+  "created_at": "2026-11-05T15:33:45+00:00",
+  "content": {
+    "format": "carousel",
+    "hook": "POV: you need your ID and can't find it",
+    "slides": [
+      {
+        "kind": "cover",
+        "title": "You need your *ID*. Can't find it?",
+        "body": "A 10-minute documents folder. One waterproof pouch."
+      },
+      {
+        "kind": "point",
+        "title": "Copy *ID and insurance*",
+        "body": "ID, passports, insurance policies, home papers. Paper copies, plus a photo on your phone.",
+        "clip": "go-bag-15-minutes.mp4"
+      },
+      {
+        "kind": "point",
+        "title": "Add *contacts and medical info*",
+        "body": "Written phone numbers, allergies, medicine list, doctor's contact. Everything in one pouch, by the door.",
+        "clip": "family-communication-plan.mp4"
+      },
+      {
+        "kind": "cta",
+        "title": "Ready in *10 minutes*",
+        "body": ""
+      }
+    ],
+    "caption": "POV: you need your ID and can't find it. Here's a documents folder for emergency preparedness, done in 10 minutes.\n\nPut copies in one waterproof pouch:\n• ID and passports\n• Insurance policies\n• Important phone numbers, written on paper\n• Medical info: allergies, medicine list, doctor's contact\n\nKeep the originals somewhere safe. The pouch holds copies. Store it near the door, so it's ready if you leave or stay put.\n\nCheck it twice a year. Calm and simple.\n\nWhere do your documents live right now?\n\nFree calculators and guides: ready72h.com\nComment \"PLAN\" and I'll send you the link in DM — or tap the link in bio.",
+    "question": "Where do your documents live right now?",
+    "hashtags": [
+      "#emergencypreparedness",
+      "#72hourkit",
+      "#gobag",
+      "#householdpreparedness",
+      "#emergencydocuments"
+    ],
+    "alt_text": "Carousel on a 10-minute documents folder: copy ID and insurance, add contacts and medical info, keep it all in one waterproof pouch.",
+    "sources_used": [
+      "MSB (Sweden) — 'In case of crisis or war' guidance",
+      "BBK (Germany) — emergency preparedness guide",
+      "RCB (Poland) — Rządowe Centrum Bezpieczeństwa guidance"
+    ]
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 10.4,
+    "music": "06-mfcc-261601.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "Cover slide title has 9 words, over the 8-word limit. Shortened it and kept the *ID* highlight.",
+        "Everything else passes. The structure, clips, product claims, safety, caption length and CTA order are fine, and the hashtags are acceptable."
+      ]
+    },
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}
