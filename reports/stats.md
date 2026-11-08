@@ -1,15 +1,20 @@
-# Statystyki Handy Apps · 2026-11-01
+# Statystyki Handy Apps · 2026-11-08
 
 | Data | Apka | Styl otwarcia | Temat | Zasięg | Wyśw. | Polub. | Kom. | Zapis. | Udost. |
 |---|---|---|---|---|---|---|---|---|---|
-| 2026-11-01 | Ready72h | question | [A support network of 3 neighbours: preparedness for someone who needs help](https://www.instagram.com/reel/DfMCrueDCyU/) | 6 | 7 | 0 | 0 | 0 | 0 |
+| 2026-11-08 | BikepackPilot | myth | [Your dream route: where would you ride for a week?](https://www.tiktok.com/@handy_apps82/video/7705676936210664737) | 0 | 0 | 0 | 0 | 0 | 0 |
+| 2026-11-08 | Ready72h | pov | [Your 10-minute documents folder: what to copy and keep together (ID, insurance, contacts, medical info) in one waterproof pouch, so it's ready if you ever need to leave or stay put. Calm checklist, on-screen text only.](https://www.instagram.com/reel/DfeEPr9GM8G/) | 0 | 0 | 0 | 0 | 0 | 0 |
+| 2026-11-04 | BikepackPilot | pov | [Budgeting a bikepacking trip](https://www.tiktok.com/@handy_apps82/video/7704192599778725153) | 0 | 0 | 0 | 0 | 0 | 0 |
+| 2026-11-04 | Ready72h | number | [Pets in your 72-hour plan: a simple checklist for the four-legged family members (food, water, carrier, ID, a calm routine)](https://www.instagram.com/reel/DfTxBtGGyyp/) | 2 | 2 | 0 | 0 | 0 | 0 |
+| 2026-11-02 | Ready72h | pov | [Radio, power bank, paper map: communications kit basics](https://www.instagram.com/reel/DfOnbgYCZ4t/) | 11 | 11 | 0 | 0 | 0 | 0 |
+| 2026-11-01 | Ready72h | question | [A support network of 3 neighbours: preparedness for someone who needs help](https://www.instagram.com/reel/DfMCrueDCyU/) | 10 | 11 | 0 | 0 | 0 | 0 |
 | 2026-10-30 | Ready72h | myth | [Go-bag when you can't carry 10 kg: wheelchair users, people with disabilities and older adults](https://www.instagram.com/reel/DfG5Q_ojOoC/) | 3 | 4 | 0 | 0 | 0 | 0 |
 | 2026-10-29 | BikepackPilot | number | [Repair kit essentials for remote routes](https://www.tiktok.com/@handy_apps82/video/7701965971392564512) | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2026-10-29 | Ready72h | pov | [Quick self-check: how ready is your home today?](https://www.instagram.com/reel/DfEUN7yjCoJ/) | 11 | 11 | 0 | 0 | 0 | 0 |
 | 2026-10-28 | BikepackPilot | pov | [From idea to route: a planning framework in 4 steps](https://www.tiktok.com/@handy_apps82/video/7701595299747319072) | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2026-10-28 | Ready72h | question | [Where to store your 72-hour supplies in a small apartment](https://www.instagram.com/reel/DfBvgGbFE4_/) | 7 | 8 | 0 | 0 | 0 | 0 |
 | 2026-10-27 | BikepackPilot | myth | [Power on the road: charging lights, phone and GPS](https://www.tiktok.com/@handy_apps82/video/7701224002924154145) | 0 | 0 | 0 | 0 | 0 | 0 |
-| 2026-10-27 | Ready72h | pov | [Pay what you want: why the planner starts at 2 PLN](https://www.instagram.com/reel/De_Kx-TAqw0/) | 6 | 7 | 0 | 0 | 0 | 0 |
+| 2026-10-27 | Ready72h | pov | [Pay what you want: why the planner starts at 2 PLN](https://www.instagram.com/reel/De_Kx-TAqw0/) | 7 | 8 | 0 | 0 | 0 | 0 |
 | 2026-10-26 | BikepackPilot | number | [Weather backup plans on a multi-day route](https://www.tiktok.com/@handy_apps82/video/7700853241474469153) | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2026-10-26 | Ready72h | question | [Preparing with kids: making the plan feel normal, not scary](https://www.instagram.com/reel/De8mDYtkahZ/) | 3 | 3 | 0 | 0 | 0 | 0 |
 | 2026-10-25 | BikepackPilot | myth | [Sleep system basics for bikepacking](https://www.tiktok.com/@handy_apps82/video/7700481713939483937) | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -39,22 +44,22 @@
 
 | apka | Postów | Śr. zasięg | Śr. reakcje |
 |---|---|---|---|
-| BikepackPilot | 16 | 1 | 0.1 |
-| Ready72h | 16 | 12 | 0.1 |
+| BikepackPilot | 18 | 1 | 0.1 |
+| Ready72h | 19 | 11 | 0.1 |
 
 ## Średni zasięg wg: styl otwarcia
 
 | styl otwarcia | Postów | Śr. zasięg | Śr. reakcje |
 |---|---|---|---|
 | (przed testem) | 14 | 6 | 0.2 |
-| myth | 4 | 2 | 0.0 |
-| number | 4 | 2 | 0.0 |
-| pov | 5 | 19 | 0.0 |
-| question | 5 | 5 | 0.0 |
+| myth | 5 | 1 | 0.0 |
+| number | 5 | 2 | 0.0 |
+| pov | 8 | 13 | 0.0 |
+| question | 5 | 6 | 0.0 |
 
 ## Średni zasięg wg: forma
 
 | forma | Postów | Śr. zasięg | Śr. reakcje |
 |---|---|---|---|
-| pokaz slajdów | 18 | 10 | 0.1 |
-| rolka | 14 | 3 | 0.1 |
+| pokaz slajdów | 20 | 9 | 0.1 |
+| rolka | 17 | 3 | 0.1 |
