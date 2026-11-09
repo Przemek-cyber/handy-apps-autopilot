@@ -1,0 +1,83 @@
+{
+  "app": "ready72h",
+  "platform": "instagram",
+  "format": "reel",
+  "style": "reel",
+  "hook_style": "question",
+  "topic": "Staying warm without power: a calm checklist for a cold-weather blackout (layers, blankets, one warm room, safe habits like never using a grill or camp stove indoors). On-screen text only, general guidance in line with MSB, BBK and RCB, no product pitch beyond a light mention of the free guides.",
+  "pillar": "value",
+  "publish_on": "2026-11-11",
+  "created_at": "2026-11-09T17:37:22+00:00",
+  "content": {
+    "format": "reel",
+    "hook": "Could you keep warm without power tonight?",
+    "scenes": [
+      {
+        "text": "Could you keep *warm* without power tonight?",
+        "seconds": 2,
+        "visual": "card"
+      },
+      {
+        "text": "Dress in *layers*. Pick *one warm room*. Stay together.",
+        "seconds": 3,
+        "visual": "card"
+      },
+      {
+        "text": "Never use a *grill or camp stove* indoors. Ever.",
+        "seconds": 3,
+        "visual": "card"
+      },
+      {
+        "text": "Free *calculators* and guides: ready72h.com",
+        "seconds": 3,
+        "visual": "card"
+      }
+    ],
+    "question": "Which room would be your warm room?",
+    "caption": "Staying warm without power: could you do it tonight? Here's a calm checklist for a cold-weather blackout.\n\nLayers: several thin layers, a hat, warm socks. Keep them dry.\nBlankets: gather them in one place. Sleeping bags work too.\nOne warm room: pick a small room, close the doors, stay together.\nSafe habits: never use a grill, camp stove or gas cooker to heat indoors. They can release carbon monoxide. Keep fresh air flowing and follow your local authority's advice.\n\nGeneral guidance in line with MSB, BBK and RCB.\n\nWhich room would be your warm room?\n\nFree calculators and guides: ready72h.com\nComment \"PLAN\" and I'll send you the link in DM — or tap the link in bio.",
+    "hashtags": [
+      "#emergencypreparedness",
+      "#poweroutage",
+      "#winterpreparedness",
+      "#72hourkit",
+      "#familypreparedness"
+    ],
+    "alt_text": "Text-only reel with a calm cold-weather blackout checklist: dress in layers, choose one warm room, and never use a grill or camp stove indoors.",
+    "sources_used": [
+      "MSB",
+      "BBK",
+      "RCB"
+    ]
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 11.0,
+    "music": "17-sigmamusicart-514564.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "Reel structure: the last scene must be the CTA scene, but the draft ended on the safety tip and had no CTA scene.",
+        "Fixed by merging the layers and warm-room tips into one scene, keeping the carbon monoxide safety tip, and adding a final CTA scene that points to the free tools without the PLAN keyword.",
+        "Product claims, safety advice, tone, caption structure, question and hashtags are OK."
+      ]
+    },
+    {
+      "verdict": "fix",
+      "issues": [
+        "Hashtag #72hours is ambiguous and mostly used for unrelated content (film challenges, events); replaced with #emergencypreparedness, which is widely used for this topic.",
+        "Hashtags normalised to lowercase for consistency (#powerOutageTips -> #poweroutagetips).",
+        "Everything else checks out: the reel has 4 scenes totalling 11 s, the advice is general and safe with a clear carbon monoxide warning, there is no fear-mongering, product claims are limited to the free calculators and guides, and the caption structure and CTA are correct."
+      ]
+    },
+    {
+      "verdict": "fix",
+      "issues": [
+        "Hashtags #blackoutpreparedness and #homepreparedness are invented/low-use compounds; replaced with established niche tags.",
+        "Everything else checks out: no product claims beyond approved facts, safe general advice with a carbon monoxide warning, calm tone, structure and timing OK, caption length OK, the CTA is correct and the keyword is not in the final scene."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "app": "bikepackpilot",
+  "platform": "tiktok",
+  "format": "reel",
+  "style": "slideshow",
+  "hook_style": "pov",
+  "topic": "Overnighter vs multi-week trip: what changes in planning",
+  "pillar": "value",
+  "publish_on": "2026-11-11",
+  "created_at": "2026-11-09T17:38:02+00:00",
+  "content": {
+    "format": "carousel",
+    "hook": "POV: your overnighter plan meets a 3-week route",
+    "slides": [
+      {
+        "kind": "cover",
+        "title": "POV: your overnighter plan meets a *3-week* route",
+        "body": "What actually changes in planning when the trip gets longer."
+      },
+      {
+        "kind": "point",
+        "title": "Overnighter: *pack light*, keep it simple",
+        "body": "One night means less food, fewer spares, and an easy bail-out. Plan the start and the camp spot."
+      },
+      {
+        "kind": "point",
+        "title": "Multi-week: plan *resupply* and rest days",
+        "body": "Think water, food, repairs and sleep. Count realistic riding days, not just kilometres.",
+        "clip": "realistic-riding-days.mp4"
+      },
+      {
+        "kind": "cta",
+        "title": "Plan by *segment*. Any trip length.",
+        "body": ""
+      }
+    ],
+    "caption": "Overnighter vs multi-week bikepacking: what changes in planning.\n\nOvernighter: pack light, pick a camp spot, keep a simple way home if plans change.\n\nMulti-week: plan where you'll resupply water and food, where you can get bike repairs, and when you'll rest. Conditions change along the way, so plan by segment. Count realistic riding days, not just kilometres.\n\nEither way, the basics stay the same: know your distance, your surface, and what the weather might do.\n\nWhich are you planning right now: overnighter or multi-week?\n\nFree route plans with maps (Tour Divide, EuroVelo, Green Velo…): bikepackpilot.com/routes\nPlan your next trip at bikepackpilot.com (link in bio).",
+    "question": "Which are you planning: overnighter or multi-week?",
+    "hashtags": [
+      "#bikepacking",
+      "#bikepackingtips",
+      "#cycletouring",
+      "#bikepacker",
+      "#cycling"
+    ],
+    "alt_text": "Carousel on how bikepacking planning differs between an overnighter and a multi-week trip, with an app screen showing realistic riding days.",
+    "sources_used": []
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 10.5,
+    "music": "04-apalonbeats-2-576256.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "Slide 2 clip (gear-adapts-to-conditions) shows gear adapting to heat/rough surface, not 'pack light' for an overnighter. The clip doesn't match the text, so it was removed.",
+        "CTA slide title 'Same planning. Any trip length.' contradicts the post's message that planning changes with trip length. Reworded.",
+        "Hashtags #tripplanning and #bikepackinggear are weak or off-topic for TikTok. Replaced with #bikepacker and #cycling."
+      ]
+    },
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}
