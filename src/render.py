@@ -284,9 +284,15 @@ def render_reel(app_key: str, content: dict, out_dir: Path, track: Path) -> dict
     work = out_dir / "_work"
     work.mkdir(parents=True, exist_ok=True)
 
+    # od 12.11: hak startuje od nagrania apki (ruch w 1. sekundzie) — klip z dalszej sceny albo pierwszy z katalogu
+    later = [s.get("clip") for s in scenes[1:] if s.get("visual") == "clip" and _clip_path(app_key, s.get("clip"))]
+    hook_clip = later[0] if later else next(iter(available_clips(app_key)), None)
+
     pages_opaque, pages_holed, plan = [], [], []
     for i, sc in enumerate(scenes, 1):
         png = work / f"scene-{i:02d}.png"
+        if i == 1 and i != total and sc.get("visual") != "clip" and hook_clip:
+            sc = {**sc, "visual": "clip", "clip": hook_clip}
         clip = _clip_path(app_key, sc.get("clip")) if sc.get("visual") == "clip" else None
         if i == total:  # karta końcowa
             body = f'{_bg(app_key, W, H)}{_end(app_key, sc["text"], big=True, question=content.get("question", ""))}'
@@ -296,8 +302,9 @@ def render_reel(app_key: str, content: dict, out_dir: Path, track: Path) -> dict
             frame = (f'<div class="phone" style="left:{x}px;top:{y}px;width:{pw}px;height:{ph}px;border-radius:{r}px;'
                      f'box-shadow:0 0 0 3px rgba(255,255,255,.16)"></div>')
             body_p = f'<p>{html.escape(plain(sc["body"]))}</p>' if sc.get("body") else ""
+            hl = "2.3em" if i == 1 else "1.76em"  # hak: większy nagłówek
             panel = (f'<div class="panel" data-fit="380" style="left:70px;right:70px;top:1380px;min-height:290px">'
-                     f'<div class="headline" style="font-size:1.76em">{rich(sc["text"])}</div>{body_p}</div>')
+                     f'<div class="headline" style="font-size:{hl}">{rich(sc["text"])}</div>{body_p}</div>')
             body = f"{_bg(app_key, W, H, holed=True)}{_header(app_key)}{frame}{panel}"
             pages_holed.append((_page(app_key, W, H, body, hole=REEL_PHONE), png))
         elif i == 1:  # hak: duży tekst; podtytuł „wskakuje” po 0.7 s (zmiana w 1. sekundzie zatrzymuje przewijanie)
@@ -331,8 +338,10 @@ def render_reel(app_key: str, content: dict, out_dir: Path, track: Path) -> dict
             x, y, pw, ph, _ = REEL_PHONE
             fc = (f"color=c=black:s={W}x{H}:r={FPS}[base];"
                   f"[0:v]fps={FPS},scale={pw}:{ph}:force_original_aspect_ratio=increase,crop={pw}:{ph}:(iw-{pw})/2:0,setsar=1[clip];"
-                  f"[base][clip]overlay={x}:{y}:shortest=1[v1];[v1][1:v]overlay=0:0,format=yuv420p")
-            _ffmpeg("-stream_loop", "-1", "-i", str(clip), "-loop", "1", "-i", str(png), "-t", f"{secs:.2f}",
+                  f"[base][clip]overlay={x}:{y}:shortest=1[v1];[v1][1:v]overlay=0:0"
+                  + (f",{_motion(secs, True)}" if i == 1 else "") + ",format=yuv420p")
+            start = ["-ss", "1.5"] if i == 1 else []  # hak: od momentu, gdy w apce już coś się dzieje
+            _ffmpeg(*start, "-stream_loop", "-1", "-i", str(clip), "-loop", "1", "-i", str(png), "-t", f"{secs:.2f}",
                     "-filter_complex", fc, "-r", str(FPS), "-c:v", "libx264", "-preset", "veryfast", "-crf", "19", "-an", str(seg))
         elif i == 1 and (work / "scene-01a.png").exists():
             # hak w dwóch krokach: sam nagłówek (0.7 s), potem z podtytułem — jeden ciągły ruch kamery

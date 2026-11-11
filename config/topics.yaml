@@ -1,6 +1,19 @@
 # Bank tematów. Agent bierze najdawniej nieużyty temat; gdy wszystkie są zużyte, wymyśla nowy w tych samych filarach.
 # Filary: value (wartość dla niszy), product (use case apki), community (pytanie/ankieta)
 ready72h:
+  # od 12.11: temat blackoutu/zimy działa najlepiej (zasięg 75–108 vs 1–11) — ok. 2 z 3 filmów na ten temat
+  - {topic: "Charging your phone for 3 days without power", pillar: value}
+  - {topic: "Food without a stove or microwave during a power cut", pillar: value}
+  - {topic: "Who would check on you in a winter blackout? A 5-minute neighbour plan", pillar: community}
+  - {topic: "Safe light in a blackout: torches and headlamps instead of candles", pillar: value}
+  - {topic: "Fridge and freezer in a power cut: what to eat first", pillar: value}
+  - {topic: "Documents ready in one waterproof folder", pillar: value}
+  - {topic: "The first hour of a blackout: a calm 5-step routine", pillar: value}
+  - {topic: "Battery radio: how you get official news when the internet is down", pillar: value}
+  - {topic: "Preparing with kids: making the plan feel normal, not scary", pillar: value}
+  - {topic: "Water when the power is out: what stops working at home", pillar: value}
+  - {topic: "Keeping warm overnight without power: layers, one room, safe habits", pillar: value}
+  - {topic: "Quick self-check: how ready is your home today?", pillar: community}
   - {topic: "Go-bag when you can't carry 10 kg: wheelchair users, people with disabilities and older adults", pillar: value}
   - {topic: "A support network of 3 neighbours: preparedness for someone who needs help", pillar: value}
   - {topic: "How much water a household really needs for 72 hours", pillar: value}
