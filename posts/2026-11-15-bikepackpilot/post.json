@@ -1,0 +1,61 @@
+{
+  "app": "bikepackpilot",
+  "platform": "tiktok",
+  "format": "reel",
+  "style": "slideshow",
+  "hook_style": "number",
+  "topic": "Navigation without signal: offline maps and backups",
+  "pillar": "value",
+  "publish_on": "2026-11-15",
+  "created_at": "2026-11-12T16:02:23+00:00",
+  "content": {
+    "format": "carousel",
+    "hook": "3 navigation backups. Zero signal needed.",
+    "slides": [
+      {
+        "kind": "cover",
+        "title": "*3* navigation backups. Zero signal needed.",
+        "body": "Bikepacking offline: keep your route when the bars disappear."
+      },
+      {
+        "kind": "point",
+        "title": "Download at home, *on wifi*",
+        "body": "Maps, GPX and your plan. Then test it in airplane mode before you leave.",
+        "clip": "works-offline-installs-like-app.mp4"
+      },
+      {
+        "kind": "point",
+        "title": "Carry a *backup*",
+        "body": "Paper map or a second device with the GPX. Add a power bank."
+      },
+      {
+        "kind": "cta",
+        "title": "Plan it once. *Ride it offline.*",
+        "body": ""
+      }
+    ],
+    "caption": "Bikepacking offline navigation: 3 backups, zero signal needed.\n\nSignal drops in the best places. A calm plan beats a stressed scroll.\n\n1. Download maps, GPX and your plan at home on wifi. Test it in airplane mode.\n2. Carry a backup: a paper map, or a second device with the same GPX.\n3. Keep a power bank handy so your screen stays alive.\n\nBikepackPilot is a web app that works offline and installs like an app.\n\nWhat's your backup: paper map or second device?\n\nFree route plans with maps (Tour Divide, EuroVelo, Green Velo…): bikepackpilot.com/routes\nPlan your next trip at bikepackpilot.com (link in bio).",
+    "question": "What's your backup: paper map or second device?",
+    "hashtags": [
+      "#bikepacking",
+      "#bikepackingtips",
+      "#cyclingtouring",
+      "#offlinemaps",
+      "#gravelcycling"
+    ],
+    "alt_text": "Carousel on bikepacking without signal: download maps and GPX offline at home, carry a paper or second-device backup, plan once and ride offline.",
+    "sources_used": []
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 10.0,
+    "music": "03-andriig-568209.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}
