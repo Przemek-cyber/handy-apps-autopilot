@@ -1,9 +1,13 @@
-# Statystyki Handy Apps · 2026-11-08
+# Statystyki Handy Apps · 2026-11-15
 
 | Data | Apka | Styl otwarcia | Temat | Zasięg | Wyśw. | Polub. | Kom. | Zapis. | Udost. |
 |---|---|---|---|---|---|---|---|---|---|
+| 2026-11-15 | BikepackPilot | number | [Navigation without signal: offline maps and backups](https://www.tiktok.com/@handy_apps82/video/7708274188833934625) | 0 | 0 | 0 | 0 | 0 | 0 |
+| 2026-11-15 | Ready72h | pov | [Charging your phone for 3 days without power](https://www.instagram.com/reel/DfwFvAAEcBE/) | 14 | 16 | 0 | 0 | 0 | 0 |
+| 2026-11-11 | BikepackPilot | pov | [Overnighter vs multi-week trip: what changes in planning](https://www.tiktok.com/@handy_apps82/video/7706790175963090209) | 0 | 0 | 0 | 0 | 0 | 0 |
+| 2026-11-11 | Ready72h | question | [Staying warm without power: a calm checklist for a cold-weather blackout (layers, blankets, one warm room, safe habits like never using a grill or camp stove indoors). On-screen text only, general guidance in line with MSB, BBK and RCB, no product pitch beyond a light mention of the free guides.](https://www.instagram.com/reel/DflymSIiYWO/) | 111 | 126 | 0 | 0 | 0 | 0 |
 | 2026-11-08 | BikepackPilot | myth | [Your dream route: where would you ride for a week?](https://www.tiktok.com/@handy_apps82/video/7705676936210664737) | 0 | 0 | 0 | 0 | 0 | 0 |
-| 2026-11-08 | Ready72h | pov | [Your 10-minute documents folder: what to copy and keep together (ID, insurance, contacts, medical info) in one waterproof pouch, so it's ready if you ever need to leave or stay put. Calm checklist, on-screen text only.](https://www.instagram.com/reel/DfeEPr9GM8G/) | 0 | 0 | 0 | 0 | 0 | 0 |
+| 2026-11-08 | Ready72h | pov | [Your 10-minute documents folder: what to copy and keep together (ID, insurance, contacts, medical info) in one waterproof pouch, so it's ready if you ever need to leave or stay put. Calm checklist, on-screen text only.](https://www.instagram.com/reel/DfeEPr9GM8G/) | 1 | 1 | 0 | 0 | 0 | 0 |
 | 2026-11-04 | BikepackPilot | pov | [Budgeting a bikepacking trip](https://www.tiktok.com/@handy_apps82/video/7704192599778725153) | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2026-11-04 | Ready72h | number | [Pets in your 72-hour plan: a simple checklist for the four-legged family members (food, water, carrier, ID, a calm routine)](https://www.instagram.com/reel/DfTxBtGGyyp/) | 2 | 2 | 0 | 0 | 0 | 0 |
 | 2026-11-02 | Ready72h | pov | [Radio, power bank, paper map: communications kit basics](https://www.instagram.com/reel/DfOnbgYCZ4t/) | 11 | 11 | 0 | 0 | 0 | 0 |
@@ -44,8 +48,8 @@
 
 | apka | Postów | Śr. zasięg | Śr. reakcje |
 |---|---|---|---|
-| BikepackPilot | 18 | 1 | 0.1 |
-| Ready72h | 19 | 11 | 0.1 |
+| BikepackPilot | 20 | 1 | 0.1 |
+| Ready72h | 21 | 16 | 0.1 |
 
 ## Średni zasięg wg: styl otwarcia
 
@@ -53,13 +57,13 @@
 |---|---|---|---|
 | (przed testem) | 14 | 6 | 0.2 |
 | myth | 5 | 1 | 0.0 |
-| number | 5 | 2 | 0.0 |
-| pov | 8 | 13 | 0.0 |
-| question | 5 | 6 | 0.0 |
+| number | 6 | 1 | 0.0 |
+| pov | 10 | 12 | 0.0 |
+| question | 6 | 24 | 0.0 |
 
 ## Średni zasięg wg: forma
 
 | forma | Postów | Śr. zasięg | Śr. reakcje |
 |---|---|---|---|
-| pokaz slajdów | 20 | 9 | 0.1 |
-| rolka | 17 | 3 | 0.1 |
+| pokaz slajdów | 23 | 8 | 0.1 |
+| rolka | 18 | 9 | 0.1 |
