@@ -1,0 +1,72 @@
+{
+  "app": "ready72h",
+  "platform": "instagram",
+  "format": "reel",
+  "style": "slideshow",
+  "hook_style": "myth",
+  "topic": "Food without a stove or microwave during a power cut",
+  "pillar": "value",
+  "publish_on": "2026-11-18",
+  "created_at": "2026-11-16T17:07:17+00:00",
+  "content": {
+    "format": "carousel",
+    "hook": "You don't need a stove. You need a pantry.",
+    "slides": [
+      {
+        "kind": "cover",
+        "title": "No stove? You need a *pantry*.",
+        "body": "Eating well during a power cut, no cooking needed."
+      },
+      {
+        "kind": "point",
+        "title": "Pick foods that need *zero cooking*",
+        "body": "Canned beans, tuna, crackers, nut butter, dried fruit, ready-to-eat meals. Add a manual can opener."
+      },
+      {
+        "kind": "point",
+        "title": "Eat *fridge first*, then pantry",
+        "body": "Keep doors shut. Fridge food first, then freezer, then shelf-stable food. Never cook indoors with a grill."
+      },
+      {
+        "kind": "cta",
+        "title": "Plan the menu *before* the outage",
+        "body": ""
+      }
+    ],
+    "caption": "Food without a stove or microwave during a power cut: it's easier than it sounds.\n\nYou don't need a stove. You need a pantry that works without one.\n\n1. Stock food you can eat as it is: canned beans, fish, crackers, nut butter, dried fruit, ready meals.\n2. Keep a manual can opener with them.\n3. Eat fridge food first, then freezer, then shelf-stable food. Keep the doors closed as much as you can.\n4. Never use a grill or camp stove indoors.\n\nCheck the dates once or twice a year and swap in things your family actually likes.\n\nWhat's the first food you'd grab in a blackout?\n\nFree calculators and guides: ready72h.com\nComment \"PLAN\" and I'll send you the link in DM — or tap the link in bio.",
+    "question": "What's the first food you'd grab in a blackout?",
+    "hashtags": [
+      "#powercut",
+      "#emergencypreparedness",
+      "#72hours",
+      "#emergencyfood",
+      "#preparedness"
+    ],
+    "alt_text": "Carousel on eating without a stove during a power cut: no-cook foods, a can opener, and eating fridge food first, then pantry.",
+    "sources_used": [
+      "MSB",
+      "BBK",
+      "RCB"
+    ]
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 10.6,
+    "music": "19-tatamusic-595121.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "Cover slide title has 9 words (max 8); shortened.",
+        "Hashtags like #powercutfood, #blackoutpreparedness, #emergencypantry and #householdpreparedness are invented or rarely used compounds; replaced with established tags.",
+        "Everything else (structure, caption length, question, CTA, safe general advice, no product claims beyond approved facts) is fine."
+      ]
+    },
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}
