@@ -1,0 +1,77 @@
+{
+  "app": "bikepackpilot",
+  "platform": "tiktok",
+  "format": "reel",
+  "style": "reel",
+  "hook_style": "pov",
+  "topic": "Why 100 km on a map is not 100 km on the bike: how surface, heat, wind and rain change your riding day (and how to plan for it by splitting a route into 50 km segments)",
+  "pillar": "value",
+  "publish_on": "2026-11-18",
+  "created_at": "2026-11-16T18:24:59+00:00",
+  "content": {
+    "format": "reel",
+    "hook": "100 km on the map. 9 hours on the bike.",
+    "scenes": [
+      {
+        "text": "POV: 100 km on the map... *9 hours* on the bike",
+        "seconds": 2.0,
+        "visual": "card"
+      },
+      {
+        "text": "Gravel, heat, headwind and rain all *slow you down*",
+        "seconds": 2.8,
+        "visual": "clip",
+        "clip": "set-surface-heat-wind-rain.mp4"
+      },
+      {
+        "text": "Split the route into *50 km segments*. Plan each one.",
+        "seconds": 2.8,
+        "visual": "clip",
+        "clip": "route-splits-50km-segments.mp4"
+      },
+      {
+        "text": "Plan days, not just *kilometres*",
+        "seconds": 2.4,
+        "visual": "card"
+      }
+    ],
+    "caption": "Bikepacking route planning: 100 km on the map can mean a very long day on the bike. 🚲\n\nKilometres are only half the story.\n\nRough surface, heat, headwind and rain can each slow you down. Stack two or three and your \"easy\" day changes completely.\n\nFix: split the route into 50 km segments. Judge surface, heat, wind and rain for each one. Then plan your riding days from that, not from the total distance.\n\nWhat slows you down most: surface, heat, wind or rain?\n\nFree route plans with maps (Tour Divide, EuroVelo, Green Velo…): bikepackpilot.com/routes\nPlan your next trip at bikepackpilot.com (link in bio).",
+    "question": "What slows you down most: surface, heat, wind or rain?",
+    "hashtags": [
+      "#bikepacking",
+      "#bikepackingtips",
+      "#cycletouring",
+      "#gravel",
+      "#tourdivide"
+    ],
+    "alt_text": "Reel on bikepacking planning: 100 km on a map is not 100 km on a bike. Surface, heat, wind and rain matter, so split routes into 50 km segments.",
+    "sources_used": []
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 10.0,
+    "music": "14-nastelbom-time-617068.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "Hook is 11 words; the maximum is 10.",
+        "Hashtags: #cyclingtouring and #routeplanning are weak or generic, and #gravelbikepacking is a rarely used compound. Replaced with common TikTok bikepacking tags.",
+        "Alt text said 'Text reel' but the reel also shows app screen clips. Corrected."
+      ]
+    },
+    {
+      "verdict": "fix",
+      "issues": [
+        "Caption line 1 lacks the searchable keywords (bikepacking route planning); the keyword only appears in line 2. Merged into a keyword-rich first line.",
+        "Everything else checks out: structure, timings, clips match text, claims within approved facts, safe general advice, question on its own line, required route line and exact CTA at the end, hashtags fine."
+      ]
+    },
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}
