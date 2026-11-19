@@ -1,0 +1,62 @@
+{
+  "app": "bikepackpilot",
+  "platform": "tiktok",
+  "format": "reel",
+  "style": "slideshow",
+  "hook_style": "question",
+  "topic": "Rest days on a multi-day bikepacking trip: when to schedule them and how to use them (laundry, resupply, bike check, sleep). Calm, practical on-screen text; light product mention only.",
+  "pillar": "value",
+  "publish_on": "2026-11-22",
+  "created_at": "2026-11-19T16:39:05+00:00",
+  "content": {
+    "format": "carousel",
+    "hook": "When should you take a bikepacking rest day?",
+    "slides": [
+      {
+        "kind": "cover",
+        "title": "When should you take a *rest day*?",
+        "body": "Bikepacking rest days: when to plan them and how to use them."
+      },
+      {
+        "kind": "point",
+        "title": "*When:* every 5–7 riding days",
+        "body": "Or after a big climb. Pick a town with shops, so the day is useful.",
+        "clip": "realistic-riding-days.mp4"
+      },
+      {
+        "kind": "point",
+        "title": "*Use it:* sleep, wash, resupply, check",
+        "body": "Laundry, food shop, bike check, then a long sleep. Nothing else on the list.",
+        "clip": "find-water-food-repair-nearby.mp4"
+      },
+      {
+        "kind": "cta",
+        "title": "Plan riding days, not just kilometres",
+        "body": ""
+      }
+    ],
+    "caption": "How do you plan a rest day on a multi-day bikepacking trip? Here is a simple way.\n\nWhen: many riders plan one every 5–7 riding days, or after a hard stretch like a big climb or headwind. Pick a town with a shop, laundry and a bed.\n\nHow to use it: sleep first. Then laundry, resupply, a quick bike check (chain, brakes, tyres, bolts), and charge everything. Keep it light. A rest day is not a chore day.\n\nSave this for your next trip plan.\n\nHow many riding days before your first rest day?\n\nFree route plans with maps (Tour Divide, EuroVelo, Green Velo…): bikepackpilot.com/routes\nPlan your next trip at bikepackpilot.com (link in bio).",
+    "question": "How many riding days before your first rest day?",
+    "hashtags": [
+      "#bikepacking",
+      "#cycletouring",
+      "#bikepackingtips",
+      "#bikepackingtrip",
+      "#cyclingtips"
+    ],
+    "alt_text": "Carousel about bikepacking rest days: schedule one every 5–7 riding days, and use it for sleep, laundry, resupply and a bike check.",
+    "sources_used": []
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 10.6,
+    "music": "10-nastelbom-602445.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}
