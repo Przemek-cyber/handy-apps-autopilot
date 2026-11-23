@@ -1,0 +1,72 @@
+{
+  "app": "ready72h",
+  "platform": "instagram",
+  "format": "reel",
+  "style": "slideshow",
+  "hook_style": "number",
+  "topic": "Safe light in a blackout: torches and headlamps instead of candles",
+  "pillar": "value",
+  "publish_on": "2026-11-25",
+  "created_at": "2026-11-23T18:24:24+00:00",
+  "content": {
+    "format": "carousel",
+    "hook": "1 torch per person. Zero candles.",
+    "slides": [
+      {
+        "kind": "cover",
+        "title": "*1 torch* per person. Zero candles.",
+        "body": "Safe light for a blackout, without the fire risk."
+      },
+      {
+        "kind": "point",
+        "title": "Headlamp *first*",
+        "body": "Hands stay free on stairs and at the stove. Keep one by each bed."
+      },
+      {
+        "kind": "point",
+        "title": "Spare *batteries*",
+        "body": "Store them next to the light. Add one battery lantern for the table."
+      },
+      {
+        "kind": "cta",
+        "title": "Your 72-hour plan, *ready*",
+        "body": ""
+      }
+    ],
+    "caption": "1 torch per person. Zero candles. That's the simple rule for safe blackout light.\n\nTorches and headlamps don't need a flame, so there's no open fire near curtains, pets or sleeping people.\n\n- A headlamp keeps your hands free on stairs and in the kitchen.\n- Keep one light by each bed, so you're not feeling around in the dark.\n- Store spare batteries next to the lights, and check them twice a year.\n- A battery lantern on the table lights the whole room.\n\nIf you do use a candle, use a stable holder and never leave it alone. Better still, skip it.\n\nWhich light do you keep by your bed?\n\nFree calculators and guides: ready72h.com\nComment \"PLAN\" and I'll send you the link in DM — or tap the link in bio.",
+    "question": "Which light do you keep by your bed?",
+    "hashtags": [
+      "#poweroutage",
+      "#powercut",
+      "#72hourkit",
+      "#emergencypreparedness",
+      "#headlamp"
+    ],
+    "alt_text": "Carousel on safe light in a power cut: use a torch or headlamp per person instead of candles, and keep spare batteries nearby.",
+    "sources_used": [
+      "MSB",
+      "BBK",
+      "RCB"
+    ]
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 9.5,
+    "music": "02-alex-morgan-nostalgia-591320.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "Hashtag #blackoutpreparedness is an invented, rarely used compound word; replaced with #poweroutage.",
+        "Hashtag #72hours is too generic and ambiguous; replaced with #72hourkit.",
+        "All other checks pass: structure, character limits, safe general advice, no product claims beyond approved facts, caption order (question, free calculators line, then CTA), and no keyword on the final slide."
+      ]
+    },
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}

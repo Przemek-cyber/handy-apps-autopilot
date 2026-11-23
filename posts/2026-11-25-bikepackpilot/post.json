@@ -1,0 +1,75 @@
+{
+  "app": "bikepackpilot",
+  "platform": "tiktok",
+  "format": "reel",
+  "style": "slideshow",
+  "hook_style": "pov",
+  "topic": "Bike fit check before a long trip: 5 quick adjustments to prevent numb hands, sore knees and saddle pain on multi-day rides (saddle height and tilt, bar reach, cleat or pedal position, padding and contact points, and why you should do a loaded test ride a week before). Calm, practical on-screen text; general comfort guidance only, no medical advice; light product mention only.",
+  "pillar": "value",
+  "publish_on": "2026-11-25",
+  "created_at": "2026-11-23T18:25:23+00:00",
+  "content": {
+    "format": "carousel",
+    "hook": "POV: day two and your hands go numb",
+    "slides": [
+      {
+        "kind": "cover",
+        "title": "POV: day two and your *hands* go numb",
+        "body": "5 quick bike fit checks, full list in the caption"
+      },
+      {
+        "kind": "point",
+        "title": "*Saddle* and *reach* first",
+        "body": "Slight knee bend at the pedal bottom. Saddle roughly level. Elbows relaxed, not locked."
+      },
+      {
+        "kind": "point",
+        "title": "Contact points, then *test ride*",
+        "body": "Check cleats, grips and padding. Ride fully loaded a week before. Change one thing at a time."
+      },
+      {
+        "kind": "cta",
+        "title": "Sort the fit, then *plan the route*",
+        "body": ""
+      }
+    ],
+    "caption": "Bike fit check for bikepacking: 5 quick adjustments before a long trip.\n\n1. Saddle height: a slight knee bend at the bottom of the stroke.\n2. Saddle tilt: roughly level, tiny tweaks only.\n3. Bar reach: relaxed elbows, not locked arms.\n4. Cleats or pedals, plus padding and contact points: grips, shorts, gloves.\n5. Loaded test ride a week before, so you can still fix things.\n\nChange one thing at a time. General comfort tips, not medical advice.\n\nWhich hurts first for you: hands, knees or saddle?\n\nFree route plans with maps (Tour Divide, EuroVelo, Green Velo…): bikepackpilot.com/routes\nPlan your next trip at bikepackpilot.com (link in bio).",
+    "question": "Which hurts first for you: hands, knees or saddle?",
+    "hashtags": [
+      "#bikepacking",
+      "#bikefit",
+      "#cyclingtips",
+      "#gravelbike",
+      "#bikepackingtips"
+    ],
+    "alt_text": "Slideshow with bike fit tips for long trips: saddle height and tilt, bar reach, cleats, padding, and a loaded test ride a week before.",
+    "sources_used": []
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 10.4,
+    "music": "18-sub_clair-luxury-550484.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "Hashtags: #touringcyclist and #gravelbikepacking are low-use or awkward compounds on TikTok. Replaced with #gravelbike and #bikepackingtips, which are more common in this niche.",
+        "Everything else checks out. The advice is general and safe, with a non-medical disclaimer. There are no product claims beyond the CTA. The structure, lengths, question line, route-plans line and exact CTA are all correct."
+      ]
+    },
+    {
+      "verdict": "fix",
+      "issues": [
+        "Cover promises '5 quick bike fit checks' but the slides only show two grouped points; the full list of 5 is only in the caption. Cover subtitle now points to the caption.",
+        "The caption question differed slightly from the 'question' field; both now use identical wording.",
+        "Everything else passes: advice is general and safe with a no-medical-advice note, no fear tone, product claims are within the approved facts, caption length and CTA lines are correct, hashtags are valid."
+      ]
+    },
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}
