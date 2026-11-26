@@ -1,0 +1,68 @@
+{
+  "app": "bikepackpilot",
+  "platform": "tiktok",
+  "format": "reel",
+  "style": "reel",
+  "hook_style": "myth",
+  "topic": "Chain and drivetrain care on a multi-day trip: a 2-minute daily routine (wipe the chain, lube lightly, check for grit, quick look at bolts and tyres) and how to adapt it after wet or dusty days. Calm, practical on-screen text; general maintenance only; light product mention only.",
+  "pillar": "value",
+  "publish_on": "2026-11-29",
+  "created_at": "2026-11-26T17:47:36+00:00",
+  "content": {
+    "format": "reel",
+    "hook": "Chain care isn't a chore. It's 2 minutes.",
+    "question": "Do you wipe your chain daily or only when it squeaks?",
+    "scenes": [
+      {
+        "text": "Chain care isn't a chore. It's *2 minutes*.",
+        "seconds": 2,
+        "visual": "card"
+      },
+      {
+        "text": "Wipe the chain. Lube *lightly*. Wipe off the excess.",
+        "seconds": 3,
+        "visual": "card"
+      },
+      {
+        "text": "Check *grit*, bolts, tyres. Wet day? Clean first.",
+        "seconds": 3,
+        "visual": "card"
+      },
+      {
+        "text": "Do you wipe your chain *daily* or only when it squeaks?",
+        "seconds": 2.8,
+        "visual": "card"
+      }
+    ],
+    "caption": "Bikepacking chain care in 2 minutes a day.\n\nYou don't need a workshop on tour. Here's the simple version:\n1. Wipe the chain with a rag.\n2. Add a little lube, then wipe off the excess.\n3. Check for grit in the chain and jockey wheels.\n4. Quick look at bolts and tyres.\n\nAfter a wet or dusty day: wipe more thoroughly first, then lube. Dirt plus too much lube makes grinding paste.\n\nDo it at camp, not at sunrise. Future you will thank you.\n\nDo you wipe your chain daily or only when it squeaks?\n\nFree route plans with maps (Tour Divide, EuroVelo, Green Velo…): bikepackpilot.com/routes\nPlan your next trip at bikepackpilot.com (link in bio).",
+    "hashtags": [
+      "#bikepacking",
+      "#bikepackingtips",
+      "#bikemaintenance",
+      "#cycletouring",
+      "#gravelbike"
+    ],
+    "alt_text": "Text-on-screen reel with a 2-minute daily chain care routine for bikepacking: wipe, lube lightly, check grit, bolts and tyres, clean first after wet days.",
+    "sources_used": []
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 10.8,
+    "music": "04-apalonbeats-2-576256.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "Last scene was a tip, not the CTA/question frame; the question must appear on the final frame.",
+        "Caption first line was not keyword-rich (needs 'bikepacking chain care').",
+        "Wet/dusty tip merged into scene 3 to make room for the question scene."
+      ]
+    },
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}

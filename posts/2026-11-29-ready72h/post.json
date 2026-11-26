@@ -1,0 +1,69 @@
+{
+  "app": "ready72h",
+  "platform": "instagram",
+  "format": "reel",
+  "style": "slideshow",
+  "hook_style": "pov",
+  "topic": "Fridge and freezer in a power cut: what to eat first",
+  "pillar": "value",
+  "publish_on": "2026-11-29",
+  "created_at": "2026-11-26T17:47:04+00:00",
+  "content": {
+    "format": "carousel",
+    "hook": "POV: the power's out and your fridge is full",
+    "slides": [
+      {
+        "kind": "cover",
+        "title": "POV: power's out and your *fridge* is full",
+        "body": "What to eat first. Keep the doors shut."
+      },
+      {
+        "kind": "point",
+        "title": "*Fridge* food goes first",
+        "body": "Closed, it stays cold about 4 hours. Eat dairy, leftovers, cooked meat and fish first."
+      },
+      {
+        "kind": "point",
+        "title": "Then *freezer*, then pantry",
+        "body": "A full freezer holds about 48 hours, if shut. Use thawing items first. Cans and dry food last."
+      },
+      {
+        "kind": "cta",
+        "title": "Plan your first *72 hours* calmly",
+        "body": ""
+      }
+    ],
+    "caption": "Food safety in a power cut: what to eat first when your fridge is full. Here's the calm version.\n\nKeep doors shut as much as you can. A closed fridge stays cold for about 4 hours. A full freezer holds for about 48 hours, a half-full one about 24.\n\nEat in this order:\n1. Fridge: dairy, leftovers, cooked meat and fish\n2. Freezer: whatever thaws first\n3. Pantry: cans, dry food, crackers\n\nPast the 4-hour mark, don't taste-test. When in doubt, throw it out. A cheap fridge thermometer helps.\n\nWhat would you cook first from your fridge?\n\nFree calculators and guides: ready72h.com\nComment \"PLAN\" and I'll send you the link in DM — or tap the link in bio.",
+    "question": "What would you cook first from your fridge?",
+    "hashtags": [
+      "#powercut",
+      "#poweroutage",
+      "#foodsafety",
+      "#emergencypreparedness",
+      "#72hours"
+    ],
+    "alt_text": "Carousel on what to eat first in a power cut: fridge food first, then the freezer, then pantry items. Keep doors closed.",
+    "sources_used": []
+  },
+  "media": {
+    "video": "reel.mp4",
+    "cover": "cover.jpg",
+    "duration": 10.5,
+    "music": "05-lnplusmusic-597023.mp3"
+  },
+  "qa": [
+    {
+      "verdict": "fix",
+      "issues": [
+        "Cover slide title has 9 words (max 8).",
+        "Caption first line is a POV joke, not keyword-rich; should lead with searchable terms like 'food safety in a power cut'.",
+        "#householdpreparedness is an unusual compound and #blackoutprep is rarely used; swap for commonly used niche tags.",
+        "Advice (4h fridge, 48h full freezer, 24h half-full, discard after 4h) is general and consistent with standard guidance; no product claims beyond approved facts; no fear-mongering."
+      ]
+    },
+    {
+      "verdict": "pass",
+      "issues": []
+    }
+  ]
+}
